@@ -29,16 +29,20 @@
         }
     </style>
 </head>
-<body class="bg-white text-black">
+<body class="bg-white text-black dark:bg-gray-900 dark:text-gray-300 transition-colors duration-300">
 
     <div class="container mx-auto p-4 sm:p-6 md:p-8">
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-blue-600">Hypervisor Comparison</h1>
-            <p class="text-lg text-gray-700 mt-2">An interactive guide to understanding virtualization technologies.</p>
+        <header class="text-center mb-8 relative">
+            <h1 class="text-4xl font-bold text-blue-600 dark:text-blue-400">Hypervisor Comparison</h1>
+            <p class="text-lg text-gray-700 dark:text-gray-400 mt-2">An interactive guide to understanding virtualization technologies.</p>
+            <button id="theme-toggle" type="button" class="absolute top-0 right-0 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
+                <svg id="theme-toggle-dark-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+            </button>
         </header>
 
         <main>
-            <div class="tabs flex flex-wrap justify-center border-b border-gray-200 mb-6">
+            <div class="tabs flex flex-wrap justify-center border-b border-gray-200 dark:border-gray-700 mb-6">
                 <button class="tab active py-2 px-4 font-semibold" onclick="openTab(event, 'type1')">Type 1 Hypervisor</button>
                 <button class="tab py-2 px-4 font-semibold" onclick="openTab(event, 'type2')">Type 2 Hypervisor</button>
                 <button class="tab py-2 px-4 font-semibold" onclick="openTab(event, 'comparison')">Side-by-Side</button>
@@ -46,13 +50,13 @@
             </div>
 
             <div id="type1" class="tab-content active">
-                <div class="bg-gray-50 p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-bold text-blue-600 mb-4">Type 1: Bare-Metal Hypervisor</h2>
+                <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-4">Type 1: Bare-Metal Hypervisor</h2>
                     <p class="mb-4">A Type 1 hypervisor runs directly on the host's hardware to control the hardware and to manage guest operating systems. For this reason, they are sometimes called bare-metal hypervisors. They are the most common type of hypervisor for enterprise data centers.</p>
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Pros</h3>
-                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">Pros</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-400">
                                 <li><strong>High Performance:</strong> Direct access to hardware results in better performance and efficiency.</li>
                                 <li><strong>Enhanced Security:</strong> Isolation from the host OS reduces the attack surface.</li>
                                 <li><strong>Scalability:</strong> Ideal for large-scale enterprise environments and cloud computing.</li>
@@ -60,28 +64,28 @@
                             </ul>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Cons</h3>
-                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">Cons</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-400">
                                 <li><strong>Complex Management:</strong> Often requires a dedicated management machine or specialized skills.</li>
                                 <li><strong>Hardware Compatibility:</strong> Can have stricter hardware compatibility requirements.</li>
                             </ul>
                         </div>
                     </div>
                     <div class="mt-6">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Popular Examples</h3>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">Popular Examples</h3>
                         <div class="flex flex-wrap gap-4">
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">VMware ESXi</span>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">Microsoft Hyper-V</span>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">KVM</span>
-                             <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">Proxmox VE</span>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">Citrix Hypervisor (XenServer)</span>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">Platform9</span>
+                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">VMware ESXi</span>
+                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Microsoft Hyper-V</span>
+                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">KVM</span>
+                             <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Proxmox VE</span>
+                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Citrix Hypervisor (XenServer)</span>
+                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Platform9</span>
                         </div>
                     </div>
                     <div class="mt-8">
-                        <h3 class="text-2xl font-bold text-blue-600 mb-4">Comparison of Type 1 Hypervisors</h3>
+                        <h3 class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-4">Comparison of Type 1 Hypervisors</h3>
                         <div class="overflow-x-auto">
-                            <table class="w-full table-fixed bg-white border border-gray-200">
+                            <table class="w-full table-fixed bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                                 <thead>
                                     <tr class="bg-blue-600 text-white">
                                         <th class="py-3 px-4 text-left w-[20%]">Hypervisor</th>
@@ -91,37 +95,37 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="border-b">
+                                    <tr class="border-b dark:border-gray-700">
                                         <td class="py-3 px-4 font-semibold">VMware ESXi</td>
                                         <td class="py-3 px-4">Proprietary (VMkernel)</td>
                                         <td class="py-3 px-4">Market leader, robust ecosystem, vMotion, high availability (HA).</td>
                                         <td class="py-3 px-4">High licensing costs for advanced features, potential vendor lock-in.</td>
                                     </tr>
-                                    <tr class="border-b bg-gray-50">
+                                    <tr class="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
                                         <td class="py-3 px-4 font-semibold">Microsoft Hyper-V</td>
                                         <td class="py-3 px-4">Windows Hypervisor</td>
                                         <td class="py-3 px-4">Deep integration with Windows, strong PowerShell support.</td>
                                         <td class="py-3 px-4">Less flexible with non-Windows guests, management can be complex without System Center.</td>
                                     </tr>
-                                    <tr class="border-b">
+                                    <tr class="border-b dark:border-gray-700">
                                         <td class="py-3 px-4 font-semibold">KVM</td>
                                         <td class="py-3 px-4">Linux Kernel Module</td>
                                         <td class="py-3 px-4">Native to Linux, high performance, flexible, open source.</td>
                                         <td class="py-3 px-4">Steeper learning curve; requires a separate management tool for a full feature set.</td>
                                     </tr>
-                                     <tr class="border-b bg-gray-50">
+                                     <tr class="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
                                         <td class="py-3 px-4 font-semibold">Proxmox VE</td>
                                         <td class="py-3 px-4">Debian Linux with KVM & LXC</td>
                                         <td class="py-3 px-4">Easy-to-use web UI, integrated backup, clustering, container support.</td>
                                         <td class="py-3 px-4">Smaller ecosystem than VMware, enterprise support requires a subscription.</td>
                                     </tr>
-                                    <tr class="border-b">
+                                    <tr class="border-b dark:border-gray-700">
                                         <td class="py-3 px-4 font-semibold">Citrix Hypervisor</td>
                                         <td class="py-3 px-4">Xen Project</td>
                                         <td class="py-3 px-4">Strong in VDI (Virtual Desktop Infrastructure) with Citrix products.</td>
                                         <td class="py-3 px-4">Complex licensing, smaller market share for server virtualization.</td>
                                     </tr>
-                                    <tr class="border-b bg-gray-50">
+                                    <tr class="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
                                         <td class="py-3 px-4 font-semibold">Platform9</td>
                                         <td class="py-3 px-4">SaaS-managed KVM</td>
                                         <td class="py-3 px-4">Cloud-native management, simplifies multi-cloud/edge, Kubernetes integration.</td>
@@ -135,21 +139,21 @@
             </div>
 
             <div id="type2" class="tab-content">
-                 <div class="bg-gray-50 p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-bold text-blue-600 mb-4">Type 2: Hosted Hypervisor</h2>
+                 <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-4">Type 2: Hosted Hypervisor</h2>
                     <p class="mb-4">A Type 2 hypervisor runs on a conventional operating system (OS) just as other computer programs do. A guest operating system runs as a process on the host. They are often used for end-user virtualization, development, and testing.</p>
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Pros</h3>
-                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">Pros</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-400">
                                 <li><strong>Easy to Use:</strong> Simple to install and manage, just like any other software application.</li>
                                 <li><strong>Wide Hardware Support:</strong> Works on a broader range of hardware as it leverages the host OS drivers.</li>
                                 <li><strong>Cost-Effective:</strong> Many options are free for personal use.</li>
                             </ul>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Cons</h3>
-                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">Cons</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-400">
                                 <li><strong>Lower Performance:</strong> The host OS adds a layer of overhead, which can impact performance.</li>
                                 <li><strong>Security Risks:</strong> Vulnerabilities in the host OS can potentially affect the guest VMs.</li>
                                 <li><strong>Resource Contention:</strong> Competes for resources with the host OS and other applications.</li>
@@ -157,19 +161,19 @@
                         </div>
                     </div>
                     <div class="mt-6">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-800">Popular Examples</h3>
+                        <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">Popular Examples</h3>
                         <div class="flex flex-wrap gap-4">
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">Oracle VirtualBox</span>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">VMware Workstation</span>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">VMware Fusion</span>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">Parallels Desktop</span>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">UTM</span>
+                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Oracle VirtualBox</span>
+                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">VMware Workstation</span>
+                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">VMware Fusion</span>
+                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Parallels Desktop</span>
+                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">UTM</span>
                         </div>
                     </div>
                      <div class="mt-8">
-                        <h3 class="text-2xl font-bold text-blue-600 mb-4">Comparison of Type 2 Hypervisors</h3>
+                        <h3 class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-4">Comparison of Type 2 Hypervisors</h3>
                         <div class="overflow-x-auto">
-                            <table class="w-full table-fixed bg-white border border-gray-200">
+                            <table class="w-full table-fixed bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                                 <thead>
                                     <tr class="bg-blue-600 text-white">
                                         <th class="py-3 px-4 text-left w-[20%]">Hypervisor</th>
@@ -179,31 +183,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="border-b">
+                                    <tr class="border-b dark:border-gray-700">
                                         <td class="py-3 px-4 font-semibold">Oracle VirtualBox</td>
                                         <td class="py-3 px-4">Windows, macOS, Linux</td>
                                         <td class="py-3 px-4">Cross-platform, large feature set, free and open source.</td>
                                         <td class="py-3 px-4">Slower performance vs paid rivals; no stable support for Windows on ARM VMs on Apple Silicon.</td>
                                     </tr>
-                                    <tr class="border-b bg-gray-50">
+                                    <tr class="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
                                         <td class="py-3 px-4 font-semibold">VMware Workstation</td>
                                         <td class="py-3 px-4">Windows, Linux</td>
                                         <td class="py-3 px-4">Robust, enterprise-grade features, free for personal use.</td>
                                         <td class="py-3 px-4">Can be resource-intensive; commercial use requires paid subscription.</td>
                                     </tr>
-                                    <tr class="border-b">
+                                    <tr class="border-b dark:border-gray-700">
                                         <td class="py-3 px-4 font-semibold">VMware Fusion</td>
                                         <td class="py-3 px-4">macOS</td>
                                         <td class="py-3 px-4">Free for personal use, good 3D graphics support, supports Windows on ARM.</td>
                                         <td class="py-3 px-4">Less seamless integration than Parallels; commercial use requires paid subscription.</td>
                                     </tr>
-                                    <tr class="border-b bg-gray-50">
+                                    <tr class="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
                                         <td class="py-3 px-4 font-semibold">Parallels Desktop</td>
                                         <td class="py-3 px-4">macOS</td>
                                         <td class="py-3 px-4">Best performance & integration on Mac; Microsoft-authorized for Windows on ARM.</td>
                                         <td class="py-3 px-4">macOS only, expensive subscription model.</td>
                                     </tr>
-                                     <tr class="border-b">
+                                     <tr class="border-b dark:border-gray-700">
                                         <td class="py-3 px-4 font-semibold">UTM</td>
                                         <td class="py-3 px-4">macOS</td>
                                         <td class="py-3 px-4">Supports Windows on ARM; can emulate other architectures.</td>
@@ -218,7 +222,7 @@
 
             <div id="comparison" class="tab-content">
                 <div class="overflow-x-auto mb-8">
-                    <table class="w-full table-fixed bg-white border border-gray-200">
+                    <table class="w-full table-fixed bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                         <thead>
                             <tr class="bg-blue-600 text-white">
                                 <th class="py-3 px-4 text-left w-1/3">Feature</th>
@@ -227,27 +231,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="border-b">
+                            <tr class="border-b dark:border-gray-700">
                                 <td class="py-3 px-4 font-semibold">Architecture</td>
                                 <td class="py-3 px-4">Runs directly on hardware</td>
                                 <td class="py-3 px-4">Runs on top of a host OS</td>
                             </tr>
-                            <tr class="border-b bg-gray-50">
+                            <tr class="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
                                 <td class="py-3 px-4 font-semibold">Performance</td>
                                 <td class="py-3 px-4">High</td>
                                 <td class="py-3 px-4">Lower (due to OS overhead)</td>
                             </tr>
-                            <tr class="border-b">
+                            <tr class="border-b dark:border-gray-700">
                                 <td class="py-3 px-4 font-semibold">Security</td>
                                 <td class="py-3 px-4">More secure (smaller attack surface)</td>
                                 <td class="py-3 px-4">Less secure (depends on host OS)</td>
                             </tr>
-                             <tr class="border-b bg-gray-50">
+                             <tr class="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
                                 <td class="py-3 px-4 font-semibold">Use Case</td>
                                 <td class="py-3 px-4">Enterprise servers, data centers, cloud</td>
                                 <td class="py-3 px-4">Desktops, developers, testing</td>
                             </tr>
-                            <tr class="border-b">
+                            <tr class="border-b dark:border-gray-700">
                                 <td class="py-3 px-4 font-semibold">Cost</td>
                                 <td class="py-3 px-4">Often higher initial cost</td>
                                 <td class="py-3 px-4">Often free or lower cost</td>
@@ -256,40 +260,40 @@
                     </table>
                 </div>
 
-                <h3 class="text-2xl font-bold text-blue-600 mb-6 text-center">Operational Stack Comparison</h3>
+                <h3 class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-6 text-center">Operational Stack Comparison</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Type 1 Diagram -->
-                    <div class="p-4 border rounded-lg shadow-md bg-gray-50">
-                        <h4 class="text-xl font-semibold text-center mb-4 text-gray-800">Type 1 Stack</h4>
+                    <div class="p-4 border rounded-lg shadow-md bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                        <h4 class="text-xl font-semibold text-center mb-4 text-gray-800 dark:text-gray-200">Type 1 Stack</h4>
                         <div class="flex flex-col items-center">
                             <div class="w-full">
-                                <div class="stack-box bg-green-100 border-green-400 text-green-800">App</div>
-                                <div class="stack-box bg-green-100 border-green-400 text-green-800">Guest OS</div>
+                                <div class="stack-box bg-green-100 border-green-400 text-green-800 dark:bg-green-900 dark:border-green-600 dark:text-green-300">App</div>
+                                <div class="stack-box bg-green-100 border-green-400 text-green-800 dark:bg-green-900 dark:border-green-600 dark:text-green-300">Guest OS</div>
                             </div>
                             <div class="w-full mt-1">
-                                <div class="stack-box bg-blue-200 border-blue-500 text-blue-800">Hypervisor</div>
+                                <div class="stack-box bg-blue-200 border-blue-500 text-blue-800 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300">Hypervisor</div>
                             </div>
                             <div class="w-full mt-1">
-                                <div class="stack-box bg-gray-200 border-gray-400 text-gray-800">Bare-Metal Hardware</div>
+                                <div class="stack-box bg-gray-200 border-gray-400 text-gray-800 dark:bg-gray-700 dark:border-gray-500 dark:text-gray-300">Bare-Metal Hardware</div>
                             </div>
                         </div>
                     </div>
                     <!-- Type 2 Diagram -->
-                    <div class="p-4 border rounded-lg shadow-md bg-gray-50">
-                        <h4 class="text-xl font-semibold text-center mb-4 text-gray-800">Type 2 Stack</h4>
+                    <div class="p-4 border rounded-lg shadow-md bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                        <h4 class="text-xl font-semibold text-center mb-4 text-gray-800 dark:text-gray-200">Type 2 Stack</h4>
                         <div class="flex flex-col items-center">
                             <div class="w-full">
-                                <div class="stack-box bg-green-100 border-green-400 text-green-800">App</div>
-                                <div class="stack-box bg-green-100 border-green-400 text-green-800">Guest OS</div>
+                                <div class="stack-box bg-green-100 border-green-400 text-green-800 dark:bg-green-900 dark:border-green-600 dark:text-green-300">App</div>
+                                <div class="stack-box bg-green-100 border-green-400 text-green-800 dark:bg-green-900 dark:border-green-600 dark:text-green-300">Guest OS</div>
                             </div>
                             <div class="w-full mt-1">
-                                <div class="stack-box bg-blue-200 border-blue-500 text-blue-800">Hypervisor (App)</div>
+                                <div class="stack-box bg-blue-200 border-blue-500 text-blue-800 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300">Hypervisor (App)</div>
                             </div>
                              <div class="w-full mt-1">
-                                <div class="stack-box bg-gray-300 border-gray-500 text-gray-800">Host OS</div>
+                                <div class="stack-box bg-gray-300 border-gray-500 text-gray-800 dark:bg-gray-600 dark:border-gray-400 dark:text-gray-200">Host OS</div>
                             </div>
                             <div class="w-full mt-1">
-                                <div class="stack-box bg-gray-200 border-gray-400 text-gray-800">Bare-Metal Hardware</div>
+                                <div class="stack-box bg-gray-200 border-gray-400 text-gray-800 dark:bg-gray-700 dark:border-gray-500 dark:text-gray-300">Bare-Metal Hardware</div>
                             </div>
                         </div>
                     </div>
@@ -297,42 +301,42 @@
             </div>
 
             <div id="containerization" class="tab-content">
-                <div class="bg-gray-50 p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-bold text-blue-600 mb-4">Containerization: A Modern Alternative</h2>
+                <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-4">Containerization: A Modern Alternative</h2>
                     <p class="mb-4">Containerization is a lightweight alternative to full machine virtualization that involves encapsulating an application in a container with its own operating environment. Unlike VMs, containers share the host system's OS kernel, making them more efficient and faster to deploy.</p>
                     
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div>
-                            <h3 class="text-xl font-semibold mb-2 text-gray-800">Key Features</h3>
-                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">Key Features</h3>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-400">
                                 <li><strong>Lightweight:</strong> Containers are much smaller than VMs as they don't include a full OS.</li>
                                 <li><strong>Fast Startup:</strong> Containers can be started and stopped in seconds.</li>
                                 <li><strong>Portability:</strong> "Build once, run anywhere" on any system that supports containers.</li>
                                 <li><strong>Microservices:</strong> Ideal for building and deploying microservices-based applications.</li>
                             </ul>
-                             <h3 class="text-xl font-semibold mb-2 mt-4 text-gray-800">Popular Technologies</h3>
+                             <h3 class="text-xl font-semibold mb-2 mt-4 text-gray-800 dark:text-gray-200">Popular Technologies</h3>
                             <div class="flex flex-wrap gap-4">
-                                <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">Docker</span>
-                                <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">Kubernetes</span>
-                                <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">Podman</span>
+                                <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Docker</span>
+                                <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Kubernetes</span>
+                                <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Podman</span>
                             </div>
                         </div>
                         <!-- Containerization Diagram -->
-                        <div class="p-4 border rounded-lg shadow-md bg-gray-50">
-                            <h4 class="text-xl font-semibold text-center mb-4 text-gray-800">Containerization Stack</h4>
+                        <div class="p-4 border rounded-lg shadow-md bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                            <h4 class="text-xl font-semibold text-center mb-4 text-gray-800 dark:text-gray-200">Containerization Stack</h4>
                             <div class="flex flex-col items-center">
                                 <div class="flex w-full gap-2">
-                                    <div class="w-1/2 stack-box bg-purple-100 border-purple-400 text-purple-800">App A</div>
-                                    <div class="w-1/2 stack-box bg-purple-100 border-purple-400 text-purple-800">App B</div>
+                                    <div class="w-1/2 stack-box bg-purple-100 border-purple-400 text-purple-800 dark:bg-purple-900 dark:border-purple-600 dark:text-purple-300">App A</div>
+                                    <div class="w-1/2 stack-box bg-purple-100 border-purple-400 text-purple-800 dark:bg-purple-900 dark:border-purple-600 dark:text-purple-300">App B</div>
                                 </div>
                                 <div class="w-full mt-1">
-                                    <div class="stack-box bg-blue-200 border-blue-500 text-blue-800">Container Engine</div>
+                                    <div class="stack-box bg-blue-200 border-blue-500 text-blue-800 dark:bg-blue-900 dark:border-blue-600 dark:text-blue-300">Container Engine</div>
                                 </div>
                                 <div class="w-full mt-1">
-                                    <div class="stack-box bg-gray-300 border-gray-500 text-gray-800">Host OS</div>
+                                    <div class="stack-box bg-gray-300 border-gray-500 text-gray-800 dark:bg-gray-600 dark:border-gray-400 dark:text-gray-200">Host OS</div>
                                 </div>
                                 <div class="w-full mt-1">
-                                    <div class="stack-box bg-gray-200 border-gray-400 text-gray-800">Bare-Metal Hardware</div>
+                                    <div class="stack-box bg-gray-200 border-gray-400 text-gray-800 dark:bg-gray-700 dark:border-gray-500 dark:text-gray-300">Bare-Metal Hardware</div>
                                 </div>
                             </div>
                         </div>
@@ -340,8 +344,8 @@
                 </div>
             </div>
         </main>
-        <footer class="text-center text-sm text-gray-500 mt-12 py-4 border-t">
-            Last Updated: Thursday, July 10, 2025 at 01:19 PM PDT
+        <footer class="text-center text-sm text-gray-500 mt-12 py-4 border-t dark:border-gray-700">
+            Last Updated: Thursday, July 10, 2025 at 01:31 PM PDT
         </footer>
     </div>
 
@@ -360,6 +364,25 @@
             document.getElementById(tabName).style.display = "block";
             evt.currentTarget.className += " active";
         }
+
+        // Simplified Dark Mode Toggle Logic (No Cookies/Storage)
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    const htmlElement = document.documentElement;
+                    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+                    const lightIcon = document.getElementById('theme-toggle-light-icon');
+                    
+                    // Toggle the 'dark' class on the root HTML element
+                    htmlElement.classList.toggle('dark');
+                    
+                    // Toggle the visibility of the sun/moon icons
+                    darkIcon.classList.toggle('hidden');
+                    lightIcon.classList.toggle('hidden');
+                });
+            }
+        });
     </script>
 
 </body>
