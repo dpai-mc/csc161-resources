@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSC161: Virtualization to Cloud Security - Course Outline</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom styles for the page */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Dark gray background */
+        }
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        /* Styles for the accordion content area */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding: 0 1.5rem; /* 24px */
+        }
+        /* Styles for the accordion icon rotation */
+        .accordion-button.active .icon {
+            transform: rotate(45deg);
+        }
+        .icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4f46e5;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <!-- Main Page Container -->
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
+
+        <!-- Page Header -->
+        <header class="text-center mb-10 md:mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">CSC161: Virtualization to Cloud Security</h1>
+            <p class="text-lg text-gray-400 max-w-4xl mx-auto">
+                An interactive outline for a 16-week course providing a comprehensive understanding of enterprise virtualization and cloud security, from on-premises Proxmox VE to multi-cloud CCSK principles.
+            </p>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="max-w-5xl mx-auto">
+
+            <!-- Part 1 Section -->
+            <section class="mb-12">
+                <h2 class="text-3xl font-semibold text-cyan-400 border-b-2 border-cyan-500/50 pb-3 mb-6">PART 1: On-Premises Virtualization Foundations</h2>
+                <div class="space-y-4" id="part1-weeks">
+                    <!-- Weeks 1-6 will be dynamically injected here -->
+                </div>
+            </section>
+
+            <!-- Part 2 Section -->
+            <section>
+                <h2 class="text-3xl font-semibold text-purple-400 border-b-2 border-purple-500/50 pb-3 mb-6">PART 2: Cloud Security & CCSK Foundations</h2>
+                 <div class="space-y-4" id="part2-weeks">
+                    <!-- Weeks 7-17 will be dynamically injected here -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // --- Course Data ---
+        // Contains all the topics, labs, and details for each week of the course.
+        const courseData = [
+            {
+                week: 1,
+                part: 1,
+                dates: "8/18 - 8/24/2025",
+                title: "Initial Proxmox Setup & Infrastructure Basics",
+                topic: "Introduction to hypervisors, Proxmox VE installation, system administration fundamentals, and navigating the web interface.",
+                lab: "Install Proxmox VE on a physical machine, configure basic networking and storage, and create the first virtual machine.",
+                bridge: "Understand how on-premises hypervisors like Proxmox are the foundational technology that enables large-scale cloud computing."
+            },
+            {
+                week: 2,
+                part: 1,
+                dates: "8/25 - 8/31/2025",
+                title: "Network Infrastructure & Software-Defined Networking (SDN)",
+                topic: "Core networking concepts including VLANs for network segmentation, virtual switches, and network interface bonding.",
+                lab: "Create multiple isolated virtual networks (VLANs) using Linux Bridges within Proxmox to segment traffic for different purposes (e.g., management, services, storage).",
+                bridge: "Recognize Software-Defined Networking (SDN) as the underlying principle for modern, agile cloud networking services (e.g., AWS VPC, Azure VNet)."
+            },
+            {
+                week: 3,
+                part: 1,
+                dates: "9/1 - 9/7/2025",
+                title: "Virtual Machine Deployment & Resource Management",
+                topic: "Efficiently provisioning VMs, creating templates for rapid deployment, and allocating/managing system resources (CPU, RAM, storage).",
+                lab: "Create a 'golden image' VM template. Deploy several new VMs from the template, manage their CPU and memory resources, and observe performance impacts.",
+                bridge: "See how cloud providers abstract these manual tasks into simplified, automated services for elasticity and scalability."
+            },
+            {
+                week: 4,
+                part: 1,
+                dates: "9/8 - 9/14/2025",
+                title: "Host-Based Routing & Simple Network Isolation",
+                topic: "Using the Proxmox host as a basic gateway router. Creating a multi-homed file server and controlling access between VLANs using host-level routing.",
+                lab: "Deploy a file server VM with two virtual network interfaces, one in VLAN 10 and one in VLAN 20. Configure the Proxmox host for IP forwarding to route traffic between the two VLANs. Set up basic SMB shares.",
+                bridge: "This demonstrates the most basic form of routing, similar to how a single cloud instance with multiple network interfaces can bridge different subnets, although lacking robust security controls."
+            },
+            {
+                week: 5,
+                part: 1,
+                dates: "9/15 - 9/21/2025",
+                title: "Dedicated Firewalling & Advanced Security Zones",
+                topic: "Deploying a dedicated virtual firewall appliance for robust security. Creating a new, protected server VLAN and migrating services. Implementing policy-based firewall rules.",
+                lab: "Deploy a pfSense VM to act as the primary gateway/firewall. Create a new VLAN 30 for servers. Reconfigure the file server from Week 4 to have a single interface in VLAN 30. Implement firewall rules on pfSense to control access from VLANs 10 and 20 to the file server, while SMB handles file-level authorization.",
+                bridge: "Relate the deployment of a virtual appliance like pfSense to using dedicated cloud marketplace firewall solutions (Network Virtual Appliances) or native cloud firewalls for advanced, policy-driven security."
+            },
+            {
+                week: 6,
+                part: 1,
+                dates: "9/22 - 9/28/2025",
+                title: "Backup, Recovery, and Disaster Recovery Planning",
+                topic: "Implementing robust backup strategies for virtual machines. Differentiating between backup, recovery, and disaster recovery. Planning for business continuity.",
+                lab: "Develop and implement a local backup schedule for critical VMs using Proxmox's built-in backup tools. Create a formal Disaster Recovery (DR) plan document that outlines procedures for a major outage, including requirements for off-site data storage.",
+                bridge: "This on-premises planning provides the foundation for understanding cloud-native resilience, such as AWS Backup, Azure Site Recovery, and the concepts of Recovery Time Objective (RTO) and Recovery Point Objective (RPO) in a cloud context."
+            },
+            {
+                week: 7,
+                part: 2,
+                dates: "9/29 - 10/5/2025",
+                title: "Cloud Computing Concepts & Architectures (CCSK Domain 1)",
+                topic: "Defining cloud computing, IaaS, PaaS, & SaaS models, deployment models, and the Shared Responsibility Model.",
+                lab: "Conduct a multi-cloud exploration. Compare the Proxmox setup to the free tiers of AWS, Azure, and GCP. Create your first instances (EC2, Azure VM, Compute Engine) on each platform and document the differences.",
+                bridge: null
+            },
+            {
+                week: 8,
+                part: 2,
+                dates: "10/6 - 10/12/2025",
+                title: "Cloud Governance & Risk Management (CCSK Domains 2 & 3)",
+                topic: "Governance frameworks (e.g., CSA CCM), risk assessment methodologies, and managing compliance in the cloud.",
+                lab: "Use the CSA STAR registry to evaluate a service from AWS, Azure, and GCP. Simulate a vendor risk assessment using the CAIQ.",
+                bridge: null
+            },
+            {
+                week: 9,
+                part: 2,
+                dates: "10/13 - 10/19/2025",
+                title: "Organization Management & IAM (CCSK Domains 4 & 5)",
+                topic: "Cloud account hierarchies, identity federation, Single Sign-On (SSO), and the principle of least privilege.",
+                lab: "Perform a deep dive into AWS IAM, creating users, groups, roles, and policies. Compare this process to Azure Active Directory and GCP IAM.",
+                bridge: null
+            },
+            {
+                week: 10,
+                part: 2,
+                dates: "10/20 - 10/26/2025",
+                title: "Security Monitoring & Infrastructure (CCSK Domains 6 & 7)",
+                topic: "Cloud logging and monitoring strategies, infrastructure security for compute, and network security controls.",
+                lab: "Configure and review logs using AWS CloudTrail and CloudWatch. Implement and test network security controls (Security Groups, Azure NSGs, GCP Firewall Rules) on all three platforms.",
+                bridge: null
+            },
+            {
+                week: 11,
+                part: 2,
+                dates: "10/27 - 11/2/2025",
+                title: "Cloud Workload Security - Part 1 (CCSK Domain 8)",
+                topic: "Securing cloud virtual machines (building on Proxmox knowledge) and an introduction to container security.",
+                lab: "Create a hardened 'golden image' VM on a cloud platform. Deploy a basic container application using a managed service like AWS Fargate or Azure Container Instances.",
+                bridge: null
+            },
+            {
+                week: 12,
+                part: 2,
+                dates: "11/3 - 11/9/2025",
+                title: "Cloud Workload Security - Part 2 (CCSK Domain 8 cont.)",
+                topic: "Serverless (Functions as a Service) security concepts and unique considerations for AI/ML workloads.",
+                lab: "Deploy a simple serverless function on AWS (Lambda), Azure (Functions), or GCP (Cloud Functions). Secure it by configuring a resource-based policy and integrating it with a secrets management service.",
+                bridge: null
+            },
+            {
+                week: 13,
+                part: 2,
+                dates: "11/10 - 11/16/2025",
+                title: "Data Security & Encryption (CCSK Domain 9)",
+                topic: "Cloud storage types, data encryption at-rest and in-transit, and cloud-native key management strategies.",
+                lab: "Secure an object storage bucket (S3, Azure Blob, or Google Cloud Storage) by configuring policies, enabling versioning, and applying encryption with a customer-managed key.",
+                bridge: null
+            },
+            {
+                week: 14,
+                part: 2,
+                dates: "11/17 - 11/23/2025",
+                title: "Application Security & DevSecOps (CCSK Domain 10)",
+                topic: "Secure software development lifecycle (SSDLC) in the cloud, and integrating security into CI/CD pipelines.",
+                lab: "Build a simple, secure CI/CD pipeline on one cloud platform (e.g., AWS CodePipeline, GitHub Actions) that includes a static code analysis step.",
+                bridge: null
+            },
+            {
+                week: 15,
+                part: 2,
+                dates: "11/24 - 11/30/2025",
+                title: "Incident Response & Resilience (CCSK Domain 11)",
+                topic: "Cloud incident response procedures, business continuity, and disaster recovery strategies. (Note: Short Week due to Thanksgiving Holiday)",
+                lab: "Implement and test backup and recovery procedures for a cloud VM. Participate in a tabletop exercise simulating a security incident (e.g., a data breach).",
+                bridge: null
+            },
+            {
+                week: 16,
+                part: 2,
+                dates: "12/1 - 12/7/2025",
+                title: "Related Technologies & Course Synthesis (CCSK Domain 12)",
+                topic: "Zero Trust architecture, the intersection of AI and cloud security, and preparing for final project work.",
+                lab: "Review key concepts from the course and begin outlining the final project architecture.",
+                bridge: null
+            },
+            {
+                week: 17,
+                part: 2,
+                dates: "12/8 - 12/12/2025",
+                title: "Final Project & Presentations",
+                topic: "Focus on completing and presenting the final project.",
+                lab: "Design and document a secure hybrid cloud architecture that connects an on-premises Proxmox cluster to a multi-cloud deployment, incorporating a unified IAM strategy, centralized monitoring, and a disaster recovery plan.",
+                bridge: null
+            }
+        ];
+
+        // --- DOM Manipulation and Event Handling ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const part1Container = document.getElementById('part1-weeks');
+            const part2Container = document.getElementById('part2-weeks');
+
+            // Function to create and return an HTML element for a week's content
+            function createAccordionItem(weekData) {
+                const itemWrapper = document.createElement('div');
+                itemWrapper.className = 'bg-gray-800 rounded-lg shadow-lg overflow-hidden';
+
+                let bridgeHTML = '';
+                if (weekData.bridge) {
+                    bridgeHTML = `
+                        <div class="mt-4">
+                            <h4 class="font-semibold text-cyan-300 mb-1">Bridge to Cloud</h4>
+                            <p class="text-gray-400">${weekData.bridge}</p>
+                        </div>
+                    `;
+                }
+                
+                let weekNote = '';
+                if(weekData.week === 15) {
+                    weekNote = `<span class="text-sm text-yellow-400 ml-2">(Short Week)</span>`;
+                }
+
+                itemWrapper.innerHTML = `
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-6 bg-gray-800 hover:bg-gray-700/50 transition-colors duration-200">
+                        <div class="flex-grow">
+                            <div class="font-mono text-sm text-indigo-400 mb-1">Week ${weekData.week} &middot; ${weekData.dates}</div>
+                            <h3 class="text-xl font-bold text-white">${weekData.title}${weekNote}</h3>
+                        </div>
+                        <div class="icon text-2xl text-gray-400 font-thin transform transition-transform duration-300">+</div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="pb-6">
+                            <div>
+                                <h4 class="font-semibold text-cyan-300 mb-1">Topic</h4>
+                                <p class="text-gray-400">${weekData.topic}</p>
+                            </div>
+                            <div class="mt-4">
+                                <h4 class="font-semibold text-cyan-300 mb-1">Lab</h4>
+                                <p class="text-gray-400">${weekData.lab}</p>
+                            </div>
+                            ${bridgeHTML}
+                        </div>
+                    </div>
+                `;
+                return itemWrapper;
+            }
+
+            // Populate the page with course data
+            courseData.forEach(week => {
+                const item = createAccordionItem(week);
+                if (week.part === 1) {
+                    part1Container.appendChild(item);
+                } else {
+                    part2Container.appendChild(item);
+                }
+            });
+
+            // Add click event listeners to all accordion buttons
+            document.querySelectorAll('.accordion-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    button.classList.toggle('active');
+
+                    if (content.style.maxHeight) {
+                        // Collapse the accordion
+                        content.style.maxHeight = null;
+                        content.style.padding = "0 1.5rem";
+                    } else {
+                        // Expand the accordion
+                        content.style.padding = "0 1.5rem 1.5rem 1.5rem"; // Add padding back before expanding
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
