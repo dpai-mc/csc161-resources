@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment: Week 1 Lab - VPN Connectivity</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom styles using the school's color scheme */
+        :root {
+            --school-blue: #00275D;
+            --school-gold: #FDC636;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* Light gray background */
+        }
+        .school-blue-text { color: var(--school-blue); }
+        .school-blue-bg { background-color: var(--school-blue); }
+        .table-header { background-color: #f3f4f6; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Main Page Container -->
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
+
+        <!-- Page Header -->
+        <header class="mb-10 text-center">
+             <div class="school-blue-bg text-white p-6 rounded-xl shadow-lg">
+                <h1 class="text-3xl md:text-4xl font-bold">Assignment: Week 1 Lab</h1>
+                <p class="text-lg md:text-xl mt-2 opacity-90">VPN Connectivity & Environment Setup</p>
+            </div>
+        </header>
+
+        <!-- Main Content Sections -->
+        <div class="space-y-8">
+            <!-- Objective Section -->
+            <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h2 class="text-2xl font-bold school-blue-text mb-3">Objective</h2>
+                <p class="text-gray-700">The primary goal of this assignment is to successfully establish a secure connection to the course lab environment using the OpenVPN client and the provided configuration files. You will be guided through this process by an AI Tutor, "Dr. Anya Sharma." This initial connection is the foundational step required for all future hands-on labs.</p>
+            </section>
+
+            <!-- Background Section -->
+            <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h2 class="text-2xl font-bold school-blue-text mb-3">Background</h2>
+                <p class="text-gray-700">In the real world, IT professionals rarely work in a vacuum. They follow established procedures and often use guided assistance or documentation to perform complex tasks. This assignment simulates that experience. You will interact with an AI Tutor designed to act as an expert guide. Your task is to follow its instructions precisely to install, configure, and verify your connection to our private lab network.</p>
+            </section>
+
+            <!-- Instructions Section -->
+            <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h2 class="text-2xl font-bold school-blue-text mb-4">Instructions</h2>
+                <ol class="list-decimal list-inside space-y-3 text-gray-700">
+                    <li>
+                        <strong>Gather Your Materials:</strong> Before you begin, ensure you have downloaded the following two files from the course's Canvas page:
+                        <ul class="list-disc list-inside ml-6 mt-2">
+                            <li>The OpenVPN configuration file (ending in `.ovpn`).</li>
+                            <li>Your personal credential file named `secret`.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Engage the AI Tutor:</strong> Start a new session with the AI Tutor for this assignment. The tutor will introduce herself as "Dr. Anya Sharma." Follow her lead.
+                    </li>
+                    <li>
+                        <strong>Follow the Guided Process:</strong> Dr. Sharma will guide you step-by-step through downloading and installing the client, importing the profile, authenticating, and verifying your connection.
+                    </li>
+                    <li>
+                        <strong>Capture Your Proof of Connection:</strong> Once the AI Tutor guides you to run the `ping 10.255.254.1` command and you see successful replies, take a screenshot of the entire command prompt or terminal window.
+                    </li>
+                    <li>
+                        <strong>Document Your Interaction:</strong> Copy the entire transcript of your conversation with Dr. Sharma and paste this into a plain text file.
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Deliverables Section -->
+            <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h2 class="text-2xl font-bold school-blue-text mb-3">Student Deliverables</h2>
+                <p class="text-gray-700">You will submit two files to the Canvas assignment portal:</p>
+                <ul class="list-decimal list-inside space-y-2 mt-2 text-gray-700">
+                    <li>A single screenshot (`.png` or `.jpg`) of your terminal or command prompt showing the successful `ping` to `10.255.254.1`.</li>
+                    <li>A text file (`.txt`) containing the complete, unedited transcript of your interaction with the AI Tutor, Dr. Anya Sharma.</li>
+                </ul>
+            </section>
+
+            <!-- Grading Rubric Section -->
+            <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h2 class="text-2xl font-bold school-blue-text mb-4">Grading Rubric</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="table-header">
+                            <tr>
+                                <th class="p-3 font-semibold text-sm school-blue-text uppercase">Criteria</th>
+                                <th class="p-3 font-semibold text-sm school-blue-text uppercase text-center">Points</th>
+                                <th class="p-3 font-semibold text-sm school-blue-text uppercase">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 font-medium">Successful Connection & Verification</td>
+                                <td class="p-3 text-center">50</td>
+                                <td class="p-3 text-sm text-gray-600">The submitted screenshot clearly shows successful ping replies from the gateway `10.255.254.1`.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 font-medium">Process Adherence & Documentation</td>
+                                <td class="p-3 text-center">35</td>
+                                <td class="p-3 text-sm text-gray-600">The submitted transcript is complete and shows that the student followed the AI Tutor's guidance to complete the task.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 font-medium">Timeliness</td>
+                                <td class="p-3 text-center">7</td>
+                                <td class="p-3 text-sm text-gray-600">The assignment is submitted on or before the due date.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 font-medium">SLO #2: Implement infrastructure security</td>
+                                <td class="p-3 text-center">4</td>
+                                <td class="p-3 text-sm text-gray-600">
+                                    <table class="w-full text-xs">
+                                        <thead><tr class="font-semibold text-gray-700"><th class="p-1">Exemplary (4)</th><th class="p-1">Satisfactory (3)</th><th class="p-1">Learning (2)</th><th class="p-1">Beginner (1)</th><th class="p-1">None (0)</th></tr></thead>
+                                        <tbody><tr><td class="p-1">Flawless execution. Transcript shows curiosity or deeper-level questions.</td><td class="p-1">Submission is complete and correct by following guidance.</td><td class="p-1">Submission is mostly correct but shows difficulty that required troubleshooting.</td><td class="p-1">Submission is incomplete or incorrect.</td><td class="p-1">No evidence submitted.</td></tr></tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 font-medium">SLO #4: Build and manage logical infrastructures</td>
+                                <td class="p-3 text-center">4</td>
+                                <td class="p-3 text-sm text-gray-600">
+                                    <table class="w-full text-xs">
+                                        <thead><tr class="font-semibold text-gray-700"><th class="p-1">Exemplary (4)</th><th class="p-1">Satisfactory (3)</th><th class="p-1">Learning (2)</th><th class="p-1">Beginner (1)</th><th class="p-1">None (0)</th></tr></thead>
+                                        <tbody><tr><td class="p-1">Flawless execution. Transcript shows curiosity or deeper-level questions.</td><td class="p-1">Submission is complete and correct by following guidance.</td><td class="p-1">Submission is mostly correct but shows difficulty that required troubleshooting.</td><td class="p-1">Submission is incomplete or incorrect.</td><td class="p-1">No evidence submitted.</td></tr></tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-header">
+                                <td class="p-3 font-bold school-blue-text">Total</td>
+                                <td class="p-3 text-center font-bold school-blue-text">100</td>
+                                <td class="p-3"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
