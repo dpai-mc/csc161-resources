@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSC 161: Cloud Infrastructure and Security - Course Outline</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Google Fonts for typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom styles using the school's color scheme */
+        :root {
+            --school-blue: #00275D;
+            --school-gold: #FDC636;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff; /* White background */
+        }
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .school-blue-text { color: var(--school-blue); }
+        .school-gold-text { color: var(--school-gold); }
+        .school-blue-bg { background-color: var(--school-blue); }
+        .school-gold-bg { background-color: var(--school-gold); }
+        .school-blue-border { border-color: var(--school-blue); }
+
+        /* Styles for the accordion content area for smooth transition */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding: 0 1.5rem; /* 24px */
+        }
+        /* Styles for the accordion icon rotation */
+        .accordion-button.active .icon {
+            transform: rotate(45deg);
+        }
+        .icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; /* Light gray track */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--school-blue);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #003a8c; 
+        }
+        @media print {
+            body, .container {
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+            }
+            .no-print {
+                display: none;
+            }
+            .accordion-button {
+                page-break-inside: avoid;
+            }
+            .accordion-content {
+                max-height: none !important;
+                padding-bottom: 1.5rem !important;
+                display: block !important;
+                page-break-before: auto;
+            }
+             .accordion-button .icon {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Main Page Container -->
+    <div id="syllabus-content" class="container mx-auto p-4 sm:p-6 md:p-8">
+
+        <!-- Page Header -->
+        <header class="mb-10 md:mb-12">
+            <!-- Top bar with Download Button -->
+            <div class="flex justify-end mb-4 no-print">
+                <button id="download-pdf" class="school-blue-bg text-white font-bold py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors duration-200 flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Download Syllabus (PDF)
+                </button>
+            </div>
+
+            <!-- Title Block -->
+            <div class="school-blue-bg text-white p-6 sm:p-8 rounded-xl shadow-lg mb-4 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold">CSC 161 - Cloud Infrastructure and Security</h1>
+                <p class="text-xl md:text-2xl mt-2 opacity-90">2025 Fall Semester</p>
+            </div>
+            
+             <!-- Jump Navigation -->
+            <nav class="max-w-5xl mx-auto mt-8 p-2 bg-gray-100 rounded-lg flex justify-center items-center space-x-2 sm:space-x-4 no-print">
+                <a href="#course-information" class="px-3 sm:px-4 py-2 text-sm sm:text-base font-medium school-blue-text rounded-md hover:bg-gray-200 transition-colors">Course Info</a>
+                <a href="#course-policies" class="px-3 sm:px-4 py-2 text-sm sm:text-base font-medium school-blue-text rounded-md hover:bg-gray-200 transition-colors">Policies & Support</a>
+                <a href="#course-schedule" class="px-3 sm:px-4 py-2 text-sm sm:text-base font-medium school-blue-text rounded-md hover:bg-gray-200 transition-colors">Weekly Schedule</a>
+            </nav>
+
+            <!-- Catalog Description -->
+            <div class="max-w-5xl mx-auto mt-8 text-left">
+                <p class="text-base text-gray-700">
+                    This course will cover cloud deployment and service models, cloud infrastructure, and the key considerations in migrating to cloud computing. Students will be introduced to the various cloud computing delivery models, ranging from Software as a Service (SaaS) to Infrastructure as a Service (IaaS) and how each delivery models represents an entirely separate set of security conditions to consider, especially when coupled with various cloud types, including public, private, and hybrid. The course will also touch on architecture and infrastructure fundamentals for the private, public, and hybrid clouds, including a wide range of topics such as patch and configuration management, virtualization security, application security, and change management.
+                </p>
+            </div>
+
+            <!-- Student Learning Outcomes Section -->
+            <div class="max-w-5xl mx-auto mt-8 text-left">
+                <h2 class="text-2xl font-bold school-blue-text mb-4">Course Student Learning Outcomes</h2>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li>Evaluate Cloud Service Providers for security prior to using the service.</li>
+                    <li>Implement cloud platform and infrastructure security.</li>
+                    <li>Identify and evaluate risks, attacks and issues in cloud data storage.</li>
+                    <li>Build, implement, and manage physical and logical infrastructures for cloud environments.</li>
+                    <li>Identify, discuss, and evaluate all major cloud service providers for offerings, infrastructure, design, security and applicability given specific operational scenarios.</li>
+                </ul>
+            </div>
+        </header>
+
+        <!-- Course Information Section -->
+        <section id="course-information" class="max-w-5xl mx-auto mb-12 text-left pt-8 -mt-8">
+            <h2 class="text-3xl font-semibold school-blue-text border-b-2 pb-3 mb-6" style="border-color: #00275D30;">Course Information</h2>
+            <div class="grid md:grid-cols-2 gap-x-8 gap-y-12">
+                <!-- Column 1: Instructor, Office Hours -->
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-bold school-blue-text mb-2">Instructor Information</h3>
+                        <ul class="space-y-1 text-gray-700">
+                            <li><strong>Instructor:</strong> Dave Pai</li>
+                            <li><strong>Office:</strong> Rm 4170 (1st floor, SW corner of Library Bldg)</li>
+                            <li><strong>Email:</strong> dpai@mendocino.edu or via Canvas</li>
+                            <li><strong>Phone:</strong> 707-468-3126 (office)</li>
+                            <li><strong>Zoom Room:</strong> <a href="https://mendocino-edu.zoom.us/my/davepai" target="_blank" class="text-blue-600 hover:underline">https://mendocino-edu.zoom.us/my/davepai</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold school-blue-text mb-2">Contact Hours</h3>
+                        <ul class="space-y-1 text-gray-700">
+                            <li><strong>Online:</strong> Mondays 3:00 PM - 4:00 PM (by email request)</li>
+                            <li><strong>In Office (Ukiah Campus):</strong></li>
+                            <li class="ml-4">Tuesdays: 12:30 PM - 2:00 PM</li>
+                            <li class="ml-4">Wednesdays: 12:30 PM - 2:00 PM</li>
+                            <li class="ml-4">Thursdays: 12:30 PM - 1:30 PM</li>
+                            <li><strong>Other:</strong> By appointment via <a href="https://calendly.com/dpai/" target="_blank" class="text-blue-600 hover:underline">online schedule</a>.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Column 2: Textbook, Key Dates -->
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-bold school-blue-text mb-2">Required Materials</h3>
+                        <p class="text-gray-700 mb-2">All primary materials are provided free of charge:</p>
+                        <ul class="list-disc list-inside space-y-1 text-gray-700">
+                            <li>Certificate of Cloud Security Knowledge (CCSK) v5 Study Guide</li>
+                            <li>Proxmox VE 8.x Documentation</li>
+                             <li>Cloud Provider Documentation (AWS, Azure, GCP)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold school-blue-text mb-2">Key Semester Dates</h3>
+                        <ul class="space-y-1 text-gray-700">
+                            <li><strong>Add/Drop Deadline:</strong> August 31, 2025</li>
+                            <li><strong>Thanksgiving Break:</strong> November 24 - 30, 2025</li>
+                            <li><strong>Last Day to Withdraw:</strong> December 1, 2025</li>
+                            <li><strong>Commencement:</strong> December 12, 2025</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Course Policies & Support Section -->
+        <section id="course-policies" class="max-w-5xl mx-auto mb-12 text-left pt-8 -mt-8">
+            <h2 class="text-3xl font-semibold school-blue-text border-b-2 pb-3 mb-6" style="border-color: #00275D30;">Course Policies & Student Support</h2>
+            <div class="space-y-8">
+                <div>
+                    <h3 class="text-xl font-bold school-blue-text mb-2">Assignments & Late Submissions</h3>
+                    <p class="text-gray-700">All assignments are expected to be submitted as defined in the assignment description and NO LATER THAN the provided Due Date. For major exams and the final project, NO LATE SUBMISSIONS will be accepted. For all other lab assignments, submissions will close 2 weeks after the due date or the end of the semester, whichever is sooner. If you are having difficulties, please communicate with the instructor before the deadline.</p>
+                </div>
+                 <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold school-blue-text mb-2">Student Conduct & Academic Honesty</h3>
+                        <p class="text-gray-700">Students are expected to behave in a courteous and respectful manner which is conducive to learning. Students should not engage in academic misconduct. For specific guidelines please refer to <a href="#" class="text-blue-600 hover:underline">Admin Procedure 5500.1 for the Student Conduct Guidelines</a> and <a href="#" class="text-blue-600 hover:underline">Admin Procedure 5500.2 on academic honesty</a>. These standards will be the expectation in this class.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold school-blue-text mb-2">Students with Disabilities</h3>
+                        <p class="text-gray-700">The College is committed to creating a learning environment that meets the needs of its diverse student body. If you have a disability, or think you may have one, please meet with the Disability Resource Center to request an official accommodation. The staff can be reached at (707) 468-3031 or <a href="mailto:drc@mendocino.edu" class="text-blue-600 hover:underline">drc@mendocino.edu</a>. It is my goal to create a learning experience that is as accessible as possible.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold school-blue-text mb-2">Financial Aid</h3>
+                        <p class="text-gray-700">Don't miss out on available financial aid, visit <a href="https://www.mendocino.edu/financial-aid" target="_blank" class="text-blue-600 hover:underline">https://www.mendocino.edu/financial-aid</a> to apply today! To receive financial aid, you must meet the Satisfactory Academic Progress (SAP) requirements. If you have questions, please contact financial aid at <a href="mailto:financialaid@mendocino.edu" class="text-blue-600 hover:underline">financialaid@mendocino.edu</a>.</p>
+                    </div>
+                     <div>
+                        <h3 class="text-xl font-bold school-blue-text mb-2">Student Resources</h3>
+                        <p class="text-gray-700">A summary of helpful resources for students can be found at <a href="https://www.mendocino.edu/student-services/student-resources/student-resource-summary" target="_blank" class="text-blue-600 hover:underline">Student Resources</a> and in Spanish at <a href="https://www.mendocino.edu/ayuda-para-estudiantes" target="_blank" class="text-blue-600 hover:underline">Ayuda para estudiantes</a>.</p>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Course Schedule Section -->
+        <main id="course-schedule" class="max-w-5xl mx-auto pt-8 -mt-8">
+             <h2 class="text-3xl font-semibold school-blue-text border-b-2 pb-3 mb-6" style="border-color: #00275D30;">Course Schedule</h2>
+
+            <!-- Part 1 Section -->
+            <section class="mb-12">
+                <h3 class="text-2xl font-bold school-blue-text mb-4">PART 1: On-Premises Virtualization Foundations</h3>
+                <div class="space-y-4" id="part1-weeks">
+                    <!-- Weeks 1-6 will be dynamically injected here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Part 2 Section -->
+            <section>
+                <h3 class="text-2xl font-bold school-blue-text mb-4">PART 2: Cloud Security & CCSK Foundations</h3>
+                 <div class="space-y-4" id="part2-weeks">
+                    <!-- Weeks 7-17 will be dynamically injected here by JavaScript -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // --- Course Data ---
+        const courseData = [
+            // Part 1
+            { week: 1, part: 1, dates: "8/18 - 8/24/2025", title: "Initial Proxmox Setup & Infrastructure Basics", topic: "Introduction to hypervisors, Proxmox VE installation, system administration fundamentals, and navigating the web interface.", lab: "Install Proxmox VE on a physical machine, configure basic networking and storage, and create the first virtual machine.", bridge: "Understand how on-premises hypervisors like Proxmox are the foundational technology that enables large-scale cloud computing." },
+            { week: 2, part: 1, dates: "8/25 - 8/31/2025", title: "Network Infrastructure & Software-Defined Networking (SDN)", topic: "Core networking concepts including VLANs for network segmentation, virtual switches, and network interface bonding.", lab: "Create multiple isolated virtual networks (VLANs) using Linux Bridges within Proxmox to segment traffic for different purposes (e.g., management, services, storage).", bridge: "Recognize Software-Defined Networking (SDN) as the underlying principle for modern, agile cloud networking services (e.g., AWS VPC, Azure VNet)." },
+            { week: 3, part: 1, dates: "9/1 - 9/7/2025", title: "Virtual Machine Deployment & Resource Management", topic: "Efficiently provisioning VMs, creating templates for rapid deployment, and allocating/managing system resources (CPU, RAM, storage).", lab: "Create a 'golden image' VM template. Deploy several new VMs from the template, manage their CPU and memory resources, and observe performance impacts.", bridge: "See how cloud providers abstract these manual tasks into simplified, automated services for elasticity and scalability." },
+            { week: 4, part: 1, dates: "9/8 - 9/14/2025", title: "Host-Based Routing & Simple Network Isolation", topic: "Using the Proxmox host as a basic gateway router. Creating a multi-homed file server and controlling access between VLANs using host-level routing.", lab: "Deploy a file server VM with two virtual network interfaces, one in VLAN 10 and one in VLAN 20. Configure the Proxmox host for IP forwarding to route traffic between the two VLANs. Set up basic SMB shares.", bridge: "This demonstrates the most basic form of routing, similar to how a single cloud instance with multiple network interfaces can bridge different subnets, although lacking robust security controls." },
+            { week: 5, part: 1, dates: "9/15 - 9/21/2025", title: "Dedicated Firewalling & Advanced Security Zones", topic: "Deploying a dedicated virtual firewall appliance for robust security. Creating a new, protected server VLAN and migrating services. Implementing policy-based firewall rules.", lab: "Deploy a pfSense VM to act as the primary gateway/firewall. Create a new VLAN 30 for servers. Reconfigure the file server from Week 4 to have a single interface in VLAN 30. Implement firewall rules on pfSense to control access from VLANs 10 and 20 to the file server, while SMB handles file-level authorization.", bridge: "Relate the deployment of a virtual appliance like pfSense to using dedicated cloud marketplace firewall solutions (Network Virtual Appliances) or native cloud firewalls for advanced, policy-driven security." },
+            { week: 6, part: 1, dates: "9/22 - 9/28/2025", title: "Backup, Recovery, and Disaster Recovery Planning", topic: "Implementing robust backup strategies for virtual machines. Differentiating between backup, recovery, and disaster recovery. Planning for business continuity.", lab: "Develop and implement a local backup schedule for critical VMs using Proxmox's built-in backup tools. Create a formal Disaster Recovery (DR) plan document that outlines procedures for a major outage, including requirements for off-site data storage.", bridge: "This on-premises planning provides the foundation for understanding cloud-native resilience, such as AWS Backup, Azure Site Recovery, and the concepts of Recovery Time Objective (RTO) and Recovery Point Objective (RPO) in a cloud context." },
+            // Part 2
+            { week: 7, part: 2, dates: "9/29 - 10/5/2025", title: "Cloud Computing Concepts & Architectures (CCSK Domain 1)", topic: "Defining cloud computing, IaaS, PaaS, & SaaS models, deployment models, and the Shared Responsibility Model.", lab: "Conduct a multi-cloud exploration. Compare the Proxmox setup to the free tiers of AWS, Azure, and GCP. Create your first instances (EC2, Azure VM, Compute Engine) on each platform and document the differences.", bridge: null },
+            { week: 8, part: 2, dates: "10/6 - 10/12/2025", title: "Cloud Governance & Risk Management (CCSK Domains 2 & 3)", topic: "Governance frameworks (e.g., CSA CCM), risk assessment methodologies, and managing compliance in the cloud.", lab: "Use the CSA STAR registry to evaluate a service from AWS, Azure, and GCP. Simulate a vendor risk assessment using the CAIQ.", bridge: null },
+            { week: 9, part: 2, dates: "10/13 - 10/19/2025", title: "Organization Management & IAM (CCSK Domains 4 & 5)", topic: "Cloud account hierarchies, identity federation, Single Sign-On (SSO), and the principle of least privilege.", lab: "Perform a deep dive into AWS IAM, creating users, groups, roles, and policies. Compare this process to Azure Active Directory and GCP IAM.", bridge: null },
+            { week: 10, part: 2, dates: "10/20 - 10/26/2025", title: "Security Monitoring & Infrastructure (CCSK Domains 6 & 7)", topic: "Cloud logging and monitoring strategies, infrastructure security for compute, and network security controls.", lab: "Configure and review logs using AWS CloudTrail and CloudWatch. Implement and test network security controls (Security Groups, Azure NSGs, GCP Firewall Rules) on all three platforms.", bridge: null },
+            { week: 11, part: 2, dates: "10/27 - 11/2/2025", title: "Cloud Workload Security - Part 1 (CCSK Domain 8)", topic: "Securing cloud virtual machines (building on Proxmox knowledge) and an introduction to container security.", lab: "Create a hardened 'golden image' VM on a cloud platform. Deploy a basic container application using a managed service like AWS Fargate or Azure Container Instances.", bridge: null },
+            { week: 12, part: 2, dates: "11/3 - 11/9/2025", title: "Cloud Workload Security - Part 2 (CCSK Domain 8 cont.)", topic: "Serverless (Functions as a Service) security concepts and unique considerations for AI/ML workloads.", lab: "Deploy a simple serverless function on AWS (Lambda), Azure (Functions), or GCP (Cloud Functions). Secure it by configuring a resource-based policy and integrating it with a secrets management service.", bridge: null },
+            { week: 13, part: 2, dates: "11/10 - 11/16/2025", title: "Data Security & Encryption (CCSK Domain 9)", topic: "Cloud storage types, data encryption at-rest and in-transit, and cloud-native key management strategies.", lab: "Secure an object storage bucket (S3, Azure Blob, or Google Cloud Storage) by configuring policies, enabling versioning, and applying encryption with a customer-managed key.", bridge: null },
+            { week: 14, part: 2, dates: "11/17 - 11/23/2025", title: "Application Security & DevSecOps (CCSK Domain 10)", topic: "Secure software development lifecycle (SSDLC) in the cloud, and integrating security into CI/CD pipelines.", lab: "Build a simple, secure CI/CD pipeline on one cloud platform (e.g., AWS CodePipeline, GitHub Actions) that includes a static code analysis step.", bridge: null },
+            { week: 15, part: 2, dates: "11/24 - 11/30/2025", title: "Incident Response & Resilience (CCSK Domain 11)", topic: "Cloud incident response procedures, business continuity, and disaster recovery strategies.", lab: "Implement and test backup and recovery procedures for a cloud VM. Participate in a tabletop exercise simulating a security incident (e.g., a data breach).", bridge: null },
+            { week: 16, part: 2, dates: "12/1 - 12/7/2025", title: "Related Technologies & Course Synthesis (CCSK Domain 12)", topic: "Zero Trust architecture, the intersection of AI and cloud security, and preparing for final project work.", lab: "Review key concepts from the course and begin outlining the final project architecture.", bridge: null },
+            { week: 17, part: 2, dates: "12/8 - 12/12/2025", title: "Final Project & Presentations", topic: "Focus on completing and presenting the final project.", lab: "Design and document a secure hybrid cloud architecture that connects an on-premises Proxmox cluster to a multi-cloud deployment, incorporating a unified IAM strategy, centralized monitoring, and a disaster recovery plan.", bridge: null }
+        ];
+
+        // --- DOM Manipulation and Event Handling ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const part1Container = document.getElementById('part1-weeks');
+            const part2Container = document.getElementById('part2-weeks');
+
+            // Function to create and return an HTML element for a week's content
+            function createAccordionItem(weekData) {
+                const itemWrapper = document.createElement('div');
+                itemWrapper.className = 'bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md hover:border-gray-300';
+
+                const buttonId = `accordion-button-week-${weekData.week}`;
+                const contentId = `accordion-content-week-${weekData.week}`;
+
+                let bridgeHTML = '';
+                if (weekData.bridge) {
+                    bridgeHTML = `
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <h4 class="font-semibold text-gray-800 mb-1">Bridge to Cloud</h4>
+                            <p class="text-gray-600">${weekData.bridge}</p>
+                        </div>
+                    `;
+                }
+                
+                let weekNote = '';
+                if(weekData.week === 15) {
+                    weekNote = `<span class="text-sm font-medium text-amber-600 ml-2">(Short Week)</span>`;
+                }
+
+                itemWrapper.innerHTML = `
+                    <button 
+                        id="${buttonId}"
+                        class="accordion-button w-full flex justify-between items-center text-left p-6 bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 rounded-lg"
+                        aria-expanded="false"
+                        aria-controls="${contentId}"
+                    >
+                        <div class="flex-grow pr-4">
+                            <div class="font-mono text-sm school-blue-text font-medium mb-1">Week ${weekData.week} &middot; ${weekData.dates}</div>
+                            <h3 class="text-xl font-bold school-blue-text">${weekData.title}${weekNote}</h3>
+                        </div>
+                        <div class="icon text-3xl font-thin school-blue-text transform transition-transform duration-300">+</div>
+                    </button>
+                    <div 
+                        id="${contentId}"
+                        class="accordion-content"
+                        role="region"
+                        aria-labelledby="${buttonId}"
+                    >
+                        <div class="px-6 pb-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-1">Topic</h4>
+                                <p class="text-gray-600">${weekData.topic}</p>
+                            </div>
+                            <div class="mt-4">
+                                <h4 class="font-semibold text-gray-800 mb-1">Lab</h4>
+                                <p class="text-gray-600">${weekData.lab}</p>
+                            </div>
+                            ${bridgeHTML}
+                        </div>
+                    </div>
+                `;
+                return itemWrapper;
+            }
+
+            // Populate the page with course data
+            courseData.forEach(week => {
+                const item = createAccordionItem(week);
+                if (week.part === 1) {
+                    part1Container.appendChild(item);
+                } else {
+                    part2Container.appendChild(item);
+                }
+            });
+
+            // Add click event listeners to all accordion buttons
+            document.querySelectorAll('.accordion-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                    
+                    button.classList.toggle('active');
+                    button.setAttribute('aria-expanded', !isExpanded);
+
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            // PDF Download functionality
+            document.getElementById('download-pdf').addEventListener('click', () => {
+                const { jsPDF } = window.jspdf;
+                const syllabusContent = document.getElementById('syllabus-content');
+                const allAccordions = document.querySelectorAll('.accordion-content');
+                
+                // Temporarily expand all accordions for full content capture
+                allAccordions.forEach(content => {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                });
+
+                // Use html2canvas to capture the content
+                html2canvas(syllabusContent, {
+                    scale: 2, // Increase scale for better resolution
+                    useCORS: true 
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF({
+                        orientation: 'portrait',
+                        unit: 'pt',
+                        format: 'a4'
+                    });
+                    
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+                    const canvasWidth = canvas.width;
+                    const canvasHeight = canvas.height;
+                    const ratio = canvasHeight / canvasWidth;
+                    const imgHeight = pdfWidth * ratio;
+                    let heightLeft = imgHeight;
+                    let position = 0;
+
+                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                    heightLeft -= pdfHeight;
+
+                    while (heightLeft > 0) {
+                        position = heightLeft - imgHeight;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                        heightLeft -= pdfHeight;
+                    }
+                    
+                    pdf.save('CSC161-Syllabus.pdf');
+
+                    // Collapse accordions back to their original state
+                     allAccordions.forEach(content => {
+                        const button = content.previousElementSibling;
+                        if (!button.classList.contains('active')) {
+                           content.style.maxHeight = null;
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
