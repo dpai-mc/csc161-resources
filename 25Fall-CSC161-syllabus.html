@@ -140,7 +140,7 @@
         <section id="course-information" class="max-w-5xl mx-auto mb-12 text-left pt-8 -mt-8">
             <h2 class="text-3xl font-semibold school-blue-text border-b-2 pb-3 mb-6" style="border-color: #00275D30;">Course Information</h2>
             <div class="grid md:grid-cols-2 gap-x-8 gap-y-12">
-                <!-- Column 1: Instructor, Office Hours -->
+                <!-- Column 1: Instructor, Office Hours, Class Meeting -->
                 <div class="space-y-6">
                     <div>
                         <h3 class="text-xl font-bold school-blue-text mb-2">Instructor Information</h3>
@@ -150,6 +150,15 @@
                             <li><strong>Email:</strong> dpai@mendocino.edu or via Canvas</li>
                             <li><strong>Phone:</strong> 707-468-3126 (office)</li>
                             <li><strong>Zoom Room:</strong> <a href="https://mendocino-edu.zoom.us/my/davepai" target="_blank" class="text-blue-600 hover:underline">https://mendocino-edu.zoom.us/my/davepai</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold school-blue-text mb-2">Class Meeting Information</h3>
+                        <ul class="space-y-1 text-gray-700">
+                            <li><strong>Format:</strong> Hybrid Online</li>
+                            <li><strong>Credit Hours:</strong> 3 (2hr Lecture, 3hr Lab per week)</li>
+                            <li><strong>Weekly Zoom Meeting:</strong> Thursdays, 11:00 AM - 12:20 PM</li>
+                            <li><strong>Zoom Link:</strong> <a href="https://mendocino-edu.zoom.us/j/85827559978?pwd=aSawmV0quthVsw7vrv57sfASDDztIN.1" target="_blank" class="text-blue-600 hover:underline">Join Weekly Meeting</a></li>
                         </ul>
                     </div>
                     <div>
@@ -178,10 +187,11 @@
                     <div>
                         <h3 class="text-xl font-bold school-blue-text mb-2">Key Semester Dates</h3>
                         <ul class="space-y-1 text-gray-700">
-                            <li><strong>Add/Drop Deadline:</strong> August 31, 2025</li>
-                            <li><strong>Thanksgiving Break:</strong> November 24 - 30, 2025</li>
-                            <li><strong>Last Day to Withdraw:</strong> December 1, 2025</li>
-                            <li><strong>Commencement:</strong> December 12, 2025</li>
+                            <li><strong>Add/Drop/Refund Deadline:</strong> August 30, 2025</li>
+                            <li><strong>Last Day to Drop with 'W':</strong> November 8, 2025</li>
+                            <li><strong>Thanksgiving Break:</strong> November 26 - 30, 2025</li>
+                            <li><strong>Last Day of Semester:</strong> December 12, 2025</li>
+                            <li><strong>Last Day for Pass/No Pass:</strong> December 13, 2025</li>
                         </ul>
                     </div>
                 </div>
@@ -251,17 +261,17 @@
             { week: 5, part: 1, dates: "9/15 - 9/21/2025", title: "Dedicated Firewalling & Advanced Security Zones", topic: "Deploying a dedicated virtual firewall appliance for robust security. Creating a new, protected server VLAN and migrating services. Implementing policy-based firewall rules.", lab: "Deploy a pfSense VM to act as the primary gateway/firewall. Create a new VLAN 30 for servers. Reconfigure the file server from Week 4 to have a single interface in VLAN 30. Implement firewall rules on pfSense to control access from VLANs 10 and 20 to the file server, while SMB handles file-level authorization.", bridge: "Relate the deployment of a virtual appliance like pfSense to using dedicated cloud marketplace firewall solutions (Network Virtual Appliances) or native cloud firewalls for advanced, policy-driven security." },
             { week: 6, part: 1, dates: "9/22 - 9/28/2025", title: "Backup, Recovery, and Disaster Recovery Planning", topic: "Implementing robust backup strategies for virtual machines. Differentiating between backup, recovery, and disaster recovery. Planning for business continuity.", lab: "Develop and implement a local backup schedule for critical VMs using Proxmox's built-in backup tools. Create a formal Disaster Recovery (DR) plan document that outlines procedures for a major outage, including requirements for off-site data storage.", bridge: "This on-premises planning provides the foundation for understanding cloud-native resilience, such as AWS Backup, Azure Site Recovery, and the concepts of Recovery Time Objective (RTO) and Recovery Point Objective (RPO) in a cloud context." },
             // Part 2
-            { week: 7, part: 2, dates: "9/29 - 10/5/2025", title: "Cloud Computing Concepts & Architectures (CCSK Domain 1)", topic: "Defining cloud computing, IaaS, PaaS, & SaaS models, deployment models, and the Shared Responsibility Model.", lab: "Conduct a multi-cloud exploration. Compare the Proxmox setup to the free tiers of AWS, Azure, and GCP. Create your first instances (EC2, Azure VM, Compute Engine) on each platform and document the differences.", bridge: null },
-            { week: 8, part: 2, dates: "10/6 - 10/12/2025", title: "Cloud Governance & Risk Management (CCSK Domains 2 & 3)", topic: "Governance frameworks (e.g., CSA CCM), risk assessment methodologies, and managing compliance in the cloud.", lab: "Use the CSA STAR registry to evaluate a service from AWS, Azure, and GCP. Simulate a vendor risk assessment using the CAIQ.", bridge: null },
-            { week: 9, part: 2, dates: "10/13 - 10/19/2025", title: "Organization Management & IAM (CCSK Domains 4 & 5)", topic: "Cloud account hierarchies, identity federation, Single Sign-On (SSO), and the principle of least privilege.", lab: "Perform a deep dive into AWS IAM, creating users, groups, roles, and policies. Compare this process to Azure Active Directory and GCP IAM.", bridge: null },
-            { week: 10, part: 2, dates: "10/20 - 10/26/2025", title: "Security Monitoring & Infrastructure (CCSK Domains 6 & 7)", topic: "Cloud logging and monitoring strategies, infrastructure security for compute, and network security controls.", lab: "Configure and review logs using AWS CloudTrail and CloudWatch. Implement and test network security controls (Security Groups, Azure NSGs, GCP Firewall Rules) on all three platforms.", bridge: null },
-            { week: 11, part: 2, dates: "10/27 - 11/2/2025", title: "Cloud Workload Security - Part 1 (CCSK Domain 8)", topic: "Securing cloud virtual machines (building on Proxmox knowledge) and an introduction to container security.", lab: "Create a hardened 'golden image' VM on a cloud platform. Deploy a basic container application using a managed service like AWS Fargate or Azure Container Instances.", bridge: null },
+            { week: 7, part: 2, dates: "9/29 - 10/5/2025", title: "Cloud Computing Concepts & Architectures (CCSK Domain 1)", topic: "Defining cloud computing, IaaS, PaaS, & SaaS models, deployment models, and the Shared Responsibility Model.", lab: "Conduct a multi-cloud exploration. Compare the Proxmox setup to the free tiers of AWS, Azure, and GCP. Create your first instances (EC2, Azure VM, Compute Engine) and document the differences in offerings and initial security posture.", bridge: null },
+            { week: 8, part: 2, dates: "10/6 - 10/12/2025", title: "Evaluating Cloud Providers: Governance & Risk Management (CCSK Domains 2 & 3)", topic: "Using governance frameworks (e.g., CSA CCM) to perform risk assessments and evaluate cloud providers for security before use.", lab: "Use the CSA STAR registry and CAIQ to perform a security evaluation of a specific service from AWS, Azure, and GCP for a given operational scenario. Document your findings and recommendation.", bridge: null },
+            { week: 9, part: 2, dates: "10/13 - 10/19/2025", title: "Organization Management & IAM (CCSK Domains 4 & 5)", topic: "Cloud account hierarchies, identity federation, Single Sign-On (SSO), and implementing least privilege.", lab: "Perform a deep dive into AWS IAM, creating users, groups, roles, and policies. Compare this process to Azure Active Directory and GCP IAM, and evaluate the pros and cons of each model.", bridge: null },
+            { week: 10, part: 2, dates: "10/20 - 10/26/2025", title: "Implementing Cloud Infrastructure Security (CCSK Domains 6 & 7)", topic: "Implementing security for cloud compute and network infrastructure. Configuring monitoring and logging.", lab: "Implement and test network security controls (Security Groups, NSGs, GCP Firewall Rules) on all three platforms. Configure centralized logging and create a basic security alert.", bridge: null },
+            { week: 11, part: 2, dates: "10/27 - 11/2/2025", title: "Cloud Workload Security & Evaluation (CCSK Domain 8)", topic: "Securing cloud virtual machines and containers. Evaluating the applicability of different workload types.", lab: "Create a hardened 'golden image' VM on a cloud platform. Deploy a container application and write a comparative analysis on when to use a VM vs. a container for a specific application scenario.", bridge: null },
             { week: 12, part: 2, dates: "11/3 - 11/9/2025", title: "Cloud Workload Security - Part 2 (CCSK Domain 8 cont.)", topic: "Serverless (Functions as a Service) security concepts and unique considerations for AI/ML workloads.", lab: "Deploy a simple serverless function on AWS (Lambda), Azure (Functions), or GCP (Cloud Functions). Secure it by configuring a resource-based policy and integrating it with a secrets management service.", bridge: null },
-            { week: 13, part: 2, dates: "11/10 - 11/16/2025", title: "Data Security & Encryption (CCSK Domain 9)", topic: "Cloud storage types, data encryption at-rest and in-transit, and cloud-native key management strategies.", lab: "Secure an object storage bucket (S3, Azure Blob, or Google Cloud Storage) by configuring policies, enabling versioning, and applying encryption with a customer-managed key.", bridge: null },
-            { week: 14, part: 2, dates: "11/17 - 11/23/2025", title: "Application Security & DevSecOps (CCSK Domain 10)", topic: "Secure software development lifecycle (SSDLC) in the cloud, and integrating security into CI/CD pipelines.", lab: "Build a simple, secure CI/CD pipeline on one cloud platform (e.g., AWS CodePipeline, GitHub Actions) that includes a static code analysis step.", bridge: null },
+            { week: 13, part: 2, dates: "11/10 - 11/16/2025", title: "Data Storage Security: Risks, Attacks, and Issues (CCSK Domain 9)", topic: "Identifying and evaluating risks, attacks, and common issues for various cloud storage types. Implementing encryption and key management.", lab: "For a given data type, evaluate the risks of using S3, Azure Blob, and Google Cloud Storage. Implement and test bucket policies, versioning, and encryption with a customer-managed key on one platform.", bridge: null },
+            { week: 14, part: 2, dates: "11/17 - 11/23/2025", title: "Application Security & DevSecOps (CCSK Domain 10)", topic: "Secure software development lifecycle (SSDLC) in the cloud, and integrating security into CI/CD pipelines.", lab: "Build a simple, secure CI/CD pipeline on one cloud platform. Evaluate the security offerings of different CI/CD platforms (e.g., GitHub Actions vs. AWS CodePipeline).", bridge: null },
             { week: 15, part: 2, dates: "11/24 - 11/30/2025", title: "Incident Response & Resilience (CCSK Domain 11)", topic: "Cloud incident response procedures, business continuity, and disaster recovery strategies.", lab: "Implement and test backup and recovery procedures for a cloud VM. Participate in a tabletop exercise simulating a security incident (e.g., a data breach).", bridge: null },
             { week: 16, part: 2, dates: "12/1 - 12/7/2025", title: "Related Technologies & Course Synthesis (CCSK Domain 12)", topic: "Zero Trust architecture, the intersection of AI and cloud security, and preparing for final project work.", lab: "Review key concepts from the course and begin outlining the final project architecture.", bridge: null },
-            { week: 17, part: 2, dates: "12/8 - 12/12/2025", title: "Final Project & Presentations", topic: "Focus on completing and presenting the final project.", lab: "Design and document a secure hybrid cloud architecture that connects an on-premises Proxmox cluster to a multi-cloud deployment, incorporating a unified IAM strategy, centralized monitoring, and a disaster recovery plan.", bridge: null }
+            { week: 17, part: 2, dates: "12/8 - 12/12/2025", title: "Final Project & Presentations", topic: "Focus on completing and presenting the final project.", lab: "Design, build, and document a secure hybrid cloud architecture. Justify all platform and service choices based on the operational scenario, security requirements, and your prior evaluations.", bridge: null }
         ];
 
         // --- DOM Manipulation and Event Handling ---
