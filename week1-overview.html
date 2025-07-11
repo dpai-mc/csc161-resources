@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 1 Activity: Lab Environment Setup</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom styles using the school's color scheme */
+        :root {
+            --school-blue: #00275D;
+            --school-gold: #FDC636;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* Light gray background */
+        }
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .school-blue-text { color: var(--school-blue); }
+        .school-gold-text { color: var(--school-gold); }
+        .school-blue-bg { background-color: var(--school-blue); }
+        .school-gold-bg { background-color: var(--school-gold); }
+        .school-blue-border { border-color: var(--school-blue); }
+
+        /* Accordion styles */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+        }
+        .accordion-button.active .icon {
+            transform: rotate(180deg);
+        }
+        .icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        /* Tab styles */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Main Page Container -->
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
+
+        <!-- Page Header -->
+        <header class="mb-10 md:mb-12 text-center">
+             <div class="school-blue-bg text-white p-6 sm:p-8 rounded-xl shadow-lg mb-4 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold">Week 1 Activity</h1>
+                <p class="text-xl md:text-2xl mt-2 opacity-90">Lab Environment Setup & Connectivity</p>
+            </div>
+        </header>
+
+        <!-- Introductory Sections with Tabs -->
+        <section class="mb-12">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                <!-- Tab Navigation -->
+                <div class="border-b border-gray-200">
+                    <nav class="-mb-px flex space-x-1" aria-label="Tabs" role="tablist">
+                        <button type="button" class="tab-button active w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm sm:text-base school-blue-text border-b-2 school-blue-border" role="tab" aria-controls="overview-panel" aria-selected="true">
+                            Overview
+                        </button>
+                        <button type="button" class="tab-button w-1/3 py-4 px-1 text-center border-b-2 border-transparent font-medium text-sm sm:text-base text-gray-500 hover:text-gray-700 hover:border-gray-300" role="tab" aria-controls="objectives-panel" aria-selected="false">
+                            Objectives
+                        </button>
+                        <button type="button" class="tab-button w-1/3 py-4 px-1 text-center border-b-2 border-transparent font-medium text-sm sm:text-base text-gray-500 hover:text-gray-700 hover:border-gray-300" role="tab" aria-controls="materials-panel" aria-selected="false">
+                            Materials
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Tab Content Panels -->
+                <div>
+                    <div id="overview-panel" class="tab-content active p-6" role="tabpanel">
+                        <p class="text-gray-700">Welcome to CSC 161! The goal of this first activity is to ensure every student can successfully connect to our class's virtual lab environment. This involves installing a VPN client, establishing a secure connection, and verifying that you can access your personal nested Proxmox VE instance. Completing these steps is essential for all future labs in this course.</p>
+                    </div>
+                    <div id="objectives-panel" class="tab-content p-6" role="tabpanel">
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Understand the purpose of a Virtual Private Network (VPN) for creating a secure, encrypted connection over a public network, using OpenVPN as a practical example.</li>
+                            <li>Define what a hypervisor is and differentiate between Type 1 (bare-metal) and Type 2 (hosted) hypervisors.</li>
+                            <li>Log into and identify key components of a Type 1 hypervisor's web interface (Proxmox VE).</li>
+                            <li>Apply basic network troubleshooting commands to verify connectivity within a private network.</li>
+                            <li>Synthesize initial environment details to prepare for a guided lab with an AI assistant.</li>
+                        </ul>
+                    </div>
+                    <div id="materials-panel" class="tab-content p-6" role="tabpanel">
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>A modern computer (Windows, macOS, or Linux).</li>
+                            <li>Your assigned lab credentials (username/password).</li>
+                            <li>Your assigned Proxmox VE IP address.</li>
+                            <li>The `CSC161-Fall2025.ovpn` configuration file.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Activity Procedure Section -->
+        <section>
+            <h2 class="text-2xl font-bold school-blue-text mb-6 text-center">Activity Procedure</h2>
+            <div class="space-y-4">
+                <!-- Step 1 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-6" aria-expanded="false">
+                        <span class="text-xl font-semibold school-blue-text">Step 1: Understanding the Lab Environment</span>
+                        <svg class="icon w-6 h-6 school-blue-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6">
+                            <p class="text-gray-700">You will connect to a **nested Proxmox VE instance**, your own personal virtual server. This gives you full admin control without affecting other students.</p>
+                            <div class="mt-3 bg-gray-100 p-3 rounded-md text-sm">
+                                <p><strong>Our Network:</strong> <code class="font-mono school-blue-text">10.255.254.0/24</code></p>
+                                <p><strong>Gateway:</strong> <code class="font-mono school-blue-text">10.255.254.1</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-6" aria-expanded="false">
+                        <span class="text-xl font-semibold school-blue-text">Step 2: Install the OpenVPN Client</span>
+                        <svg class="icon w-6 h-6 school-blue-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                         <div class="pb-6">
+                            <p class="text-gray-700">Download and install the OpenVPN Connect client from the official website. Follow the installer prompts, accepting the default settings.</p>
+                            <a href="https://openvpn.net/client-connect-vpn-for-windows/" target="_blank" class="mt-3 inline-block school-gold-bg text-black font-bold py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors">Download OpenVPN Client</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-6" aria-expanded="false">
+                        <span class="text-xl font-semibold school-blue-text">Step 3: Import the VPN Profile</span>
+                        <svg class="icon w-6 h-6 school-blue-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                         <div class="pb-6">
+                            <p class="text-gray-700">Launch OpenVPN Connect, go to the "File" tab, and import the `CSC161-Fall2025.ovpn` file. Enter your lab credentials when prompted and click "Connect".</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 4 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-6" aria-expanded="false">
+                        <span class="text-xl font-semibold school-blue-text">Step 4: Verify the VPN Connection</span>
+                        <svg class="icon w-6 h-6 school-blue-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6">
+                            <p class="text-gray-700">Open a command prompt or terminal and ping the lab gateway. You should see successful replies.</p>
+                            <pre class="mt-3 bg-gray-800 text-white p-3 rounded-md text-sm font-mono overflow-x-auto"><code>ping 10.255.254.1</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 5 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-6" aria-expanded="false">
+                        <span class="text-xl font-semibold school-blue-text">Step 5: Access Your Proxmox VE Instance</span>
+                        <svg class="icon w-6 h-6 school-blue-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6">
+                            <p class="text-gray-700">In a web browser, navigate to `https://[Your-IP]:8006`. Accept the security warning for the self-signed certificate and log in with your lab credentials.</p>
+                            <pre class="mt-3 bg-gray-800 text-white p-3 rounded-md text-sm font-mono overflow-x-auto"><code>https://10.255.254.101:8006</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 6 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                    <button class="accordion-button w-full flex justify-between items-center text-left p-6" aria-expanded="false">
+                        <span class="text-xl font-semibold school-blue-text">Step 6: Prepare for the Phase I Lab</span>
+                        <svg class="icon w-6 h-6 school-blue-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6">
+                            <p class="text-gray-700">Congratulations! You are now connected and ready to begin the first guided lab. The next step is to interact with the **AI Tutor "Alex"**. Be prepared to provide your student VM name and assigned IP address.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Accordion functionality
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+                    button.classList.toggle('active');
+                    button.setAttribute('aria-expanded', !isExpanded);
+
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+
+            // Tab functionality
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Deactivate all buttons and hide all content
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active', 'school-blue-text', 'school-blue-border');
+                        btn.classList.add('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'border-transparent');
+                        btn.setAttribute('aria-selected', 'false');
+                    });
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+
+                    // Activate the clicked button and show its content
+                    button.classList.add('active', 'school-blue-text', 'school-blue-border');
+                    button.classList.remove('text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300', 'border-transparent');
+                    button.setAttribute('aria-selected', 'true');
+                    
+                    const targetPanelId = button.getAttribute('aria-controls');
+                    const targetPanel = document.getElementById(targetPanelId);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
