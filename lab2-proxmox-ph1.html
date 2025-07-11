@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment: Week 2 Lab - Proxmox VE Initial Setup</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom styles using the school's color scheme */
+        :root {
+            --school-blue: #00275D;
+            --school-gold: #FDC636;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* Light gray background */
+        }
+        .school-blue-text { color: var(--school-blue); }
+        .school-blue-bg { background-color: var(--school-blue); }
+        .table-header { background-color: #f3f4f6; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Main Page Container -->
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
+
+        <!-- Page Header -->
+        <header class="mb-10 text-center">
+             <div class="school-blue-bg text-white p-6 rounded-xl shadow-lg">
+                <h1 class="text-3xl md:text-4xl font-bold">Assignment: Week 2 Lab</h1>
+                <p class="text-lg md:text-xl mt-2 opacity-90">Proxmox VE Initial Setup</p>
+            </div>
+        </header>
+
+        <!-- Main Content Sections -->
+        <div class="space-y-8">
+            <!-- Objective Section -->
+            <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h2 class="text-2xl font-bold school-blue-text mb-3">Objective</h2>
+                <p class="text-gray-700">The goal of this assignment is to perform the initial configuration of your Proxmox VE instance. This includes managing software repositories, updating the system, and installing essential administrative tools. You will be guided through this process by the AI Tutor, "Alex," to ensure your server is stable, secure, and ready for future labs.</p>
+            </section>
+
+            <!-- Background Section -->
+            <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h2 class="text-2xl font-bold school-blue-text mb-3">Background</h2>
+                <p class="text-gray-700">Properly configuring a new server is one of the most critical tasks for any systems administrator. This "Phase I" setup ensures that your Proxmox host is using the correct, stable software sources and is patched against known vulnerabilities. By interacting with the AI Tutor, you will learn the best practices for these initial steps in a guided, real-world scenario.</p>
+            </section>
+
+            <!-- Instructions Section -->
+            <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h2 class="text-2xl font-bold school-blue-text mb-4">Instructions</h2>
+                <ol class="list-decimal list-inside space-y-3 text-gray-700">
+                    <li>
+                        <strong>Prerequisites:</strong> Ensure you have successfully completed the Week 1 VPN Connectivity lab. You must be connected to the course VPN to access your Proxmox instance.
+                    </li>
+                    <li>
+                        <strong>Log In:</strong> Access your Proxmox VE web interface at `https://[Your-IP]:8006` and log in.
+                    </li>
+                    <li>
+                        <strong>Engage the AI Tutor:</strong> Start a new session with the AI Tutor for this assignment. The tutor will introduce himself as "Alex."
+                    </li>
+                    <li>
+                        <strong>Follow the Guided Process:</strong> Alex will guide you step-by-step through:
+                        <ul class="list-disc list-inside ml-6 mt-2">
+                            <li>Configuring Proxmox software repositories (disabling enterprise, enabling no-subscription).</li>
+                            <li>Updating the server operating system.</li>
+                            <li>Rebooting the server safely after updates.</li>
+                            <li>Installing essential command-line tools.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Capture the Handoff Summary:</strong> At the end of the session, Alex will generate a "Handoff Summary" that details the final state of your server. This summary is your proof of completion.
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Deliverables Section -->
+            <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h2 class="text-2xl font-bold school-blue-text mb-3">Student Deliverables</h2>
+                <p class="text-gray-700">You will submit one file to the Canvas assignment portal:</p>
+                <ul class="list-decimal list-inside space-y-2 mt-2 text-gray-700">
+                    <li>A single text file (`.txt`) containing the complete, unedited **Handoff Summary** provided by the AI Tutor, Alex, at the conclusion of your lab session.</li>
+                </ul>
+            </section>
+
+            <!-- Grading Rubric Section -->
+            <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h2 class="text-2xl font-bold school-blue-text mb-4">Grading Rubric</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="table-header">
+                            <tr>
+                                <th class="p-3 font-semibold text-sm school-blue-text uppercase">Criteria</th>
+                                <th class="p-3 font-semibold text-sm school-blue-text uppercase text-center">Points</th>
+                                <th class="p-3 font-semibold text-sm school-blue-text uppercase">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 font-medium">Configuration & Verification</td>
+                                <td class="p-3 text-center">50</td>
+                                <td class="p-3 text-sm text-gray-600">The submitted Handoff Summary shows that all tasks (repositories, updates, tools) were completed successfully.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 font-medium">Process Adherence & Documentation</td>
+                                <td class="p-3 text-center">35</td>
+                                <td class="p-3 text-sm text-gray-600">The submitted Handoff Summary is complete, well-formatted, and accurately reflects the state of a properly configured system.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 font-medium">Timeliness</td>
+                                <td class="p-3 text-center">7</td>
+                                <td class="p-3 text-sm text-gray-600">The assignment is submitted on or before the due date.</td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 font-medium">SLO #2: Implement infrastructure security</td>
+                                <td class="p-3 text-center">4</td>
+                                <td class="p-3 text-sm text-gray-600">
+                                    <table class="w-full text-xs">
+                                        <thead><tr class="font-semibold text-gray-700"><th class="p-1">Exemplary (4)</th><th class="p-1">Satisfactory (3)</th><th class="p-1">Learning (2)</th><th class="p-1">Beginner (1)</th><th class="p-1">None (0)</th></tr></thead>
+                                        <tbody><tr><td class="p-1">Flawless execution. Summary shows a deep understanding of the "why" behind patching and repo management.</td><td class="p-1">Submission is complete and correct by following guidance.</td><td class="p-1">Submission is mostly correct but shows minor configuration errors that were likely corrected.</td><td class="p-1">Submission is incomplete or shows significant configuration errors.</td><td class="p-1">No evidence submitted.</td></tr></tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-gray-200">
+                                <td class="p-3 font-medium">SLO #4: Build and manage logical infrastructures</td>
+                                <td class="p-3 text-center">4</td>
+                                <td class="p-3 text-sm text-gray-600">
+                                    <table class="w-full text-xs">
+                                        <thead><tr class="font-semibold text-gray-700"><th class="p-1">Exemplary (4)</th><th class="p-1">Satisfactory (3)</th><th class="p-1">Learning (2)</th><th class="p-1">Beginner (1)</th><th class="p-1">None (0)</th></tr></thead>
+                                        <tbody><tr><td class="p-1">Flawless execution. Student demonstrates a clear ability to manage the base layer of a logical hypervisor environment.</td><td class="p-1">Submission is complete and correct by following guidance.</td><td class="p-1">Submission is mostly correct but shows minor struggles with the system management tasks.</td><td class="p-1">Submission is incomplete or incorrect.</td><td class="p-1">No evidence submitted.</td></tr></tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-header">
+                                <td class="p-3 font-bold school-blue-text">Total</td>
+                                <td class="p-3 text-center font-bold school-blue-text">100</td>
+                                <td class="p-3"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
