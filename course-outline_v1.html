@@ -15,12 +15,12 @@
         /* Custom styles for the page */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827; /* Dark gray background */
+            background-color: #ffffff; /* White background */
         }
         .font-mono {
             font-family: 'Roboto Mono', monospace;
         }
-        /* Styles for the accordion content area */
+        /* Styles for the accordion content area for smooth transition */
         .accordion-content {
             max-height: 0;
             overflow: hidden;
@@ -39,26 +39,26 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #1f2937;
+            background: #f1f5f9; /* Light gray track */
         }
         ::-webkit-scrollbar-thumb {
-            background: #4f46e5;
+            background: #3b82f6; /* Blue thumb */
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #6366f1;
+            background: #2563eb; /* Darker blue thumb on hover */
         }
     </style>
 </head>
-<body class="text-gray-200">
+<body class="text-gray-800">
 
     <!-- Main Page Container -->
     <div class="container mx-auto p-4 sm:p-6 md:p-8">
 
         <!-- Page Header -->
         <header class="text-center mb-10 md:mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">CSC161: Virtualization to Cloud Security</h1>
-            <p class="text-lg text-gray-400 max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">CSC161: Virtualization to Cloud Security</h1>
+            <p class="text-lg text-gray-700 max-w-4xl mx-auto">
                 An interactive outline for a 16-week course providing a comprehensive understanding of enterprise virtualization and cloud security, from on-premises Proxmox VE to multi-cloud CCSK principles.
             </p>
         </header>
@@ -68,17 +68,17 @@
 
             <!-- Part 1 Section -->
             <section class="mb-12">
-                <h2 class="text-3xl font-semibold text-cyan-400 border-b-2 border-cyan-500/50 pb-3 mb-6">PART 1: On-Premises Virtualization Foundations</h2>
+                <h2 class="text-3xl font-semibold text-blue-700 border-b-2 border-blue-600/30 pb-3 mb-6">PART 1: On-Premises Virtualization Foundations</h2>
                 <div class="space-y-4" id="part1-weeks">
-                    <!-- Weeks 1-6 will be dynamically injected here -->
+                    <!-- Weeks 1-6 will be dynamically injected here by JavaScript -->
                 </div>
             </section>
 
             <!-- Part 2 Section -->
             <section>
-                <h2 class="text-3xl font-semibold text-purple-400 border-b-2 border-purple-500/50 pb-3 mb-6">PART 2: Cloud Security & CCSK Foundations</h2>
+                <h2 class="text-3xl font-semibold text-blue-700 border-b-2 border-blue-600/30 pb-3 mb-6">PART 2: Cloud Security & CCSK Foundations</h2>
                  <div class="space-y-4" id="part2-weeks">
-                    <!-- Weeks 7-17 will be dynamically injected here -->
+                    <!-- Weeks 7-17 will be dynamically injected here by JavaScript -->
                 </div>
             </section>
 
@@ -250,42 +250,56 @@
             const part2Container = document.getElementById('part2-weeks');
 
             // Function to create and return an HTML element for a week's content
+            // This function now includes ARIA attributes for accessibility.
             function createAccordionItem(weekData) {
                 const itemWrapper = document.createElement('div');
-                itemWrapper.className = 'bg-gray-800 rounded-lg shadow-lg overflow-hidden';
+                itemWrapper.className = 'bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden';
+
+                const buttonId = `accordion-button-week-${weekData.week}`;
+                const contentId = `accordion-content-week-${weekData.week}`;
 
                 let bridgeHTML = '';
                 if (weekData.bridge) {
                     bridgeHTML = `
                         <div class="mt-4">
-                            <h4 class="font-semibold text-cyan-300 mb-1">Bridge to Cloud</h4>
-                            <p class="text-gray-400">${weekData.bridge}</p>
+                            <h4 class="font-semibold text-blue-800 mb-1">Bridge to Cloud</h4>
+                            <p class="text-gray-700">${weekData.bridge}</p>
                         </div>
                     `;
                 }
                 
                 let weekNote = '';
                 if(weekData.week === 15) {
-                    weekNote = `<span class="text-sm text-yellow-400 ml-2">(Short Week)</span>`;
+                    weekNote = `<span class="text-sm text-orange-600 ml-2">(Short Week)</span>`;
                 }
 
                 itemWrapper.innerHTML = `
-                    <button class="accordion-button w-full flex justify-between items-center text-left p-6 bg-gray-800 hover:bg-gray-700/50 transition-colors duration-200">
+                    <button 
+                        id="${buttonId}"
+                        class="accordion-button w-full flex justify-between items-center text-left p-6 bg-white hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 rounded-lg"
+                        aria-expanded="false"
+                        aria-controls="${contentId}"
+                    >
                         <div class="flex-grow">
-                            <div class="font-mono text-sm text-indigo-400 mb-1">Week ${weekData.week} &middot; ${weekData.dates}</div>
-                            <h3 class="text-xl font-bold text-white">${weekData.title}${weekNote}</h3>
+                            <div class="font-mono text-sm text-blue-600 mb-1">Week ${weekData.week} &middot; ${weekData.dates}</div>
+                            <h3 class="text-xl font-bold text-gray-900">${weekData.title}${weekNote}</h3>
                         </div>
-                        <div class="icon text-2xl text-gray-400 font-thin transform transition-transform duration-300">+</div>
+                        <div class="icon text-2xl text-gray-600 font-thin transform transition-transform duration-300">+</div>
                     </button>
-                    <div class="accordion-content">
+                    <div 
+                        id="${contentId}"
+                        class="accordion-content"
+                        role="region"
+                        aria-labelledby="${buttonId}"
+                    >
                         <div class="pb-6">
                             <div>
-                                <h4 class="font-semibold text-cyan-300 mb-1">Topic</h4>
-                                <p class="text-gray-400">${weekData.topic}</p>
+                                <h4 class="font-semibold text-blue-800 mb-1">Topic</h4>
+                                <p class="text-gray-700">${weekData.topic}</p>
                             </div>
                             <div class="mt-4">
-                                <h4 class="font-semibold text-cyan-300 mb-1">Lab</h4>
-                                <p class="text-gray-400">${weekData.lab}</p>
+                                <h4 class="font-semibold text-blue-800 mb-1">Lab</h4>
+                                <p class="text-gray-700">${weekData.lab}</p>
                             </div>
                             ${bridgeHTML}
                         </div>
@@ -308,7 +322,11 @@
             document.querySelectorAll('.accordion-button').forEach(button => {
                 button.addEventListener('click', () => {
                     const content = button.nextElementSibling;
+                    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                    
                     button.classList.toggle('active');
+                    // Toggle ARIA attribute for screen readers
+                    button.setAttribute('aria-expanded', !isExpanded);
 
                     if (content.style.maxHeight) {
                         // Collapse the accordion
