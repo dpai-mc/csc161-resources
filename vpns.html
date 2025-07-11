@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Dive into VPNs</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom styles using the school's color scheme */
+        :root {
+            --school-blue: #00275D;
+            --school-gold: #FDC636;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* Light gray background */
+        }
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .school-blue-text { color: var(--school-blue); }
+        .school-gold-text { color: var(--school-gold); }
+        .school-blue-bg { background-color: var(--school-blue); }
+        .school-gold-bg { background-color: var(--school-gold); }
+        .school-blue-border { border-color: var(--school-blue); }
+
+        /* Accordion styles */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+        }
+        .accordion-button.active .icon {
+            transform: rotate(180deg);
+        }
+        .icon {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Animation for Handshake Graphic */
+        @keyframes slide-right {
+            0% { transform: translateX(0); opacity: 1; }
+            40% { transform: translateX(80px); opacity: 1; }
+            50% { transform: translateX(80px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 0; }
+        }
+        @keyframes slide-left {
+            0% { transform: translateX(0); opacity: 1; }
+            40% { transform: translateX(-80px); opacity: 1; }
+            50% { transform: translateX(-80px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 0; }
+        }
+        @keyframes fade-in {
+            0%, 50% { opacity: 0; }
+            60%, 100% { opacity: 1; }
+        }
+
+        .key-client {
+            animation: slide-right 4s ease-in-out infinite;
+        }
+        .key-server {
+            animation: slide-left 4s ease-in-out infinite;
+        }
+        .session-key {
+            animation: fade-in 4s ease-in-out infinite;
+        }
+
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Main Page Container -->
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
+
+        <!-- Page Header -->
+        <header class="mb-8 text-center">
+             <div class="school-blue-bg text-white p-6 rounded-xl shadow-lg mb-4 text-center">
+                <h1 class="text-3xl md:text-4xl font-bold">A Deep Dive into Virtual Private Networks</h1>
+                <p class="text-lg md:text-xl mt-2 opacity-90">(VPNs)</p>
+            </div>
+        </header>
+
+        <!-- Overview Image -->
+        <section class="mb-12 flex justify-center">
+            <img src="http://googleusercontent.com/file_content/1" alt="Mind map explaining the different aspects of Virtual Private Networks" class="max-w-full h-auto rounded-lg shadow-md border">
+        </section>
+
+        <!-- VPN Content Accordions -->
+        <section class="space-y-4">
+            <!-- What is a VPN? -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                <button class="accordion-button w-full flex justify-between items-center text-left p-6" aria-expanded="false">
+                    <span class="text-2xl font-bold school-blue-text">What is a VPN?</span>
+                    <svg class="icon w-6 h-6 school-blue-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="accordion-content px-6">
+                    <div class="pb-6 text-gray-700 space-y-4">
+                        <p>A Virtual Private Network (VPN) is a technology that creates a secure, encrypted connection over a less secure network, such as the public internet. It establishes a private "tunnel" for your data, protecting it from being seen by others. This allows a remote device to either securely access a private Local Area Network (LAN) or to browse the public internet with enhanced privacy.</p>
+                        <p>Essentially, a VPN makes it appear as though your device, with its public IP address, is operating from a different location—either from within the private LAN or from the location of the VPN server itself.</p>
+                        <!-- SVG Graphic for What is a VPN -->
+                        <div class="mt-6" aria-hidden="true">
+                            <svg viewBox="0 0 400 200" class="w-full h-auto">
+                                <defs>
+                                    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--school-blue)" />
+                                    </marker>
+                                </defs>
+                                <!-- Left Side: Remote User -->
+                                <rect x="10" y="80" width="80" height="40" rx="5" fill="#e5e7eb"/>
+                                <text x="25" y="98" font-size="10" font-family="Inter, sans-serif">Remote User</text>
+                                <text x="20" y="113" font-size="8" font-family="Roboto Mono, monospace" fill="#6b7280">203.0.113.50</text>
+                                
+                                <!-- Internet Cloud -->
+                                <path d="M110 100 c -20 -40, 80 -50, 80 0 c 50 0, 50 50, 0 50 h -80 c -20 0, -20 -50, 0 -50" fill="#dbeafe"/>
+                                <text x="145" y="105" font-size="12" font-weight="bold" fill="#60a5fa">Internet</text>
+
+                                <!-- VPN Server -->
+                                <rect x="250" y="30" width="140" height="140" rx="5" fill="#e5e7eb"/>
+                                <text x="290" y="45" font-size="10" font-weight="bold">VPN Server / Firewall</text>
+                                <text x="285" y="60" font-size="8" font-family="Roboto Mono, monospace" fill="#6b7280">Public IP: 198.51.100.10</text>
+                                
+                                <!-- Private LAN -->
+                                <rect x="260" y="75" width="120" height="85" rx="5" fill="#d1fae5"/>
+                                <text x="280" y="90" font-size="10" font-weight="bold">Private LAN</text>
+                                <text x="270" y="105" font-size="8" font-family="Roboto Mono, monospace" fill="#166534">192.168.1.0/24</text>
+                                <rect x="270" y="120" width="40" height="30" rx="2" fill="white"/>
+                                <rect x="330" y="120" width="40" height="30" rx="2" fill="white"/>
+                                <text x="275" y="140" font-size="8">.50</text>
+                                <text x="335" y="140" font-size="8">.51</text>
+
+                                <!-- VPN Tunnel -->
+                                <path d="M90 100 h 160" stroke="var(--school-blue)" stroke-width="12" stroke-opacity="0.7"/>
+                                <path d="M90 100 h 160" stroke="var(--school-gold)" stroke-width="1" stroke-dasharray="3 3"/>
+                                <rect x="115" y="88" width="110" height="14" rx="3" fill="rgba(0, 39, 93, 0.5)"/>
+                                <text x="120" y="98" font-size="8" fill="white" font-weight="bold">Encrypted VPN Tunnel</text>
+                                <path d="M95 100 h 150" marker-end="url(#arrow)" stroke="none"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How Do VPNs Work? -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                <button class="accordion-button w-full flex justify-between items-center text-left p-6" aria-expanded="false">
+                    <span class="text-2xl font-bold school-blue-text">How Do VPNs Work?</span>
+                    <svg class="icon w-6 h-6 school-blue-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="accordion-content px-6">
+                    <div class="pb-6 text-gray-700 space-y-4">
+                        <p>A VPN connection is established through a multi-step process involving authentication, key exchange, and tunneling.</p>
+                        <ol class="list-decimal list-inside space-y-2">
+                            <li><strong>Initiation & Handshake:</strong> Your device (the VPN client) initiates a connection to the VPN server. They perform a "handshake" using **asymmetric encryption** (Public/Private Keys) to securely authenticate each other and negotiate encryption parameters.</li>
+                            <li><strong>Session Key Exchange:</strong> During the handshake, the client and server securely generate and exchange a temporary **symmetric session key**. This key is unique to your current connection and will be used to encrypt and decrypt all data sent during the session. Using a symmetric key for the actual data transfer is much faster than using asymmetric keys for everything.</li>
+                            <li><strong>Tunneling & Encryption:</strong> With the session key established, the VPN protocol (like OpenVPN) creates the encrypted tunnel. All data from your device is encrypted with the session key and then encapsulated (wrapped) inside standard data packets to be sent across the public internet.</li>
+                            <li><strong>Routing & NAT:</strong> When the encrypted packets arrive at the VPN server, it decrypts them using the session key.
+                                <ul class="list-disc list-inside ml-6 mt-2">
+                                    <li>If you are accessing a resource on the server's **private LAN** (e.g., a file server at `192.168.1.50`), the VPN server uses Network Address Translation (NAT) to forward your request to the correct internal device. To that device, the request appears to come from an internal IP address assigned to you by the VPN.</li>
+                                    <li>If you are accessing a public website, the VPN server forwards your request to the internet. To the website, the request appears to come from the VPN server's public IP address, masking your own.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                         <!-- SVG Graphic for How a VPN Works -->
+                         <div class="mt-6" aria-hidden="true">
+                            <svg viewBox="0 0 400 260" class="w-full h-auto">
+                                <!-- Step 1: Handshake -->
+                                <text x="10" y="20" font-size="10" font-weight="bold">1. Handshake (Animated)</text>
+                                <rect x="10" y="30" width="80" height="40" rx="5" fill="#e5e7eb"/>
+                                <text x="35" y="55" font-size="10">Client</text>
+                                <rect x="310" y="30" width="80" height="40" rx="5" fill="#e5e7eb"/>
+                                <text x="330" y="55" font-size="10">VPN Server</text>
+                                <!-- Animated Keys -->
+                                <g class="key-client">
+                                    <text x="100" y="55" font-size="18">🔑</text>
+                                </g>
+                                <g class="key-server">
+                                    <text x="280" y="55" font-size="18">🔐</text>
+                                </g>
+                                <text class="session-key" x="200" y="80" font-size="18">🗝️</text>
+                                <text x="130" y="45" font-size="8" fill="#8b5cf6">Asymmetric keys are exchanged...</text>
+                                <text x="150" y="65" font-size="8" fill="#8b5cf6">...to create a shared Session Key.</text>
+
+                                <!-- Step 2: Tunneling -->
+                                <text x="10" y="110" font-size="10" font-weight="bold">2. Encrypted Tunnel & Routing</text>
+                                <!-- Client -->
+                                <text x="10" y="135" font-size="8" font-family="Roboto Mono, monospace">IP: 203.0.113.50</text>
+                                <rect x="10" y="140" width="60" height="40" rx="5" fill="#e5e7eb"/>
+                                <text x="28" y="165" font-size="10">Client</text>
+                                <!-- Data Packet -->
+                                <rect x="75" y="155" width="30" height="15" fill="var(--school-gold)"/>
+                                <text x="78" y="165" font-size="8">Data</text>
+
+                                <!-- Tunnel -->
+                                <path d="M110 162.5 h 180" stroke="var(--school-blue)" stroke-width="15" stroke-opacity="0.8"/>
+                                <rect x="115" y="152" width="165" height="14" rx="3" fill="rgba(0, 39, 93, 0.5)"/>
+                                <text x="120" y="162" font-size="8" fill="white">Data Encrypted with Session Key 🗝️</text>
+                                
+                                <!-- VPN Server -->
+                                <rect x="295" y="140" width="95" height="65" rx="5" fill="#e5e7eb"/>
+                                <text x="310" y="155" font-size="10">VPN Server</text>
+                                <text x="300" y="135" font-size="8" font-family="Roboto Mono, monospace">IP: 198.51.100.10</text>
+                                <text x="305" y="185" font-size="8" fill="#16a34a" font-weight="bold">Decrypt & NAT</text>
+
+                                <!-- Private LAN -->
+                                <rect x="295" y="225" width="95" height="30" rx="5" fill="#d1fae5"/>
+                                <text x="310" y="243" font-size="8">Private LAN</text>
+                                
+                                <!-- Final connection to LAN device -->
+                                <path d="M342.5 205 V 225" stroke="#16a34a" stroke-width="1.5"/>
+                                <path d="M342.5 225 l -3 -5" stroke="#16a34a" stroke-width="1.5"/>
+                                <path d="M342.5 225 l 3 -5" stroke="#16a34a" stroke-width="1.5"/>
+                                <rect x="150" y="210" width="135" height="14" rx="3" fill="rgba(22, 163, 74, 0.1)"/>
+                                <text x="155" y="220" font-size="8" fill="#166534">Request appears from internal IP</text>
+                            </svg>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benefits vs. Drawbacks -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                <button class="accordion-button w-full flex justify-between items-center text-left p-6" aria-expanded="false">
+                    <span class="text-2xl font-bold school-blue-text">Benefits vs. Drawbacks</span>
+                    <svg class="icon w-6 h-6 school-blue-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="accordion-content px-6">
+                    <div class="pb-6 text-gray-700 space-y-4">
+                        <div class="flex justify-center my-4">
+                            <img src="http://googleusercontent.com/file_content/2" alt="A diagram showing the pros and cons of VPN usage" class="max-w-md w-full h-auto rounded-lg shadow-md border">
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-8 mt-6">
+                            <div>
+                                <h4 class="text-lg font-semibold text-green-700 mb-2">Key Benefits (Pros)</h4>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li><strong>Enhanced Privacy:</strong> By masking your IP address and encrypting your traffic, VPNs prevent your ISP, advertisers, and websites from tracking your online activity.</li>
+                                    <li><strong>Improved Security:</strong> Encryption protects your sensitive data (like passwords and credit card numbers) from being stolen, which is especially critical when using unsecured public Wi-Fi networks.</li>
+                                    <li><strong>Bypassing Geo-Restrictions:</strong> You can connect to a VPN server in a different country to access content or services that are only available in that region.</li>
+                                    <li><strong>Secure Remote Access:</strong> This is the primary business use case. VPNs allow remote employees to securely connect to their company's internal network.</li>
+                                </ul>
+                            </div>
+                             <div>
+                                <h4 class="text-lg font-semibold text-red-700 mb-2">Drawbacks & Limitations (Cons)</h4>
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li><strong>Slower Speeds:</strong> The encryption process and the extra distance traffic must travel to the VPN server can sometimes reduce your internet connection speed.</li>
+                                    <li><strong>Cost:</strong> While some free VPNs exist, they are often limited, slow, or may even sell your data. A reliable, high-quality VPN service typically requires a paid subscription.</li>
+                                    <li><strong>Trust in the Provider:</strong> While a VPN hides your activity from your ISP, the VPN provider itself *can* see your traffic. It's crucial to choose a reputable provider with a strict "no-logs" policy.</li>
+                                    <li><strong>Blocked Services:</strong> Some websites and streaming services actively detect and block traffic coming from known VPN servers to enforce their regional content restrictions.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Common Use Cases -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                <button class="accordion-button w-full flex justify-between items-center text-left p-6" aria-expanded="false">
+                    <span class="text-2xl font-bold school-blue-text">Common Use Cases</span>
+                    <svg class="icon w-6 h-6 school-blue-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="accordion-content px-6">
+                    <div class="pb-6 text-gray-700 space-y-4">
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Corporate Remote Access:</strong> Allowing employees to work from home or travel while securely connecting to the company's internal network.</li>
+                            <li><strong>Public Wi-Fi Security:</strong> Protecting your data from hackers and snoops when using public, unsecured wireless networks.</li>
+                            <li><strong>Online Privacy:</strong> Preventing your ISP and advertisers from tracking and monetizing your browsing habits.</li>
+                            <li><strong>Accessing Content Abroad:</strong> Watching streaming services from your home country while traveling internationally.</li>
+                            <li><strong>Bypassing Censorship:</strong> For users in countries with heavy internet restrictions, a VPN can provide access to the open, global internet.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- VPN Technologies -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
+                <button class="accordion-button w-full flex justify-between items-center text-left p-6" aria-expanded="false">
+                    <span class="text-2xl font-bold school-blue-text">Examples of VPN Technologies</span>
+                    <svg class="icon w-6 h-6 school-blue-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="accordion-content px-6">
+                    <div class="pb-6 text-gray-700 space-y-4">
+                        <p>A VPN is a concept, and different technologies, or **protocols**, can be used to implement it. Each has its own balance of speed, security, and compatibility.</p>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>OpenVPN:</strong> An open-source, highly configurable, and very secure protocol. It is considered the industry standard for its strong balance of security and performance. This is the technology we use in this course.</li>
+                            <li><strong>IPsec (Internet Protocol Security):</strong> Often paired with L2TP (Layer 2 Tunneling Protocol), IPsec is a secure protocol built into many operating systems. It is very secure but can sometimes be slightly slower than other options due to its two-step encapsulation process.</li>
+                            <li><strong>WireGuard:</strong> A newer, modern protocol known for its simplicity, high speed, and state-of-the-art cryptography. It has a much smaller code base than OpenVPN or IPsec, making it easier to audit and potentially more secure. It is rapidly gaining popularity.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Accordion functionality
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+                    button.classList.toggle('active');
+                    button.setAttribute('aria-expanded', !isExpanded);
+
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
