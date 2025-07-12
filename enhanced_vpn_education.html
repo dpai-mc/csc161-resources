@@ -369,7 +369,7 @@
     <div class="container">
         <header>
             <h1>The Complete VPN Guide</h1>
-            <p class="subtitle">Everything college students need to know about Virtual Private Networks</p>
+            <p class="subtitle">Everything college students need to know about Virtual Private Networks for Enterprise Careers</p>
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
             </div>
@@ -378,8 +378,8 @@
                 <button class="nav-btn" onclick="showSection('how-it-works')" data-section="how-it-works">How VPNs Work</button>
                 <button class="nav-btn" onclick="showSection('protocols')" data-section="protocols">Protocols</button>
                 <button class="nav-btn" onclick="showSection('pros-cons')" data-section="pros-cons">Pros & Cons</button>
-                <button class="nav-btn" onclick="showSection('hardware')" data-section="hardware">Hardware</button>
-                <button class="nav-btn" onclick="showSection('use-cases')" data-section="use-cases">Use Cases</button>
+                <button class="nav-btn" onclick="showSection('hardware')" data-section="hardware">Enterprise Hardware</button>
+                <button class="nav-btn" onclick="showSection('use-cases')" data-section="use-cases">Professional Use Cases</button>
                 <button class="nav-btn" onclick="showSection('quiz')" data-section="quiz">Quiz</button>
             </nav>
         </header>
@@ -403,16 +403,16 @@
 
                 <div class="card-grid">
                     <div class="card">
-                        <h3>🔒 Security</h3>
-                        <p>VPNs encrypt your internet traffic, making it unreadable to hackers, ISPs, and government surveillance.</p>
+                        <h3>🔒 Enterprise Security</h3>
+                        <p>VPNs encrypt your internet traffic, making it unreadable to hackers, competitors, and unauthorized surveillance - critical for protecting corporate data.</p>
                     </div>
                     <div class="card">
-                        <h3>🌍 Privacy</h3>
-                        <p>Hide your real IP address and location, making it harder for websites and advertisers to track you.</p>
+                        <h3>🌍 Remote Workforce</h3>
+                        <p>Enable secure remote access to company resources, databases, and internal systems from anywhere in the world.</p>
                     </div>
                     <div class="card">
-                        <h3>🚫 Bypass Restrictions</h3>
-                        <p>Access geo-blocked content and bypass censorship or network restrictions at school or work.</p>
+                        <h3>🚫 Compliance & Governance</h3>
+                        <p>Meet regulatory requirements for data protection, geographic restrictions, and industry-specific security standards.</p>
                     </div>
                 </div>
             </section>
@@ -420,15 +420,16 @@
             <!-- How VPNs Work Section -->
             <section id="how-it-works" class="section">
                 <h2>How VPNs Work</h2>
-                <p>Understanding how VPNs work helps you make better decisions about when and how to use them.</p>
+                <p>Understanding how VPNs work helps you make better decisions about when and how to use them in professional environments.</p>
                 
                 <h3>The VPN Process</h3>
                 <ol>
-                    <li><strong>Connection:</strong> Your device connects to a VPN server</li>
-                    <li><strong>Encryption:</strong> All data is encrypted before leaving your device</li>
-                    <li><strong>Tunneling:</strong> Encrypted data travels through the "tunnel" to the VPN server</li>
-                    <li><strong>Decryption:</strong> The VPN server decrypts your data and sends it to the intended destination</li>
-                    <li><strong>Response:</strong> The process reverses for incoming data</li>
+                    <li><strong>Authentication:</strong> User credentials are verified against company directory (AD, LDAP, etc.)</li>
+                    <li><strong>Connection:</strong> Your device establishes a secure tunnel to the corporate VPN gateway</li>
+                    <li><strong>Encryption:</strong> All data is encrypted using enterprise-grade algorithms before transmission</li>
+                    <li><strong>Tunneling:</strong> Encrypted data travels through the secure tunnel to the corporate network</li>
+                    <li><strong>Access Control:</strong> Network policies determine what resources you can access</li>
+                    <li><strong>Logging & Monitoring:</strong> All activities are logged for security and compliance purposes</li>
                 </ol>
 
                 <div class="interactive-demo">
@@ -439,19 +440,19 @@
                     <div id="encryption-result" class="result-display"></div>
                 </div>
 
-                <h3>Key Components</h3>
+                <h3>Enterprise VPN Components</h3>
                 <div class="card-grid">
                     <div class="card">
-                        <h3>VPN Client</h3>
-                        <p>Software installed on your device that manages the VPN connection and handles encryption/decryption.</p>
+                        <h3>VPN Gateway/Concentrator</h3>
+                        <p>Enterprise hardware that manages thousands of simultaneous connections, enforces security policies, and integrates with corporate authentication systems.</p>
                     </div>
                     <div class="card">
-                        <h3>VPN Server</h3>
-                        <p>Remote server that acts as an intermediary between your device and the internet.</p>
+                        <h3>Certificate Authority (CA)</h3>
+                        <p>Manages digital certificates for device and user authentication, ensuring only authorized personnel can connect.</p>
                     </div>
                     <div class="card">
-                        <h3>Encryption</h3>
-                        <p>Mathematical algorithms that scramble your data to make it unreadable to unauthorized parties.</p>
+                        <h3>Network Access Control (NAC)</h3>
+                        <p>Enforces security policies, checks device compliance, and determines access levels based on user roles and device health.</p>
                     </div>
                 </div>
             </section>
@@ -459,189 +460,258 @@
             <!-- Protocols Section -->
             <section id="protocols" class="section">
                 <h2>VPN Protocols</h2>
-                <p>VPN protocols are the methods used to establish and maintain the secure connection. Each has different strengths and use cases.</p>
+                <p>VPN protocols are the methods used to establish and maintain the secure connection. Each has different strengths and use cases in enterprise environments.</p>
 
                 <table class="protocol-table">
                     <thead>
                         <tr>
                             <th>Protocol</th>
                             <th>Security</th>
-                            <th>Speed</th>
-                            <th>Best For</th>
+                            <th>Performance</th>
+                            <th>Enterprise Use Case</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>WireGuard</strong></td>
+                            <td><strong>IPSec/IKEv2</strong></td>
                             <td>Very High</td>
-                            <td>Very Fast</td>
-                            <td>Modern applications, mobile devices</td>
+                            <td>Excellent</td>
+                            <td>Site-to-site connections, mobile workforce</td>
                         </tr>
                         <tr>
                             <td><strong>OpenVPN</strong></td>
                             <td>Very High</td>
                             <td>Good</td>
-                            <td>Maximum security, compatibility</td>
+                            <td>Remote access, firewall traversal</td>
                         </tr>
                         <tr>
-                            <td><strong>IPSec/IKEv2</strong></td>
+                            <td><strong>WireGuard</strong></td>
+                            <td>Very High</td>
+                            <td>Excellent</td>
+                            <td>Modern cloud infrastructure, containers</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SSL/TLS VPN</strong></td>
                             <td>High</td>
-                            <td>Fast</td>
-                            <td>Mobile devices, quick reconnection</td>
-                        </tr>
-                        <tr>
-                            <td><strong>L2TP/IPSec</strong></td>
                             <td>Good</td>
-                            <td>Moderate</td>
-                            <td>Basic security needs</td>
+                            <td>Web-based access, BYOD environments</td>
                         </tr>
                         <tr>
-                            <td><strong>PPTP</strong></td>
-                            <td>Low</td>
-                            <td>Fast</td>
-                            <td>Legacy systems (not recommended)</td>
+                            <td><strong>MPLS VPN</strong></td>
+                            <td>High</td>
+                            <td>Excellent</td>
+                            <td>Private networks, guaranteed bandwidth</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <h3>Protocol Deep Dive</h3>
+                <h3>Enterprise Protocol Selection</h3>
                 <div class="card-grid">
                     <div class="card">
-                        <h3>WireGuard</h3>
-                        <p><strong>The Modern Choice:</strong> Uses state-of-the-art cryptography including Curve25519, ChaCha20, and Poly1305. Designed for simplicity and performance with minimal code that's easy to audit.</p>
-                        <p><strong>Best for:</strong> Students who want fast, secure connections with minimal battery drain on mobile devices.</p>
+                        <h3>IPSec/IKEv2</h3>
+                        <p><strong>The Enterprise Standard:</strong> Provides robust security with built-in authentication, perfect forward secrecy, and seamless mobile support. Ideal for connecting branch offices and mobile workers.</p>
+                        <p><strong>Best for:</strong> Site-to-site VPNs, mobile device management, always-on connections.</p>
                     </div>
                     <div class="card">
-                        <h3>OpenVPN</h3>
-                        <p><strong>The Reliable Standard:</strong> Time-tested protocol with extensive configuration options. Highly secure but more complex, making it thoroughly auditable by security experts.</p>
-                        <p><strong>Best for:</strong> Maximum security requirements and bypassing network restrictions.</p>
+                        <h3>SSL/TLS VPN</h3>
+                        <p><strong>The BYOD Solution:</strong> Browser-based access requiring no client installation. Perfect for contractors, partners, and bring-your-own-device scenarios.</p>
+                        <p><strong>Best for:</strong> Temporary access, web applications, third-party user access.</p>
                     </div>
                 </div>
             </section>
 
             <!-- Pros and Cons Section -->
             <section id="pros-cons" class="section">
-                <h2>Pros and Cons of VPNs</h2>
-                <p>Like any technology, VPNs have advantages and disadvantages you should consider.</p>
+                <h2>Enterprise VPN: Benefits and Challenges</h2>
+                <p>Understanding the advantages and challenges of VPNs in enterprise environments is crucial for IT professionals.</p>
 
                 <div class="card-grid">
                     <div class="card" style="border-left: 5px solid #2ecc71;">
-                        <h3>✅ Advantages</h3>
+                        <h3>✅ Business Advantages</h3>
                         <ul>
-                            <li><strong>Enhanced Security:</strong> Protects data on public Wi-Fi</li>
-                            <li><strong>Privacy Protection:</strong> Hides your browsing activity from ISPs</li>
-                            <li><strong>Access Geo-blocked Content:</strong> Watch region-restricted streaming content</li>
-                            <li><strong>Bypass Censorship:</strong> Access blocked websites in restrictive networks</li>
-                            <li><strong>Secure Remote Work:</strong> Safely access company resources</li>
-                            <li><strong>Prevent ISP Throttling:</strong> Avoid speed limitations based on content</li>
+                            <li><strong>Enhanced Security:</strong> Military-grade encryption protects sensitive corporate data</li>
+                            <li><strong>Regulatory Compliance:</strong> Meets GDPR, HIPAA, SOX, and other regulatory requirements</li>
+                            <li><strong>Remote Workforce Enablement:</strong> Secure access from anywhere increases productivity</li>
+                            <li><strong>Cost Reduction:</strong> Eliminates need for expensive dedicated lines</li>
+                            <li><strong>Centralized Management:</strong> Single point of control for all remote connections</li>
+                            <li><strong>Geo-restriction Bypass:</strong> Access region-locked business services and content</li>
                         </ul>
                     </div>
                     <div class="card" style="border-left: 5px solid #e74c3c;">
-                        <h3>❌ Disadvantages</h3>
+                        <h3>❌ Enterprise Challenges</h3>
                         <ul>
-                            <li><strong>Slower Speeds:</strong> Encryption and routing can reduce connection speed</li>
-                            <li><strong>Cost:</strong> Quality VPN services require subscription fees</li>
-                            <li><strong>Trust Issues:</strong> You must trust your VPN provider with your data</li>
-                            <li><strong>Potential Logs:</strong> Some providers may keep usage logs</li>
-                            <li><strong>Blocked Services:</strong> Some websites and services block VPN traffic</li>
-                            <li><strong>Legal Concerns:</strong> VPN use may violate terms of service for some platforms</li>
+                            <li><strong>Performance Overhead:</strong> Encryption adds latency and reduces throughput</li>
+                            <li><strong>Scalability Costs:</strong> Enterprise solutions can be expensive for large deployments</li>
+                            <li><strong>Single Point of Failure:</strong> VPN gateway outages affect all remote users</li>
+                            <li><strong>Complex Management:</strong> Requires specialized IT skills and ongoing maintenance</li>
+                            <li><strong>Split Tunneling Risks:</strong> Poorly configured clients may expose networks</li>
+                            <li><strong>User Experience:</strong> Additional authentication steps can frustrate users</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="interactive-demo">
-                    <h3>Speed Test Simulator</h3>
-                    <p>See how VPNs might affect your connection speed:</p>
-                    <button class="demo-button" onclick="runSpeedTest()">Run Speed Test</button>
+                    <h3>Enterprise Performance Impact</h3>
+                    <p>See how VPNs might affect enterprise connection performance:</p>
+                    <button class="demo-button" onclick="runSpeedTest()">Run Performance Analysis</button>
                     <div id="speed-test-results" class="result-display"></div>
                 </div>
             </section>
 
             <!-- Hardware Section -->
             <section id="hardware" class="section">
-                <h2>VPN Hardware and Setup Options</h2>
-                <p>VPNs can be implemented through software on individual devices or through dedicated hardware for network-wide protection.</p>
+                <h2>Enterprise VPN Hardware & Cloud Infrastructure</h2>
+                <p>Modern enterprises require robust, scalable VPN solutions that can handle thousands of concurrent users while maintaining security and performance.</p>
 
-                <h3>Software vs. Hardware VPNs</h3>
+                <div class="enterprise-highlight">
+                    <h3>🏢 Enterprise VPN Appliances</h3>
+                    <p>Dedicated hardware designed for high-performance, mission-critical applications with advanced security features, redundancy, and centralized management capabilities.</p>
+                </div>
+
+                <h3>Enterprise VPN Solutions</h3>
                 <div class="card-grid">
                     <div class="card">
-                        <h3>Software VPNs</h3>
-                        <p><strong>Apps on individual devices:</strong> Easy to install and use, device-specific protection.</p>
-                        <p><strong>Popular options:</strong> NordVPN, ExpressVPN, Surfshark, ProtonVPN</p>
-                        <p><strong>Best for:</strong> Personal use, different settings per device</p>
+                        <h3>Hardware Appliances</h3>
+                        <p><strong>Dedicated VPN concentrators:</strong> Purpose-built for maximum security and performance with hardware-accelerated encryption.</p>
+                        <p><strong>Examples:</strong> Cisco ASA, Fortinet FortiGate, Palo Alto Networks PA Series</p>
+                        <p><strong>Best for:</strong> Large enterprises, high-security environments, guaranteed performance</p>
                     </div>
                     <div class="card">
-                        <h3>Hardware VPNs</h3>
-                        <p><strong>Router-level protection:</strong> Protects all devices on the network automatically.</p>
-                        <p><strong>Examples:</strong> VPN-enabled routers, dedicated VPN appliances</p>
-                        <p><strong>Best for:</strong> Whole-home protection, IoT devices</p>
+                        <h3>Cloud-Native VPNs</h3>
+                        <p><strong>Software-defined solutions:</strong> Scalable, API-driven VPN services integrated with cloud platforms.</p>
+                        <p><strong>Examples:</strong> AWS VPN Gateway, Azure VPN Gateway, Google Cloud VPN</p>
+                        <p><strong>Best for:</strong> Cloud-first organizations, dynamic scaling, hybrid cloud architectures</p>
                     </div>
                 </div>
 
-                <h3>VPN Router Examples</h3>
+                <h3>Enterprise VPN Hardware Comparison</h3>
                 <table class="protocol-table">
                     <thead>
                         <tr>
-                            <th>Router Model</th>
-                            <th>Type</th>
-                            <th>Features</th>
-                            <th>Price Range</th>
+                            <th>Solution Type</th>
+                            <th>Concurrent Users</th>
+                            <th>Throughput</th>
+                            <th>Use Case</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Asus RT-AX86U</strong></td>
-                            <td>Consumer</td>
-                            <td>Wi-Fi 6, OpenVPN support, easy setup</td>
-                            <td>$200-300</td>
+                            <td><strong>Cisco ASA 5585-X</strong></td>
+                            <td>10,000+</td>
+                            <td>2+ Gbps</td>
+                            <td>Large enterprise, data centers</td>
                         </tr>
                         <tr>
-                            <td><strong>Netgear Nighthawk Pro Gaming</strong></td>
-                            <td>Gaming</td>
-                            <td>Low latency, VPN acceleration</td>
-                            <td>$300-400</td>
+                            <td><strong>Fortinet FortiGate 600E</strong></td>
+                            <td>8,000+</td>
+                            <td>10+ Gbps</td>
+                            <td>UTM, next-gen firewall integration</td>
                         </tr>
                         <tr>
-                            <td><strong>TP-Link SafeStream</strong></td>
-                            <td>Business</td>
-                            <td>Multiple VPN protocols, site-to-site</td>
-                            <td>$100-500</td>
+                            <td><strong>Palo Alto PA-5220</strong></td>
+                            <td>6,000+</td>
+                            <td>9+ Gbps</td>
+                            <td>Advanced threat protection, Zero Trust</td>
                         </tr>
                         <tr>
-                            <td><strong>Ubiquiti Dream Machine</strong></td>
-                            <td>Prosumer</td>
-                            <td>Enterprise features, detailed analytics</td>
-                            <td>$400-600</td>
+                            <td><strong>AWS VPN Gateway</strong></td>
+                            <td>Unlimited</td>
+                            <td>1.25 Gbps per tunnel</td>
+                            <td>Cloud-native, auto-scaling</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Azure VPN Gateway</strong></td>
+                            <td>10,000+</td>
+                            <td>10+ Gbps</td>
+                            <td>Hybrid cloud, Express Route integration</td>
                         </tr>
                     </tbody>
                 </table>
+
+                <div class="cloud-highlight">
+                    <h3>☁️ Cloud VPN Architecture</h3>
+                    <p>Modern enterprises are adopting cloud-first VPN strategies that leverage auto-scaling, global presence, and integration with identity providers for seamless user experiences.</p>
+                </div>
+
+                <h3>Implementation Considerations</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🔄 High Availability</h3>
+                        <p>Deploy redundant VPN gateways across multiple data centers with automatic failover capabilities to ensure 99.9% uptime for critical business operations.</p>
+                    </div>
+                    <div class="card">
+                        <h3>📊 Performance Monitoring</h3>
+                        <p>Implement comprehensive monitoring solutions that track connection quality, bandwidth utilization, and user experience metrics in real-time.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🛡️ Zero Trust Integration</h3>
+                        <p>Modern VPNs integrate with Zero Trust frameworks, providing device trust verification, conditional access, and micro-segmentation capabilities.</p>
+                    </div>
+                </div>
             </section>
 
             <!-- Use Cases Section -->
             <section id="use-cases" class="section">
-                <h2>VPN Use Cases for Students</h2>
-                <p>Here are practical scenarios where VPNs are particularly useful for college students:</p>
+                <h2>Professional VPN Use Cases & Career Applications</h2>
+                <p>Understanding enterprise VPN applications prepares you for real-world IT scenarios you'll encounter in your professional career.</p>
 
                 <div class="card-grid">
                     <div class="card">
-                        <h3>🏫 Campus Wi-Fi Security</h3>
-                        <p>Protect sensitive data when using public campus Wi-Fi networks. Encrypt login credentials, personal information, and academic work.</p>
-                        <p><strong>Why it matters:</strong> Public networks are vulnerable to packet sniffing and man-in-the-middle attacks.</p>
+                        <h3>🏢 Site-to-Site Connectivity</h3>
+                        <p>Connect branch offices, data centers, and cloud environments securely. Essential for multinational corporations with distributed infrastructure.</p>
+                        <p><strong>Career relevance:</strong> Network architects and system administrators regularly design and maintain these connections.</p>
                     </div>
                     <div class="card">
-                        <h3>📚 Research Access</h3>
-                        <p>Access academic databases and research materials that may be geo-restricted or blocked in certain regions.</p>
-                        <p><strong>Example:</strong> Accessing international academic journals or research papers from different countries.</p>
+                        <h3>🔐 Zero Trust Network Access (ZTNA)</h3>
+                        <p>Replace traditional VPNs with identity-centric security models that verify every user and device before granting access to specific applications.</p>
+                        <p><strong>Skills needed:</strong> Identity management, conditional access policies, micro-segmentation.</p>
                     </div>
                     <div class="card">
-                        <h3>🎬 Streaming Content</h3>
-                        <p>Watch region-locked content from streaming services for language learning or cultural studies.</p>
-                        <p><strong>Educational use:</strong> Access foreign films for language immersion or cultural research.</p>
+                        <h3>☁️ Hybrid Cloud Integration</h3>
+                        <p>Securely connect on-premises infrastructure with cloud services (AWS, Azure, GCP) for seamless hybrid cloud operations.</p>
+                        <p><strong>Career growth:</strong> Cloud architects and DevOps engineers frequently implement these solutions.</p>
                     </div>
                     <div class="card">
-                        <h3>☕ Coffee Shop Security</h3>
-                        <p>Secure your connection when studying at coffee shops or other public spaces with free Wi-Fi.</p>
-                        <p><strong>Protection:</strong> Prevents eavesdropping on video calls, online banking, or sensitive communications.</p>
+                        <h3>🔒 Compliance & Data Governance</h3>
+                        <p>Ensure data sovereignty, meet regulatory requirements (GDPR, HIPAA), and maintain audit trails for financial and healthcare organizations.</p>
+                        <p><strong>Industry demand:</strong> High demand for professionals who understand compliance-driven VPN architectures.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🌐 Global Workforce Management</h3>
+                        <p>Support remote employees across different time zones with region-specific VPN gateways and optimized routing for performance.</p>
+                        <p><strong>Emerging role:</strong> Remote work infrastructure specialists are increasingly valuable.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🛡️ Incident Response & Forensics</h3>
+                        <p>Isolate compromised networks, provide secure channels for incident response teams, and maintain forensic evidence integrity.</p>
+                        <p><strong>Cybersecurity career:</strong> Critical skill for security analysts and incident response professionals.</p>
+                    </div>
+                </div>
+
+                <div class="enterprise-highlight">
+                    <h3>💼 Career Path Considerations</h3>
+                    <p><strong>Network Engineer:</strong> Design, implement, and troubleshoot enterprise VPN solutions<br>
+                    <strong>Cloud Architect:</strong> Integrate VPNs with cloud platforms and design hybrid architectures<br>
+                    <strong>Security Analyst:</strong> Monitor VPN traffic, analyze security logs, and respond to threats<br>
+                    <strong>DevOps Engineer:</strong> Automate VPN deployments and integrate with CI/CD pipelines</p>
+                </div>
+
+                <h3>Industry-Specific Applications</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>🏦 Financial Services</h3>
+                        <p><strong>Requirements:</strong> FIPS 140-2 Level 3 encryption, multi-factor authentication, transaction monitoring</p>
+                        <p><strong>Use case:</strong> Secure trading systems, customer data protection, regulatory compliance</p>
+                    </div>
+                    <div class="card">
+                        <h3>🏥 Healthcare</h3>
+                        <p><strong>Requirements:</strong> HIPAA compliance, PHI protection, secure telemedicine platforms</p>
+                        <p><strong>Use case:</strong> Remote patient monitoring, electronic health records access, research collaboration</p>
+                    </div>
+                    <div class="card">
+                        <h3>🏭 Manufacturing</h3>
+                        <p><strong>Requirements:</strong> OT/IT network segmentation, industrial protocol support, real-time monitoring</p>
+                        <p><strong>Use case:</strong> Remote equipment monitoring, supply chain integration, predictive maintenance</p>
                     </div>
                 </div>
             </section>
@@ -674,6 +744,8 @@
             </section>
         </main>
     </div>
+
+    <script>
 
     <script>
 // Global variables
