@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypervisor Learning Portal - Community College IT Program</title>
+    <style>
+        /* Navy and Gold Color Scheme */
+        :root {
+            --navy: #1e3a5f;
+            --light-navy: #2c5282;
+            --gold: #d4af37;
+            --light-gold: #f7e98e;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --medium-gray: #6c757d;
+            --success-green: #28a745;
+            --shadow: 0 2px 10px rgba(30, 58, 95, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--navy);
+            background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--light-navy) 100%);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 1rem;
+            background: var(--white);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--navy);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-tab:hover {
+            background: var(--light-gray);
+        }
+
+        .nav-tab.active {
+            background: var(--gold);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--navy);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            border: 2px solid var(--light-gold);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(30, 58, 95, 0.15);
+        }
+
+        .card h3 {
+            color: var(--navy);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Interactive Elements */
+        .quiz-question {
+            background: linear-gradient(135deg, var(--light-navy) 0%, var(--navy) 100%);
+            color: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .quiz-option {
+            background: var(--white);
+            color: var(--navy);
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .quiz-option:hover {
+            background: var(--light-gold);
+            transform: translateX(5px);
+        }
+
+        .quiz-option.correct {
+            background: var(--success-green);
+            color: var(--white);
+        }
+
+        .quiz-option.incorrect {
+            background: #dc3545;
+            color: var(--white);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: var(--light-gray);
+            border-radius: 10px;
+            padding: 3px;
+            margin: 2rem 0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--gold) 0%, var(--light-gold) 100%);
+            height: 20px;
+            border-radius: 8px;
+            width: 0%;
+            transition: width 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Hypervisor Diagram */
+        .diagram-container {
+            background: var(--light-gray);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .hypervisor-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem;
+        }
+
+        .stack-layer {
+            width: 300px;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stack-layer:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+
+        .vm-layer {
+            background: var(--light-gold);
+            color: var(--navy);
+        }
+
+        .hypervisor-layer {
+            background: var(--gold);
+            color: var(--white);
+        }
+
+        .hardware-layer {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        /* Interactive Buttons */
+        .interactive-btn {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--light-gold) 100%);
+            color: var(--navy);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .interactive-btn:hover {
+            background: linear-gradient(135deg, var(--light-gold) 0%, var(--gold) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .interactive-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .stack-layer {
+                width: 250px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Knowledge Check Styles */
+        .knowledge-check {
+            background: linear-gradient(135deg, var(--light-gold) 0%, var(--gold) 100%);
+            color: var(--navy);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .knowledge-score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        /* Animation for interactive elements */
+        .bounce {
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 60%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            80% { transform: translateY(-5px); }
+        }
+
+        /* Glossary styles */
+        .glossary-term {
+            background: var(--light-gray);
+            border-left: 4px solid var(--gold);
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .glossary-term strong {
+            color: var(--navy);
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🖥️ Hypervisor Learning Portal</h1>
+        <p>Master the fundamentals of virtualization technology and prepare for hands-on Type 1 Hypervisor labs</p>
+    </div>
+
+    <div class="container">
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('introduction')">📚 Introduction</button>
+            <button class="nav-tab" onclick="showSection('types')">🔄 Types</button>
+            <button class="nav-tab" onclick="showSection('benefits')">✨ Benefits</button>
+            <button class="nav-tab" onclick="showSection('examples')">💼 Examples</button>
+            <button class="nav-tab" onclick="showSection('preparation')">🎯 Lab Prep</button>
+            <button class="nav-tab" onclick="showSection('quiz')">🧠 Knowledge Check</button>
+        </div>
+
+        <!-- Introduction Section -->
+        <div id="introduction" class="content-section active">
+            <h2>🌟 What is a Hypervisor?</h2>
+            
+            <div class="card">
+                <h3>Definition</h3>
+                <p>A hypervisor, also known as a virtual machine monitor (VMM), is a crucial software layer in virtualization technology that enables multiple virtual machines (VMs) to run on a single physical machine or host. Think of it as the supervisor in charge of dispersing the components that make up VMs.</p>
+            </div>
+
+            <div class="diagram-container">
+                <h3>📊 Hypervisor Architecture</h3>
+                <div class="hypervisor-stack">
+                    <div class="stack-layer vm-layer" onclick="highlightLayer('vm')">Virtual Machine 1 | Virtual Machine 2 | Virtual Machine 3</div>
+                    <div class="stack-layer hypervisor-layer" onclick="highlightLayer('hypervisor')">🎯 HYPERVISOR (VMM)</div>
+                    <div class="stack-layer hardware-layer" onclick="highlightLayer('hardware')">Physical Hardware (CPU, Memory, Storage, Network)</div>
+                </div>
+                <p id="layerDescription">Click on any layer above to learn more!</p>
+            </div>
+
+            <div class="card">
+                <h3>🔑 Key Functions</h3>
+                <ul>
+                    <li>Managing and allocating hardware resources like CPU, memory, and storage</li>
+                    <li>Creating a virtualization layer that runs between the OS and server hardware</li>
+                    <li>Allowing each VM to operate as if it were on a separate, dedicated machine isolated from other VMs</li>
+                    <li>Scheduling operations so VMs don't overrun one another when using resources</li>
+                </ul>
+            </div>
+
+            <button class="interactive-btn" onclick="nextSection()">Continue to Types →</button>
+        </div>
+
+        <!-- Types Section -->
+        <div id="types" class="content-section">
+            <h2>🔄 Types of Hypervisors</h2>
+            
+            <div class="comparison-grid">
+                <div class="card">
+                    <h3>🎯 Type 1 - Bare Metal Hypervisor</h3>
+                    <p>A type 1 hypervisor, or a bare metal hypervisor, interacts directly with the underlying machine hardware. The type 1 hypervisor sits on top of the bare metal server and has direct access to the hardware resources.</p>
+                    
+                    <h4>Characteristics:</h4>
+                    <ul>
+                        <li>Runs directly on the underlying host system</li>
+                        <li>Does not require any base server operating system</li>
+                        <li>Most common in an enterprise data center or other server-based environments</li>
+                        <li>Very efficient because they have direct access to physical hardware resources</li>
+                    </ul>
+
+                    <h4>Examples:</h4>
+                    <ul>
+                        <li>VMware ESXi</li>
+                        <li>Microsoft Hyper-V</li>
+                        <li>KVM (Kernel-based Virtual Machine)</li>
+                        <li>Citrix XenServer</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🖥️ Type 2 - Hosted Hypervisor</h3>
+                    <p>The type 2 hypervisor is an application installed on the host operating system. It's also known as a hosted or embedded hypervisor.</p>
+                    
+                    <h4>Characteristics:</h4>
+                    <ul>
+                        <li>Run on a conventional operating system as a software layer or application</li>
+                        <li>The type 2 hypervisor negotiates with the operating system to obtain underlying system resources</li>
+                        <li>Better for individual users who want to run multiple operating systems on a personal computer</li>
+                        <li>Easier to install, configure, and use than bare-metal hypervisors</li>
+                    </ul>
+
+                    <h4>Examples:</h4>
+                    <ul>
+                        <li>VMware Workstation</li>
+                        <li>Oracle VirtualBox</li>
+                        <li>VMware Fusion</li>
+                        <li>Parallels Desktop</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="knowledge-check">
+                <h3>🤔 Quick Understanding Check</h3>
+                <p>Which type of hypervisor will you be working with in your lab exercises?</p>
+                <button class="interactive-btn" onclick="showAnswer('type1')">Type 1 - Bare Metal</button>
+                <button class="interactive-btn" onclick="showAnswer('type2')">Type 2 - Hosted</button>
+                <div id="typeAnswer" style="margin-top: 1rem; font-weight: bold;"></div>
+            </div>
+
+            <button class="interactive-btn" onclick="nextSection()">Learn About Benefits →</button>
+        </div>
+
+        <!-- Benefits Section -->
+        <div id="benefits" class="content-section">
+            <h2>✨ Benefits of Hypervisors</h2>
+            
+            <div class="card">
+                <h3>💰 Cost Efficiency</h3>
+                <p>By consolidating multiple virtual machines (VMs) onto a single physical server, organizations can significantly reduce both hardware and maintenance costs. Hypervisors help enterprises make more efficient use of the underlying physical equipment.</p>
+            </div>
+
+            <div class="card">
+                <h3>🔧 Resource Optimization</h3>
+                <p>Organizations use virtualization software like hypervisors because the software helps them to use resources efficiently and reduce hardware investment. Virtualization has substantially increased server utilization rates.</p>
+            </div>
+
+            <div class="card">
+                <h3>🔒 Isolation and Security</h3>
+                <p>Hyper-V runs each virtual machine in its own isolated space, which means you can run more than one virtual machine on the same hardware at the same time. A VM provides an environment that is isolated from the rest of a system, so whatever is running inside a VM won't interfere with anything else running on the host hardware.</p>
+            </div>
+
+            <div class="card">
+                <h3>🌐 Flexibility and Portability</h3>
+                <p>A hypervisor abstracts the host's hardware from the operating software environment. IT administrators can configure, deploy, and manage software applications without being constrained to a specific hardware setup.</p>
+            </div>
+
+            <div class="card">
+                <h3>🚀 Use Cases</h3>
+                <ul>
+                    <li>Server Consolidation: Companies use hypervisors to consolidate multiple computers that perform different functions into a single server</li>
+                    <li>Development and Testing: Reproduce different computing environments without having to buy or maintain all the hardware</li>
+                    <li>Virtual Desktop Infrastructure (VDI): Use a centralized desktop strategy with VDI to increase business agility and data security</li>
+                    <li>Private Cloud: Provide more flexible, on-demand IT services by moving to shared resources</li>
+                    <li>Desktop Virtualization: Employees use desktop virtualization software to emulate a version of their workstation computing environment on the server</li>
+                </ul>
+            </div>
+
+            <button class="interactive-btn" onclick="nextSection()">Explore Examples →</button>
+        </div>
+        <!-- Examples Section -->
+        <div id="examples" class="content-section">
+            <h2>💼 Popular Type 1 Hypervisors</h2>
+            
+            <div class="card">
+                <h3>🔵 VMware ESXi</h3>
+                <p>VMware ESXi stands out as a prominent and widely adopted Type I hypervisor, known for its robust virtualization capabilities and efficient resource management in enterprise environments. VMware led the market in developing innovative features such as memory overcommitment, vMotion, Storage vMotion, Fault Tolerance, and more.</p>
+                
+                <h4>Key Features:</h4>
+                <ul>
+                    <li>Comprehensive suite of features for managing virtualized environments</li>
+                    <li>vSphere management platform enables centralized control and monitoring of multiple ESXi hosts</li>
+                    <li>VM Mobility - enables moving virtual machines between physical servers, manually or automatically</li>
+                    <li>Available in both free and commercial editions</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🟦 Microsoft Hyper-V</h3>
+                <p>Hyper-V is Microsoft's hypervisor designed for use on Windows systems. Hyper-V is a built-in component of all modern versions of Windows. Hyper-V is a type-1 hypervisor. When you install Hyper-V, the setup converts the original OS into something like a VM and puts the hypervisor below.</p>
+                
+                <h4>Key Features:</h4>
+                <ul>
+                    <li>Built-in component of Windows Server environments</li>
+                    <li>Live migration, replication of virtual machines, dynamic memory</li>
+                    <li>Seamless integration with Microsoft Azure for hybrid cloud deployments</li>
+                    <li>Disaster recovery with Hyper-V Replica and backup capabilities</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🐧 KVM (Kernel-based Virtual Machine)</h3>
+                <p>KVM is built into Linux as an added functionality that makes it possible to convert the Linux kernel into a hypervisor. KVM was merged into the Linux kernel in 2007, so if you're using a modern version of Linux, you already have access to KVM.</p>
+                
+                <h4>Key Features:</h4>
+                <ul>
+                    <li>Open-source solution with all the features of Linux</li>
+                    <li>Live migration, scheduling and resource control, and higher prioritization</li>
+                    <li>Can be added to most Linux operating systems, including Ubuntu, SUSE and Red Hat Enterprise Linux</li>
+                    <li>Supports virtualization extensions that Intel and AMD built into their processor architectures</li>
+                </ul>
+            </div>
+
+            <div class="interactive-btn" onclick="showComparison()">📊 Compare Hypervisors</div>
+            <div id="comparisonTable" style="display: none; margin-top: 1rem;">
+                <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <thead>
+                        <tr style="background: var(--navy); color: white;">
+                            <th style="padding: 1rem; text-align: left;">Hypervisor</th>
+                            <th style="padding: 1rem; text-align: left;">License</th>
+                            <th style="padding: 1rem; text-align: left;">Best For</th>
+                            <th style="padding: 1rem; text-align: left;">Management</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 1rem; font-weight: 600;">VMware ESXi</td>
+                            <td style="padding: 1rem;">Free/Commercial</td>
+                            <td style="padding: 1rem;">Enterprise environments</td>
+                            <td style="padding: 1rem;">vSphere/vCenter</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 1rem; font-weight: 600;">Microsoft Hyper-V</td>
+                            <td style="padding: 1rem;">Included with Windows</td>
+                            <td style="padding: 1rem;">Windows-centric environments</td>
+                            <td style="padding: 1rem;">Hyper-V Manager/SCVMM</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; font-weight: 600;">KVM</td>
+                            <td style="padding: 1rem;">Open Source/Free</td>
+                            <td style="padding: 1rem;">Linux environments</td>
+                            <td style="padding: 1rem;">Various (libvirt, RHEV)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="interactive-btn" onclick="nextSection()">Prepare for Labs →</button>
+        </div>
+
+        <!-- Preparation Section -->
+        <div id="preparation" class="content-section">
+            <h2>🎯 Preparing for Type 1 Hypervisor Labs</h2>
+            
+            <div class="card">
+                <h3>📋 What to Expect in Lab</h3>
+                <p>Based on typical VMware ESXi installations and setups, you'll likely be working with:</p>
+                <ul>
+                    <li>Interactive installation of ESXi on physical or virtual hardware</li>
+                    <li>Configuring the management interface and networking</li>
+                    <li>Creating and managing virtual machines</li>
+                    <li>Working with datastores and storage</li>
+                    <li>Understanding licensing and basic security</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🔧 Key Concepts to Master</h3>
+                <div class="quiz-question">
+                    <p><strong>Virtual Machine Creation Process:</strong></p>
+                    <ol style="margin-left: 1rem; margin-top: 0.5rem;">
+                        <li>Upload ISO files to datastore</li>
+                        <li>Create new virtual machine</li>
+                        <li>Configure hardware settings</li>
+                        <li>Install operating system</li>
+                        <li>Install VMware Tools (if applicable)</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💡 Essential Terminology</h3>
+                <div class="glossary-term">
+                    <strong>Datastore:</strong> A logical storage container that holds virtual machine files, templates, and ISO images.
+                </div>
+                <div class="glossary-term">
+                    <strong>vSphere Client:</strong> The web-based management interface used to manage ESXi hosts and virtual machines.
+                </div>
+                <div class="glossary-term">
+                    <strong>VMkernel:</strong> The virtualization layer that provides core services like memory management, process scheduling, and I/O stack.
+                </div>
+                <div class="glossary-term">
+                    <strong>vMotion:</strong> Technology that allows live migration of running virtual machines from one ESXi host to another.
+                </div>
+                <div class="glossary-term">
+                    <strong>VMFS:</strong> Virtual Machine File System - VMware's clustered file system designed for storing virtual machine files.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🚀 Pre-Lab Checklist</h3>
+                <div id="checklistContainer">
+                    <div class="checklist-item" onclick="toggleChecklist(this)">
+                        <span class="checkbox">☐</span> Understand the difference between Type 1 and Type 2 hypervisors
+                    </div>
+                    <div class="checklist-item" onclick="toggleChecklist(this)">
+                        <span class="checkbox">☐</span> Know the basic architecture of virtualization
+                    </div>
+                    <div class="checklist-item" onclick="toggleChecklist(this)">
+                        <span class="checkbox">☐</span> Understand hardware requirements for virtualization
+                    </div>
+                    <div class="checklist-item" onclick="toggleChecklist(this)">
+                        <span class="checkbox">☐</span> Familiar with virtualization terminology
+                    </div>
+                    <div class="checklist-item" onclick="toggleChecklist(this)">
+                        <span class="checkbox">☐</span> Ready to work with management interfaces
+                    </div>
+                </div>
+            </div>
+
+            <button class="interactive-btn" onclick="nextSection()">Take Knowledge Check →</button>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz" class="content-section">
+            <h2>🧠 Knowledge Check</h2>
+            
+            <div class="knowledge-score">
+                <p>Score: <span id="score">0</span>/5</p>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Question 1:</strong> What is the main difference between Type 1 and Type 2 hypervisors?</p>
+                <div class="quiz-options">
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 1)">A) Type 1 is faster, Type 2 is slower</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, true, 1)">B) Type 1 runs directly on hardware, Type 2 runs on an operating system</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 1)">C) Type 1 is free, Type 2 costs money</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 1)">D) There is no significant difference</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Question 2:</strong> Which of the following is a Type 1 hypervisor?</p>
+                <div class="quiz-options">
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 2)">A) VMware Workstation</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, true, 2)">B) VMware ESXi</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 2)">C) Oracle VirtualBox</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 2)">D) Parallels Desktop</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Question 3:</strong> What is a primary benefit of using hypervisors?</p>
+                <div class="quiz-options">
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 3)">A) They make computers run faster</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, true, 3)">B) They allow multiple VMs to run on one physical machine</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 3)">C) They replace the need for operating systems</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 3)">D) They only work with specific hardware</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Question 4:</strong> What does VMM stand for?</p>
+                <div class="quiz-options">
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 4)">A) Virtual Memory Manager</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, true, 4)">B) Virtual Machine Monitor</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 4)">C) Virtual Management Module</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 4)">D) Virtual Media Manager</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Question 5:</strong> In your upcoming lab, what type of hypervisor will you most likely be working with?</p>
+                <div class="quiz-options">
+                    <button class="quiz-option" onclick="checkAnswer(this, true, 5)">A) Type 1 (Bare Metal)</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 5)">B) Type 2 (Hosted)</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 5)">C) Type 3 (Cloud-based)</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 5)">D) No hypervisor will be used</button>
+                </div>
+            </div>
+
+            <div class="knowledge-check" id="finalResults" style="display: none;">
+                <h3>🎉 Congratulations!</h3>
+                <p>You've completed the Hypervisor Learning Portal!</p>
+                <div class="knowledge-score">
+                    Final Score: <span id="finalScore">0</span>/5
+                </div>
+                <p id="resultMessage"></p>
+                <button class="interactive-btn" onclick="restartQuiz()">🔄 Retake Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentSection = 'introduction';
+        let currentSectionIndex = 0;
+        let quizScore = 0;
+        let answeredQuestions = new Set();
+        
+        const sections = ['introduction', 'types', 'benefits', 'examples', 'preparation', 'quiz'];
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgressBar();
+        });
+
+        // Section navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Activate corresponding tab
+            event.target.classList.add('active');
+            
+            // Update current section
+            currentSection = sectionName;
+            currentSectionIndex = sections.indexOf(sectionName);
+            updateProgressBar();
+        }
+
+        // Next section navigation
+        function nextSection() {
+            if (currentSectionIndex < sections.length - 1) {
+                currentSectionIndex++;
+                const nextSectionName = sections[currentSectionIndex];
+                
+                // Simulate clicking the tab
+                const nextTab = document.querySelector(`[onclick="showSection('${nextSectionName}')"]`);
+                if (nextTab) {
+                    showSection(nextSectionName);
+                    nextTab.classList.add('active');
+                    
+                    // Remove active from other tabs
+                    document.querySelectorAll('.nav-tab').forEach(tab => {
+                        if (tab !== nextTab) {
+                            tab.classList.remove('active');
+                        }
+                    });
+                }
+                updateProgressBar();
+            }
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progress = ((currentSectionIndex + 1) / sections.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Layer highlighting for diagram
+        function highlightLayer(layer) {
+            const descriptions = {
+                'vm': 'Virtual Machines: These are the software-based computers that run operating systems and applications. Each VM operates independently and believes it has dedicated hardware.',
+                'hypervisor': 'Hypervisor Layer: This is the virtualization software that manages and allocates physical resources to the virtual machines. It acts as the traffic controller for all VM requests.',
+                'hardware': 'Physical Hardware: The actual computer components - CPU, memory, storage, and network interfaces - that provide the computing power for all virtual machines.'
+            };
+            
+            document.getElementById('layerDescription').textContent = descriptions[layer];
+            
+            // Add bounce animation
+            event.target.classList.add('bounce');
+            setTimeout(() => {
+                event.target.classList.remove('bounce');
+            }, 600);
+        }
+
+        // Type comparison answer
+        function showAnswer(type) {
+            const answerDiv = document.getElementById('typeAnswer');
+            if (type === 'type1') {
+                answerDiv.innerHTML = '✅ Correct! You will be working with Type 1 (Bare Metal) hypervisors in your lab exercises. These provide direct access to hardware and are used in enterprise environments.';
+                answerDiv.style.color = 'var(--success-green)';
+            } else {
+                answerDiv.innerHTML = '❌ Not quite. While Type 2 hypervisors are great for personal use, your lab will focus on Type 1 hypervisors for enterprise-level virtualization.';
+                answerDiv.style.color = '#dc3545';
+            }
+        }
+
+        // Show comparison table
+        function showComparison() {
+            const table = document.getElementById('comparisonTable');
+            if (table.style.display === 'none') {
+                table.style.display = 'block';
+                event.target.textContent = '📊 Hide Comparison';
+            } else {
+                table.style.display = 'none';
+                event.target.textContent = '📊 Compare Hypervisors';
+            }
+        }
+
+        // Checklist functionality
+        function toggleChecklist(item) {
+            const checkbox = item.querySelector('.checkbox');
+            if (checkbox.textContent === '☐') {
+                checkbox.textContent = '✅';
+                item.style.color = 'var(--success-green)';
+                item.style.fontWeight = 'bold';
+            } else {
+                checkbox.textContent = '☐';
+                item.style.color = '';
+                item.style.fontWeight = '';
+            }
+        }
+
+        // Quiz functionality
+        function checkAnswer(button, isCorrect, questionNumber) {
+            // Prevent multiple answers for the same question
+            if (answeredQuestions.has(questionNumber)) {
+                return;
+            }
+            
+            answeredQuestions.add(questionNumber);
+            
+            // Disable all options for this question
+            const questionDiv = button.parentElement;
+            const allOptions = questionDiv.querySelectorAll('.quiz-option');
+            allOptions.forEach(option => {
+                option.disabled = true;
+                option.style.cursor = 'not-allowed';
+            });
+            
+            // Style the clicked button
+            if (isCorrect) {
+                button.classList.add('correct');
+                quizScore++;
+                button.textContent += ' ✓ Correct!';
+            } else {
+                button.classList.add('incorrect');
+                button.textContent += ' ✗ Incorrect';
+                
+                // Highlight the correct answer
+                allOptions.forEach(option => {
+                    if (option.onclick.toString().includes('true')) {
+                        option.classList.add('correct');
+                        option.textContent += ' ✓ Correct Answer';
+                    }
+                });
+            }
+            
+            // Update score display
+            document.getElementById('score').textContent = quizScore;
+            
+            // Check if all questions are answered
+            if (answeredQuestions.size === 5) {
+                setTimeout(showFinalResults, 1000);
+            }
+        }
+
+        // Show final quiz results
+        function showFinalResults() {
+            document.getElementById('finalResults').style.display = 'block';
+            document.getElementById('finalScore').textContent = quizScore;
+            
+            let message = '';
+            if (quizScore === 5) {
+                message = '🌟 Perfect! You have an excellent understanding of hypervisors and are well-prepared for your lab work!';
+            } else if (quizScore >= 4) {
+                message = '👍 Great job! You have a solid understanding of hypervisors. Review any missed concepts before your lab.';
+            } else if (quizScore >= 3) {
+                message = '📚 Good effort! Consider reviewing the material again to strengthen your understanding before the lab.';
+            } else {
+                message = '🔄 You might want to go through the material again. Understanding these concepts will help you succeed in your lab exercises.';
+            }
+            
+            document.getElementById('resultMessage').textContent = message;
+            
+            // Scroll to results
+            document.getElementById('finalResults').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Restart quiz
+        function restartQuiz() {
+            quizScore = 0;
+            answeredQuestions.clear();
+            
+            // Reset all quiz options
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+                option.disabled = false;
+                option.style.cursor = 'pointer';
+                
+                // Reset text content
+                const originalText = option.textContent.split(' ✓')[0].split(' ✗')[0];
+                option.textContent = originalText;
+            });
+            
+            // Reset displays
+            document.getElementById('score').textContent = '0';
+            document.getElementById('finalResults').style.display = 'none';
+            
+            // Scroll to top of quiz
+            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add styles for checklist items
+        const checklistStyle = document.createElement('style');
+        checklistStyle.textContent = `
+            .checklist-item {
+                padding: 0.8rem;
+                margin: 0.5rem 0;
+                background: var(--light-gray);
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                border-left: 4px solid var(--gold);
+            }
+            
+            .checklist-item:hover {
+                background: var(--light-gold);
+                transform: translateX(5px);
+            }
+            
+            .checkbox {
+                font-size: 1.2rem;
+                margin-right: 0.5rem;
+                color: var(--gold);
+            }
+        `;
+        document.head.appendChild(checklistStyle);
+    </script>
+</body>
+</html>
