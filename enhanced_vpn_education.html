@@ -77,6 +77,10 @@
             background: linear-gradient(45deg, #2980b9, #3498db);
         }
 
+        .nav-btn.active {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+        }
+
         /* Main Content */
         .content {
             background: rgba(255, 255, 255, 0.95);
@@ -211,6 +215,16 @@
             color: white;
         }
 
+        .quiz-option.correct {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .quiz-option.wrong {
+            background: #e74c3c;
+            color: white;
+        }
+
         /* Cards */
         .card-grid {
             display: grid;
@@ -234,6 +248,14 @@
         .card h3 {
             color: #2c3e50;
             margin-bottom: 15px;
+        }
+
+        .card ul {
+            padding-left: 20px;
+        }
+
+        .card li {
+            margin-bottom: 8px;
         }
 
         /* Progress Bar */
@@ -321,6 +343,26 @@
                 transition-duration: 0.01ms !important;
             }
         }
+
+        /* Input styles */
+        input[type="text"] {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            width: 100%;
+            max-width: 400px;
+            font-size: 1rem;
+        }
+
+        /* Results display */
+        .result-display {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            min-height: 50px;
+        }
     </style>
 </head>
 <body>
@@ -332,34 +374,13 @@
                 <div class="progress-bar" id="progressBar"></div>
             </div>
             <nav>
-                <button class="nav-btn" onclick="showSection('intro')" aria-describedby="intro-desc">
-                    Introduction
-                    <span class="sr-only" id="intro-desc">Learn what VPNs are and why they matter</span>
-                </button>
-                <button class="nav-btn" onclick="showSection('how-it-works')" aria-describedby="how-desc">
-                    How VPNs Work
-                    <span class="sr-only" id="how-desc">Technical overview of VPN functionality</span>
-                </button>
-                <button class="nav-btn" onclick="showSection('protocols')" aria-describedby="protocols-desc">
-                    Protocols
-                    <span class="sr-only" id="protocols-desc">Compare different VPN protocols</span>
-                </button>
-                <button class="nav-btn" onclick="showSection('pros-cons')" aria-describedby="pros-desc">
-                    Pros & Cons
-                    <span class="sr-only" id="pros-desc">Advantages and disadvantages of VPNs</span>
-                </button>
-                <button class="nav-btn" onclick="showSection('hardware')" aria-describedby="hardware-desc">
-                    Hardware
-                    <span class="sr-only" id="hardware-desc">VPN hardware and router options</span>
-                </button>
-                <button class="nav-btn" onclick="showSection('use-cases')" aria-describedby="use-cases-desc">
-                    Use Cases
-                    <span class="sr-only" id="use-cases-desc">When and why to use VPNs</span>
-                </button>
-                <button class="nav-btn" onclick="showSection('quiz')" aria-describedby="quiz-desc">
-                    Quiz
-                    <span class="sr-only" id="quiz-desc">Test your VPN knowledge</span>
-                </button>
+                <button class="nav-btn active" onclick="showSection('intro')" data-section="intro">Introduction</button>
+                <button class="nav-btn" onclick="showSection('how-it-works')" data-section="how-it-works">How VPNs Work</button>
+                <button class="nav-btn" onclick="showSection('protocols')" data-section="protocols">Protocols</button>
+                <button class="nav-btn" onclick="showSection('pros-cons')" data-section="pros-cons">Pros & Cons</button>
+                <button class="nav-btn" onclick="showSection('hardware')" data-section="hardware">Hardware</button>
+                <button class="nav-btn" onclick="showSection('use-cases')" data-section="use-cases">Use Cases</button>
+                <button class="nav-btn" onclick="showSection('quiz')" data-section="quiz">Quiz</button>
             </nav>
         </header>
 
@@ -375,7 +396,7 @@
                     <button class="demo-button" onclick="toggleVPNDemo()">
                         <span id="vpn-status">Turn ON VPN</span>
                     </button>
-                    <div id="connection-demo">
+                    <div id="connection-demo" class="result-display">
                         <p id="demo-text">Your connection: <span id="connection-type">Direct (Unsecured)</span></p>
                     </div>
                 </div>
@@ -413,9 +434,9 @@
                 <div class="interactive-demo">
                     <h3>Encryption Demonstration</h3>
                     <p>Type a message to see how encryption works:</p>
-                    <input type="text" id="message-input" placeholder="Enter your message..." style="padding: 10px; margin: 10px; border-radius: 5px; border: 1px solid #ddd; width: 100%; max-width: 400px;">
+                    <input type="text" id="message-input" placeholder="Enter your message...">
                     <button class="demo-button" onclick="encryptMessage()">Encrypt Message</button>
-                    <div id="encryption-result" style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.3); border-radius: 10px;"></div>
+                    <div id="encryption-result" class="result-display"></div>
                 </div>
 
                 <h3>Key Components</h3>
@@ -532,7 +553,7 @@
                     <h3>Speed Test Simulator</h3>
                     <p>See how VPNs might affect your connection speed:</p>
                     <button class="demo-button" onclick="runSpeedTest()">Run Speed Test</button>
-                    <div id="speed-test-results" style="margin-top: 15px;"></div>
+                    <div id="speed-test-results" class="result-display"></div>
                 </div>
             </section>
 
@@ -594,15 +615,6 @@
                         </tr>
                     </tbody>
                 </table>
-
-                <h3>Setting Up a VPN Router</h3>
-                <ol>
-                    <li><strong>Choose Compatible Router:</strong> Ensure it supports your preferred VPN protocol</li>
-                    <li><strong>Flash Custom Firmware:</strong> Install DD-WRT, OpenWrt, or Merlin if needed</li>
-                    <li><strong>Configure VPN Settings:</strong> Enter server details and credentials</li>
-                    <li><strong>Test Connection:</strong> Verify all devices are protected</li>
-                    <li><strong>Monitor Performance:</strong> Check speeds and adjust settings as needed</li>
-                </ol>
             </section>
 
             <!-- Use Cases Section -->
@@ -631,29 +643,6 @@
                         <p>Secure your connection when studying at coffee shops or other public spaces with free Wi-Fi.</p>
                         <p><strong>Protection:</strong> Prevents eavesdropping on video calls, online banking, or sensitive communications.</p>
                     </div>
-                    <div class="card">
-                        <h3>🏠 Home Network Privacy</h3>
-                        <p>Protect your browsing privacy from ISPs and maintain anonymity while researching sensitive topics.</p>
-                        <p><strong>Academic freedom:</strong> Research controversial topics without concern for monitoring.</p>
-                    </div>
-                    <div class="card">
-                        <h3>💼 Internship Remote Work</h3>
-                        <p>Securely access company resources during remote internships or part-time work.</p>
-                        <p><strong>Professional requirement:</strong> Many companies require VPN access for remote employees.</p>
-                    </div>
-                </div>
-
-                <h3>VPN Etiquette and Best Practices</h3>
-                <div class="card">
-                    <h3>🎯 Smart VPN Usage</h3>
-                    <ul>
-                        <li><strong>Respect Terms of Service:</strong> Don't use VPNs to violate platform rules</li>
-                        <li><strong>Choose Reputable Providers:</strong> Research no-logs policies and security audits</li>
-                        <li><strong>Consider Local Laws:</strong> Understand VPN regulations in your area</li>
-                        <li><strong>Don't Rely Solely on VPNs:</strong> Use alongside other security measures</li>
-                        <li><strong>Monitor Performance:</strong> Switch servers if speeds are too slow</li>
-                        <li><strong>Keep Software Updated:</strong> Regularly update VPN apps for security patches</li>
-                    </ul>
                 </div>
             </section>
 
@@ -673,7 +662,7 @@
                         <div class="quiz-option" onclick="selectAnswer(this, false)">To increase your device's battery life</div>
                     </div>
                     <button class="demo-button" onclick="nextQuestion()" id="next-btn" style="display: none;">Next Question</button>
-                    <div id="quiz-result" style="margin-top: 20px;"></div>
+                    <div id="quiz-result" class="result-display"></div>
                 </div>
 
                 <div class="card">
@@ -687,25 +676,431 @@
     </div>
 
     <script>
-        // Global variables
-        let currentSection = 'intro';
-        let vpnDemoActive = false;
-        let quizQuestions = [
-            {
-                question: "What is the primary purpose of VPN encryption?",
-                options: ["To make your internet faster", "To protect your data from being intercepted", "To reduce your internet bill", "To increase your device's battery life"],
-                correct: 1
-            },
-            {
-                question: "Which VPN protocol is considered the most modern and efficient?",
-                options: ["OpenVPN", "WireGuard", "PPTP", "L2TP"],
-                correct: 1
-            },
-            {
-                question: "What does a VPN hide from your ISP?",
-                options: ["Your device type", "Your internet speed", "Your browsing activity", "Your location"],
-                correct: 2
-            },
-            {
-                question: "Which scenario is NOT a good use case for VPNs?",
-                options: ["
+       // Global variables
+let currentSection = 'intro';
+let vpnDemoActive = false;
+let currentQuestionIndex = 0;
+let correctAnswers = 0;
+let totalQuestions = 0;
+
+const quizQuestions = [
+    {
+        question: "What is the primary purpose of VPN encryption?",
+        options: ["To make your internet faster", "To protect your data from being intercepted", "To reduce your internet bill", "To increase your device's battery life"],
+        correct: 1
+    },
+    {
+        question: "Which VPN protocol is considered the most modern and efficient?",
+        options: ["OpenVPN", "WireGuard", "PPTP", "L2TP"],
+        correct: 1
+    },
+    {
+        question: "What does a VPN hide from your ISP?",
+        options: ["Your device type", "Your internet speed", "Your browsing activity", "Your location"],
+        correct: 2
+    },
+    {
+        question: "Which scenario is NOT a good use case for VPNs?",
+        options: ["Using public Wi-Fi", "Accessing geo-blocked content", "Making internet faster", "Protecting privacy"],
+        correct: 2
+    },
+    {
+        question: "What happens to your data when using a VPN?",
+        options: ["It's compressed", "It's encrypted", "It's deleted", "It's cached"],
+        correct: 1
+    }
+];
+
+// Navigation function
+function showSection(sectionId) {
+    // Hide all sections
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => section.classList.remove('active'));
+    
+    // Show selected section
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+    }
+    
+    // Update navigation buttons
+    const navButtons = document.querySelectorAll('.nav-btn');
+    navButtons.forEach(btn => btn.classList.remove('active'));
+    
+    // Find and activate the correct nav button
+    navButtons.forEach(btn => {
+        if (btn.getAttribute('data-section') === sectionId || 
+            btn.getAttribute('onclick')?.includes(sectionId)) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // Update progress bar
+    updateProgressBar(sectionId);
+    
+    currentSection = sectionId;
+    
+    // Reset quiz if navigating to quiz section
+    if (sectionId === 'quiz') {
+        resetQuiz();
+    }
+}
+
+// Update progress bar
+function updateProgressBar(sectionId) {
+    const sections = ['intro', 'how-it-works', 'protocols', 'pros-cons', 'hardware', 'use-cases', 'quiz'];
+    const currentIndex = sections.indexOf(sectionId);
+    const progress = ((currentIndex + 1) / sections.length) * 100;
+    
+    const progressBar = document.getElementById('progressBar');
+    if (progressBar) {
+        progressBar.style.width = progress + '%';
+    }
+}
+
+// VPN Demo Toggle
+function toggleVPNDemo() {
+    const statusElement = document.getElementById('vpn-status');
+    const connectionType = document.getElementById('connection-type');
+    
+    if (!statusElement || !connectionType) return;
+    
+    vpnDemoActive = !vpnDemoActive;
+    
+    if (vpnDemoActive) {
+        statusElement.textContent = 'Turn OFF VPN';
+        connectionType.textContent = 'VPN Protected (Encrypted)';
+        connectionType.style.color = '#2ecc71';
+        connectionType.style.fontWeight = 'bold';
+        
+        // Add visual feedback
+        const demoContainer = document.getElementById('connection-demo');
+        if (demoContainer) {
+            demoContainer.style.background = 'rgba(46, 204, 113, 0.2)';
+            demoContainer.style.border = '2px solid #2ecc71';
+        }
+    } else {
+        statusElement.textContent = 'Turn ON VPN';
+        connectionType.textContent = 'Direct (Unsecured)';
+        connectionType.style.color = '#e74c3c';
+        connectionType.style.fontWeight = 'bold';
+        
+        // Add visual feedback
+        const demoContainer = document.getElementById('connection-demo');
+        if (demoContainer) {
+            demoContainer.style.background = 'rgba(231, 76, 60, 0.2)';
+            demoContainer.style.border = '2px solid #e74c3c';
+        }
+    }
+}
+
+// Encryption Demo
+function encryptMessage() {
+    const input = document.getElementById('message-input');
+    const result = document.getElementById('encryption-result');
+    
+    if (!input || !result) return;
+    
+    const message = input.value.trim();
+    
+    if (!message) {
+        result.innerHTML = '<p style="color: #e74c3c;">Please enter a message to encrypt!</p>';
+        return;
+    }
+    
+    // Simple "encryption" demo (just for educational purposes)
+    const encrypted = btoa(message).split('').reverse().join('');
+    
+    result.innerHTML = `
+        <p><strong>Original Message:</strong> ${message}</p>
+        <p><strong>"Encrypted" Message:</strong> <code style="background: #f1f2f6; padding: 2px 4px; border-radius: 3px;">${encrypted}</code></p>
+        <p style="color: #2ecc71; font-size: 0.9rem; margin-top: 10px;">✅ This is a simplified demonstration. Real VPN encryption uses advanced algorithms like AES-256!</p>
+    `;
+    
+    // Clear input after encryption
+    input.value = '';
+}
+
+// Speed Test Simulator
+function runSpeedTest() {
+    const resultsElement = document.getElementById('speed-test-results');
+    if (!resultsElement) return;
+    
+    resultsElement.innerHTML = '<p>🔄 Running speed test...</p>';
+    
+    // Simulate speed test with random but realistic values
+    setTimeout(() => {
+        const baseSpeed = Math.random() * 50 + 30; // 30-80 Mbps base speed
+        const vpnSpeed = baseSpeed * (0.7 + Math.random() * 0.2); // 70-90% of base speed
+        const ping = Math.random() * 20 + 10; // 10-30ms ping
+        const vpnPing = ping + Math.random() * 15 + 5; // Add 5-20ms for VPN
+        
+        resultsElement.innerHTML = `
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: left;">
+                <div>
+                    <h4 style="color: #e74c3c; margin-bottom: 8px;">🔓 Without VPN</h4>
+                    <p>Download: <strong>${baseSpeed.toFixed(1)} Mbps</strong></p>
+                    <p>Ping: <strong>${ping.toFixed(0)} ms</strong></p>
+                </div>
+                <div>
+                    <h4 style="color: #f39c12; margin-bottom: 8px;">🔒 With VPN</h4>
+                    <p>Download: <strong>${vpnSpeed.toFixed(1)} Mbps</strong></p>
+                    <p>Ping: <strong>${vpnPing.toFixed(0)} ms</strong></p>
+                </div>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.9rem; color: #7f8c8d;">
+                💡 VPNs typically reduce speed by 10-30% due to encryption overhead, but provide essential security benefits.
+            </p>
+        `;
+    }, 2000);
+}
+
+// Quiz Functions
+function resetQuiz() {
+    currentQuestionIndex = 0;
+    correctAnswers = 0;
+    totalQuestions = 0;
+    loadQuestion();
+    updateQuizStats();
+}
+
+function loadQuestion() {
+    const questionElement = document.getElementById('quiz-question');
+    const optionsElement = document.getElementById('quiz-options');
+    const nextBtn = document.getElementById('next-btn');
+    const resultElement = document.getElementById('quiz-result');
+    
+    if (!questionElement || !optionsElement) return;
+    
+    if (currentQuestionIndex >= quizQuestions.length) {
+        showQuizResults();
+        return;
+    }
+    
+    const question = quizQuestions[currentQuestionIndex];
+    questionElement.textContent = question.question;
+    
+    optionsElement.innerHTML = '';
+    question.options.forEach((option, index) => {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'quiz-option';
+        optionDiv.textContent = option;
+        optionDiv.onclick = () => selectAnswer(optionDiv, index === question.correct);
+        optionsElement.appendChild(optionDiv);
+    });
+    
+    if (nextBtn) nextBtn.style.display = 'none';
+    if (resultElement) resultElement.innerHTML = '';
+}
+
+function selectAnswer(element, isCorrect) {
+    // Remove previous selections
+    const options = document.querySelectorAll('.quiz-option');
+    options.forEach(option => {
+        option.classList.remove('selected', 'correct', 'wrong');
+        option.onclick = null; // Disable further clicks
+    });
+    
+    const question = quizQuestions[currentQuestionIndex];
+    
+    // Show correct/incorrect feedback
+    options.forEach((option, index) => {
+        if (index === question.correct) {
+            option.classList.add('correct');
+        } else if (option === element && !isCorrect) {
+            option.classList.add('wrong');
+        }
+    });
+    
+    totalQuestions++;
+    if (isCorrect) {
+        correctAnswers++;
+    }
+    
+    // Show result message
+    const resultElement = document.getElementById('quiz-result');
+    if (resultElement) {
+        resultElement.innerHTML = isCorrect 
+            ? '<p style="color: #2ecc71; font-weight: bold;">✅ Correct!</p>'
+            : '<p style="color: #e74c3c; font-weight: bold;">❌ Incorrect. The correct answer is highlighted above.</p>';
+    }
+    
+    // Show next button
+    const nextBtn = document.getElementById('next-btn');
+    if (nextBtn) {
+        nextBtn.style.display = 'block';
+    }
+    
+    updateQuizStats();
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    loadQuestion();
+}
+
+function showQuizResults() {
+    const questionElement = document.getElementById('quiz-question');
+    const optionsElement = document.getElementById('quiz-options');
+    const nextBtn = document.getElementById('next-btn');
+    const resultElement = document.getElementById('quiz-result');
+    
+    if (!questionElement || !optionsElement || !resultElement) return;
+    
+    const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+    let message = '';
+    let color = '';
+    
+    if (percentage >= 80) {
+        message = '🎉 Excellent! You have a great understanding of VPNs!';
+        color = '#2ecc71';
+    } else if (percentage >= 60) {
+        message = '👍 Good job! You understand the basics. Review the content for even better knowledge.';
+        color = '#f39c12';
+    } else {
+        message = '📚 Keep learning! Review the sections above to improve your VPN knowledge.';
+        color = '#e74c3c';
+    }
+    
+    questionElement.textContent = 'Quiz Complete!';
+    optionsElement.innerHTML = '';
+    
+    resultElement.innerHTML = `
+        <div style="text-align: center; padding: 20px;">
+            <h3 style="color: ${color}; margin-bottom: 15px;">${message}</h3>
+            <p style="font-size: 1.2rem; margin-bottom: 15px;">
+                Your Score: <strong>${correctAnswers}/${totalQuestions} (${percentage}%)</strong>
+            </p>
+            <button class="demo-button" onclick="resetQuiz()" style="background: #3498db; color: white; border: 2px solid #3498db;">
+                Take Quiz Again
+            </button>
+        </div>
+    `;
+    
+    if (nextBtn) nextBtn.style.display = 'none';
+}
+
+function updateQuizStats() {
+    const answeredCount = document.getElementById('answered-count');
+    const correctCount = document.getElementById('correct-count');
+    const scorePercentage = document.getElementById('score-percentage');
+    
+    if (answeredCount) answeredCount.textContent = totalQuestions;
+    if (correctCount) correctCount.textContent = correctAnswers;
+    if (scorePercentage) {
+        const percentage = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+        scorePercentage.textContent = percentage + '%';
+    }
+}
+
+// Keyboard navigation support
+document.addEventListener('keydown', function(event) {
+    // Allow navigation with arrow keys
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        const sections = ['intro', 'how-it-works', 'protocols', 'pros-cons', 'hardware', 'use-cases', 'quiz'];
+        const currentIndex = sections.indexOf(currentSection);
+        
+        if (event.key === 'ArrowLeft' && currentIndex > 0) {
+            showSection(sections[currentIndex - 1]);
+        } else if (event.key === 'ArrowRight' && currentIndex < sections.length - 1) {
+            showSection(sections[currentIndex + 1]);
+        }
+    }
+    
+    // Enter key to activate focused buttons
+    if (event.key === 'Enter' && document.activeElement.classList.contains('demo-button')) {
+        document.activeElement.click();
+    }
+});
+
+// Initialize page when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Set initial progress bar
+    updateProgressBar('intro');
+    
+    // Add event listeners for input field
+    const messageInput = document.getElementById('message-input');
+    if (messageInput) {
+        messageInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                encryptMessage();
+            }
+        });
+    }
+    
+    // Initialize quiz
+    if (document.getElementById('quiz-question')) {
+        loadQuestion();
+    }
+    
+    // Add smooth scrolling for better UX
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Smooth scroll to top of content after section change
+            setTimeout(() => {
+                document.querySelector('.content').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 100);
+        });
+    });
+    
+    console.log('🔒 VPN Educational Page loaded successfully!');
+    console.log('📚 Navigate through sections to learn about VPNs');
+});
+
+// Add some Easter eggs for engaged students
+let clickCount = 0;
+document.addEventListener('click', function() {
+    clickCount++;
+    if (clickCount === 50) {
+        console.log('🎉 Wow! You\'re really engaged with learning about VPNs!');
+        console.log('💡 Pro tip: The best VPN is one you actually use consistently!');
+    }
+});
+
+// Accessibility enhancements
+function announceToScreenReader(message) {
+    const announcement = document.createElement('div');
+    announcement.setAttribute('aria-live', 'polite');
+    announcement.setAttribute('aria-atomic', 'true');
+    announcement.className = 'sr-only';
+    announcement.textContent = message;
+    document.body.appendChild(announcement);
+    
+    setTimeout(() => {
+        document.body.removeChild(announcement);
+    }, 1000);
+}
+
+// Override some functions to add screen reader announcements
+const originalShowSection = showSection;
+showSection = function(sectionId) {
+    originalShowSection(sectionId);
+    const sectionTitles = {
+        'intro': 'Introduction section',
+        'how-it-works': 'How VPNs Work section',
+        'protocols': 'VPN Protocols section',
+        'pros-cons': 'Pros and Cons section',
+        'hardware': 'Hardware section',
+        'use-cases': 'Use Cases section',
+        'quiz': 'Quiz section'
+    };
+    announceToScreenReader(`Navigated to ${sectionTitles[sectionId]}`);
+};
+
+// Add focus management for better keyboard navigation
+function manageFocus() {
+    const sections = document.querySelectorAll('.section.active');
+    if (sections.length > 0) {
+        const firstHeading = sections[0].querySelector('h2');
+        if (firstHeading) {
+            firstHeading.setAttribute('tabindex', '-1');
+            firstHeading.focus();
+        }
+    }
+}
+</script>
+</body>
+</html>
