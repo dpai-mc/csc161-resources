@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Virtual Private Networks (VPNs) - Interactive Guide</title>
+    <meta name="description" content="Comprehensive interactive guide to understanding VPN technology, protocols, and security features">
+    
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Custom Properties */
+        :root {
+            --navy: #00275D;
+            --gold: #FDC636;
+            --navy-light: #1a4480;
+            --navy-dark: #001a42;
+            --gold-light: #ffdb5c;
+            --gold-dark: #e6b32e;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --green-500: #10b981;
+            --green-600: #059669;
+            --red-500: #ef4444;
+            --red-600: #dc2626;
+            --blue-500: #3b82f6;
+            --blue-600: #2563eb;
+            --purple-500: #8b5cf6;
+            --purple-600: #7c3aed;
+            
+            /* Typography */
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+            
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            
+            /* Border radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            
+            /* Transitions */
+            --transition-fast: 0.15s ease-out;
+            --transition-normal: 0.3s ease-out;
+            --transition-slow: 0.5s ease-out;
+        }
+        
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--gray-800);
+            background-color: var(--gray-50);
+            font-size: 16px;
+        }
+        
+        /* Skip to content link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--navy);
+            color: var(--white);
+            padding: 8px;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            z-index: 1000;
+            transition: top var(--transition-fast);
+        }
+        
+        .skip-link:focus {
+            top: 6px;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.2;
+            color: var(--navy);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; }
+        h3 { font-size: 1.75rem; }
+        h4 { font-size: 1.5rem; }
+        h5 { font-size: 1.25rem; }
+        h6 { font-size: 1.125rem; }
+        
+        p {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            color: var(--white);
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .header h1 {
+            color: var(--white);
+            margin-bottom: var(--spacing-sm);
+            font-size: clamp(2rem, 4vw, 3rem);
+        }
+        
+        .header p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+        
+        /* Navigation */
+        .nav {
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            padding: var(--spacing-md) 0;
+        }
+        
+        .nav-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            list-style: none;
+            justify-content: center;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: var(--spacing-sm) var(--spacing-md);
+            text-decoration: none;
+            color: var(--gray-700);
+            font-weight: 500;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            border: 2px solid transparent;
+        }
+        
+        .nav-link:hover,
+        .nav-link:focus {
+            background-color: var(--gold-light);
+            color: var(--navy);
+            transform: translateY(-2px);
+        }
+        
+        .nav-link:focus {
+            outline: 2px solid var(--navy);
+            outline-offset: 2px;
+        }
+        
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            z-index: 1000;
+            transition: width var(--transition-fast);
+        }
+        
+        /* Interactive demo */
+        .demo-container {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .demo-title {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            color: var(--navy);
+        }
+        
+        .demo-controls {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+            flex-wrap: wrap;
+        }
+        
+        .demo-btn {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border: 2px solid var(--navy);
+            background: var(--white);
+            color: var(--navy);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+            font-size: 1rem;
+        }
+        
+        .demo-btn:hover,
+        .demo-btn:focus {
+            background: var(--navy);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .demo-btn:focus {
+            outline: 2px solid var(--gold);
+            outline-offset: 2px;
+        }
+        
+        .demo-btn.active {
+            background: var(--gold);
+            color: var(--navy);
+            border-color: var(--gold);
+        }
+        
+        /* VPN Animation */
+        .vpn-demo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            margin: var(--spacing-xl) 0;
+            position: relative;
+        }
+        
+        .device, .vpn-server, .website {
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            min-width: 120px;
+            position: relative;
+            transition: all var(--transition-normal);
+        }
+        
+        .device {
+            background: var(--gray-100);
+            border: 2px solid var(--gray-300);
+        }
+        
+        .vpn-server {
+            background: var(--navy);
+            color: var(--white);
+            border: 2px solid var(--navy);
+        }
+        
+        .website {
+            background: var(--green-500);
+            color: var(--white);
+            border: 2px solid var(--green-600);
+        }
+        
+        .connection-line {
+            height: 4px;
+            background: var(--gray-300);
+            margin: 0 var(--spacing-md);
+            border-radius: var(--radius-sm);
+            position: relative;
+            overflow: hidden;
+            flex: 1;
+            max-width: 200px;
+        }
+        
+        .connection-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            transition: left var(--transition-slow);
+        }
+        
+        .connection-line.active::before {
+            left: 0;
+        }
+        
+        .connection-line.encrypted {
+            background: var(--navy);
+        }
+        
+        .connection-line.encrypted::before {
+            background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+        }
+        
+        .ip-address {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            margin-top: var(--spacing-sm);
+        }
+        
+        .vpn-server .ip-address {
+            color: var(--gold-light);
+        }
+        
+        .website .ip-address {
+            color: var(--white);
+        }
+        
+        /* Accordion sections */
+        .accordion-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+            transition: all var(--transition-normal);
+        }
+        
+        .accordion-section:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .accordion-header {
+            padding: var(--spacing-lg);
+            background: var(--gray-50);
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--navy);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all var(--transition-fast);
+        }
+        
+        .accordion-header:hover {
+            background: var(--gold-light);
+        }
+        
+        .accordion-header:focus {
+            outline: 2px solid var(--navy);
+            outline-offset: 2px;
+        }
+        
+        .accordion-icon {
+            width: 24px;
+            height: 24px;
+            transition: transform var(--transition-normal);
+        }
+        
+        .accordion-header[aria-expanded="true"] .accordion-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-normal);
+        }
+        
+        .accordion-content.expanded {
+            max-height: none;
+        }
+        
+        .accordion-body {
+            padding: var(--spacing-xl);
+            line-height: 1.7;
+        }
+        
+        /* Lists */
+        ul, ol {
+            padding-left: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        li {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        /* Code blocks */
+        .code-block {
+            background: var(--gray-900);
+            color: var(--gray-100);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            overflow-x: auto;
+            margin: var(--spacing-md) 0;
+            border: 1px solid var(--gray-700);
+        }
+        
+        /* Highlight boxes */
+        .highlight-box {
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            margin: var(--spacing-md) 0;
+            border-left: 4px solid;
+        }
+        
+        .highlight-box.info {
+            background: #eff6ff;
+            border-color: var(--blue-500);
+            color: var(--blue-600);
+        }
+        
+        .highlight-box.warning {
+            background: #fef3c7;
+            border-color: var(--gold);
+            color: var(--gold-dark);
+        }
+        
+        .highlight-box.success {
+            background: #d1fae5;
+            border-color: var(--green-500);
+            color: var(--green-600);
+        }
+        
+        .highlight-box.danger {
+            background: #fef2f2;
+            border-color: var(--red-500);
+            color: var(--red-600);
+        }
+        
+        /* Pros and cons grid */
+        .pros-cons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+        }
+        
+        .pros-card, .cons-card {
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .pros-card {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border: 1px solid var(--green-500);
+        }
+        
+        .cons-card {
+            background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+            border: 1px solid var(--red-500);
+        }
+        
+        .pros-card h4 {
+            color: var(--green-600);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .cons-card h4 {
+            color: var(--red-600);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        /* Quiz section */
+        .quiz-section {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-2xl) 0;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .quiz-question {
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .quiz-option {
+            padding: var(--spacing-md);
+            border: 2px solid var(--gray-300);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            background: var(--white);
+        }
+        
+        .quiz-option:hover {
+            border-color: var(--gold);
+            background: var(--gold-light);
+        }
+        
+        .quiz-option.selected {
+            border-color: var(--navy);
+            background: var(--navy);
+            color: var(--white);
+        }
+        
+        .quiz-option.correct {
+            border-color: var(--green-500);
+            background: var(--green-500);
+            color: var(--white);
+        }
+        
+        .quiz-option.incorrect {
+            border-color: var(--red-500);
+            background: var(--red-500);
+            color: var(--white);
+        }
+        
+        .quiz-feedback {
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-weight: 500;
+        }
+        
+        .quiz-feedback.correct {
+            background: var(--green-500);
+            color: var(--white);
+        }
+        
+        .quiz-feedback.incorrect {
+            background: var(--red-500);
+            color: var(--white);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--navy);
+            color: var(--white);
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+            margin-top: var(--spacing-2xl);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--spacing-sm);
+            }
+            
+            .header {
+                padding: var(--spacing-lg) 0;
+            }
+            
+            .nav-list {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .vpn-demo {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            
+            .connection-line {
+                width: 4px;
+                height: 50px;
+                margin: var(--spacing-md) 0;
+            }
+            
+            .connection-line::before {
+                top: -100%;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+            
+            .connection-line.active::before {
+                top: 0;
+            }
+            
+            .demo-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .accordion-header {
+                font-size: 1.25rem;
+            }
+            
+            .pros-cons-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --navy: #000000;
+                --gold: #ffff00;
+                --gray-100: #ffffff;
+                --gray-200: #e0e0e0;
+                --gray-300: #c0c0c0;
+            }
+        }
+        
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            html {
+                scroll-behavior: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <div class="progress-bar" id="progress-bar"></div>
+    
+    <header class="header">
+        <div class="container">
+            <h1>Understanding Virtual Private Networks</h1>
+            <p>A comprehensive guide to VPN technology, security, and applications</p>
+        </div>
+    </header>
+    
+    <nav class="nav" role="navigation" aria-label="Main navigation">
+        <div class="container">
+            <div class="nav-container">
+                <ul class="nav-list">
+                    <li><a href="#demo" class="nav-link">Interactive Demo</a></li>
+                    <li><a href="#what-is-vpn" class="nav-link">What is VPN?</a></li>
+                    <li><a href="#how-vpns-work" class="nav-link">How VPNs Work</a></li>
+                    <li><a href="#protocols" class="nav-link">VPN Protocols</a></li>
+                    <li><a href="#benefits-drawbacks" class="nav-link">Pros & Cons</a></li>
+                    <li><a href="#security" class="nav-link">Security Features</a></li>
+                    <li><a href="#quiz" class="nav-link">Knowledge Check</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <main id="main-content" class="container">
+        <!-- Interactive Demo Section -->
+        <section id="demo" class="demo-container fade-in">
+            <h2 class="demo-title">Interactive VPN Demo</h2>
+            <div class="demo-controls">
+                <button class="demo-btn active" data-mode="direct">Direct Connection</button>
+                <button class="demo-btn" data-mode="vpn">VPN Connection</button>
+                <button class="demo-btn" data-mode="encrypted">Show Encryption</button>
+            </div>
+            
+            <div class="vpn-demo">
+                <div class="device">
+                    <div><strong>Your Device</strong></div>
+                    <div class="ip-address" id="device-ip">192.168.1.100</div>
+                </div>
+                
+                <div class="connection-line" id="connection1"></div>
+                
+                <div class="vpn-server" id="vpn-server" style="display: none;">
+                    <div><strong>VPN Server</strong></div>
+                    <div class="ip-address">203.0.113.50</div>
+                </div>
+                
+                <div class="connection-line" id="connection2" style="display: none;"></div>
+                
+                <div class="website">
+                    <div><strong>Website</strong></div>
+                    <div class="ip-address">198.51.100.1</div>
+                </div>
+            </div>
+            
+            <div class="highlight-box info" id="demo-explanation">
+                <strong>Direct Connection:</strong> Your device connects directly to websites using your real IP address. Your ISP and others can see your browsing activity.
+            </div>
+        </section>
+        
+        <!-- What is VPN Section -->
+        <section id="what-is-vpn" class="accordion-section fade-in">
+            <button class="accordion-header" aria-expanded="false" aria-controls="what-is-vpn-content">
+                <span>What is a VPN?</span>
+                <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div id="what-is-vpn-content" class="accordion-content" role="region" aria-labelledby="what-is-vpn">
+                <div class="accordion-body">
+                    <p>A <strong>Virtual Private Network (VPN)</strong> is a technology that creates a secure, encrypted connection between your device and a remote server over the internet. Think of it as a secure tunnel that protects your data as it travels across the public internet.</p>
+                    
+                    <h4>Key Components:</h4>
+                    <ul>
+                        <li><strong>VPN Client:</strong> Software on your device that initiates the connection</li>
+                        <li><strong>VPN Server:</strong> A remote server that receives your encrypted data</li>
+                        <li><strong>Encryption Tunnel:</strong> The secure pathway that protects your data</li>
+                        <li><strong>VPN Protocol:</strong> The rules that govern how data is transmitted</li>
+                    </ul>
+                    
+                    <div class="highlight-box info">
+                        <strong>Analogy:</strong> Imagine the internet as a busy highway where everyone can see your car (data). A VPN is like driving through a private, tinted tunnel where no one can see what's inside your car or where you're going.
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- How VPNs Work Section -->
+        <section id="how-vpns-work" class="accordion-section fade-in">
+            <button class="accordion-header" aria-expanded="false" aria-controls="how-vpns-work-content">
+                <span>How Do VPNs Work?</span>
+                <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div id="how-vpns-work-content" class="accordion-content" role="region" aria-labelledby="how-vpns-work">
+                <div class="accordion-body">
+                    <p>VPNs work through a multi-step process involving authentication, encryption, and tunneling:</p>
+                    
+                    <h4>Step 1: Authentication & Handshake</h4>
+                    <p>Your device connects to the VPN server and both parties authenticate each other using certificates and pre-shared keys. This ensures you're connecting to the legitimate VPN server.</p>
+                    
+                    <h4>Step 2: Key Exchange</h4>
+                    <p>The client and server establish encryption keys using protocols like Diffie-Hellman key exchange. These keys will be used to encrypt and decrypt data during the session.</p>
+                    
+                    <div class="code-block">
+Client → VPN Server: "Hello, I want to connect securely"
+VPN Server → Client: "Here's my certificate and encryption parameters"
+Client ↔ VPN Server: Exchange and verify encryption keys
+Connection established: Secure tunnel ready for data transmission
+                    </div>
+                    
+                    <h4>Step 3: Data Encapsulation & Encryption</h4>
+                    <p>Your data is encrypted and wrapped (encapsulated) in additional headers before being sent through the tunnel. The VPN server decrypts the data and forwards it to its destination.</p>
+                    
+                    <h4>Step 4: IP Masking & Routing</h4>
+                    <p>The destination server sees the request as coming from the VPN server's IP address, not your real IP. This masks your identity and location.</p>
+                    
+                    <div class="highlight-box success">
+                        <strong>Result:</strong> Your internet traffic appears to originate from the VPN server's location, and all data is encrypted during transmission.
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- VPN Protocols Section -->
+        <section id="protocols" class="accordion-section fade-in">
+            <button class="accordion-header" aria-expanded="false" aria-controls="protocols-content">
+                <span>VPN Protocols & Technologies</span>
+                <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
