@@ -464,7 +464,7 @@
 
         .comparison-table th {
             background: var(--navy);
-            color: white;
+            color: var(--light-gold);
             padding: 1rem;
             text-align: left;
             font-weight: 600;
@@ -477,12 +477,20 @@
         }
 
         .comparison-table tr:nth-child(even) {
-            background: var(--light-gray);
+            background: var(--white);
         }
 
         .comparison-table tr:hover {
             background: var(--light-gold);
+            color: var(--navy);
         }
+
+        .comparison-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    font-weight: 500;
+    color: var(--navy);  /* Ensure all table cell text is navy for good contrast */
+}
 
         /* Responsive Design */
         @media (max-width: 768px) {
