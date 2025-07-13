@@ -228,7 +228,7 @@
         /* Interactive Elements */
         .quiz-question {
             background: linear-gradient(135deg, var(--light-navy) 0%, var(--navy) 100%);
-            color: var(--light-gold;
+            color: var(--light-gold);
             padding: 1.5rem;
             border-radius: 12px;
             margin: 1.5rem 0;
@@ -1018,17 +1018,31 @@
                 <p>You'll be working with Proxmox Virtual Environment, an enterprise-grade virtualization platform that provides hands-on experience with real-world virtualization concepts.</p>
                 
                 <h4>Lab Activities You'll Perform:</h4>
-                <ul>
-                    <li><strong>Proxmox Installation:</strong> Install and configure Proxmox VE on physical or virtual hardware</li>
-                    <li><strong>Web Interface Navigation:</strong> Learn the Proxmox web management interface</li>
-                    <li><strong>VM Creation:</strong> Create and configure virtual machines with different operating systems</li>
-                    <li><strong>Container Management:</strong> Work with LXC containers for lightweight virtualization</li>
-                    <li><strong>Storage Configuration:</strong> Set up and manage different storage types and datastores</li>
-                    <li><strong>Network Setup:</strong> Configure virtual networks, VLANs, and firewall rules</li>
-                    <li><strong>Backup and Restore:</strong> Implement backup strategies and perform recovery operations</li>
-                    <li><strong>User Management:</strong> Create users, groups, and assign permissions</li>
-                    <li><strong>Monitoring:</strong> Monitor system performance and resource usage</li>
-                </ul>
+                
+<p><strong>Note:</strong> You will be provided with a pre-installed nested Proxmox VE instance - no installation required!</p>
+<ul>
+    <li><strong>Initial PVE Configuration:</strong> Configure automatic updates and essential system settings</li>
+    <li><strong>Web Interface Navigation:</strong> Master the Proxmox web management interface</li>
+    <li><strong>Enterprise Network Design:</strong> Build a simulated enterprise network infrastructure</li>
+    <li><strong>pfSense Gateway Setup:</strong> Deploy and configure a pfSense firewall/gateway VM</li>
+    <li><strong>VLAN Implementation:</strong> Create and configure three isolated VLANs:
+        <ul>
+            <li>Finance LAN - Secure financial department network</li>
+            <li>Marketing LAN - Isolated marketing department network</li>
+            <li>File Server LAN - Centralized file storage network</li>
+        </ul>
+    </li>
+    <li><strong>File Server Configuration:</strong> Set up a file server with three network shares:
+        <ul>
+            <li>Finance-only share (Finance LAN access)</li>
+            <li>Marketing-only share (Marketing LAN access)</li>
+            <li>Shared collaboration folder (Both Finance and Marketing)</li>
+        </ul>
+    </li>
+    <li><strong>Network Isolation:</strong> Implement security policies to isolate Finance and Marketing VLANs</li>
+    <li><strong>VM Deployment:</strong> Create and configure multiple VMs across different VLANs</li>
+    <li><strong>Network Testing:</strong> Verify connectivity, isolation, and file sharing functionality</li>
+</ul>
             </div>
 
             <div class="card">
@@ -1045,6 +1059,35 @@
                 </div>
             </div>
 
+            <div class="card">
+    <h3>🏢 Enterprise Network Simulation Lab Overview</h3>
+    <p>Your lab exercises will simulate a realistic enterprise network environment, giving you hands-on experience with enterprise-grade networking and security concepts.</p>
+    
+    <h4>Network Architecture You'll Build:</h4>
+    <div class="quiz-question">
+        <p><strong>Enterprise Network Topology:</strong></p>
+        <ol style="margin-left: 1rem; margin-top: 0.5rem;">
+            <li><strong>pfSense Gateway/Firewall:</strong> Central security appliance managing all network traffic</li>
+            <li><strong>Finance VLAN:</strong> Isolated network for financial department resources</li>
+            <li><strong>Marketing VLAN:</strong> Separate network for marketing department resources</li>
+            <li><strong>File Server VLAN:</strong> Dedicated network segment for centralized file storage</li>
+            <li><strong>Inter-VLAN Routing:</strong> Controlled communication between network segments</li>
+        </ol>
+    </div>
+
+    <h4>Real-World Skills You'll Develop:</h4>
+    <ul>
+        <li><strong>Network Segmentation:</strong> Industry-standard practice for security and performance</li>
+        <li><strong>VLAN Configuration:</strong> Essential skill for enterprise network management</li>
+        <li><strong>Firewall Management:</strong> Critical security infrastructure component</li>
+        <li><strong>File Server Administration:</strong> Centralized storage and access control</li>
+        <li><strong>Access Control:</strong> Department-based resource restrictions</li>
+        <li><strong>Network Troubleshooting:</strong> Diagnosing connectivity and access issues</li>
+    </ul>
+
+    <h4>Why This Lab Design:</h4>
+    <p>This exercise mirrors real enterprise environments where different departments require isolated, secure networks while maintaining controlled access to shared resources. You'll gain practical experience with the same technologies and concepts used in corporate IT infrastructures.</p>
+</div>
             <div class="card">
                 <h3>💡 Essential Terminology</h3>
                 <div class="glossary-term">
@@ -1080,26 +1123,29 @@
                 <h3>🚀 Pre-Lab Checklist</h3>
                 <div id="checklistContainer">
                     <div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
-                        <span class="checkbox" aria-hidden="true">☐</span> Understand the difference between Type 1 and Type 2 hypervisors
-                    </div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
-                        <span class="checkbox" aria-hidden="true">☐</span> Know the basic architecture of virtualization and Proxmox VE
-                    </div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
-                        <span class="checkbox" aria-hidden="true">☐</span> Understand hardware requirements for virtualization (VT-x/AMD-V)
-                    </div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
-                        <span class="checkbox" aria-hidden="true">☐</span> Familiar with virtualization terminology and concepts
-                    </div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
-                        <span class="checkbox" aria-hidden="true">☐</span> Ready to work with web-based management interfaces
-                    </div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
-                        <span class="checkbox" aria-hidden="true">☐</span> Understand basic networking concepts (IP addresses, VLANs)
-                    </div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
-                        <span class="checkbox" aria-hidden="true">☐</span> Know why Proxmox VE is ideal for educational environments
-                    </div>
+    <span class="checkbox" aria-hidden="true">☐</span> Understand the difference between Type 1 and Type 2 hypervisors
+</div>
+<div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
+    <span class="checkbox" aria-hidden="true">☐</span> Know the basic architecture of virtualization and Proxmox VE
+</div>
+<div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
+    <span class="checkbox" aria-hidden="true">☐</span> Understand VLAN concepts and network segmentation
+</div>
+<div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
+    <span class="checkbox" aria-hidden="true">☐</span> Familiar with basic networking (IP addresses, subnets, gateways)
+</div>
+<div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
+    <span class="checkbox" aria-hidden="true">☐</span> Ready to work with web-based management interfaces
+</div>
+<div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
+    <span class="checkbox" aria-hidden="true">☐</span> Understand enterprise network security concepts
+</div>
+<div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
+    <span class="checkbox" aria-hidden="true">☐</span> Know the importance of network isolation in business environments
+</div>
+<div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
+    <span class="checkbox" aria-hidden="true">☐</span> Ready to configure pfSense firewall and file sharing services
+</div>
                 </div>
             </div>
 
