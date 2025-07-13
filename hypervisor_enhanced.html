@@ -130,7 +130,7 @@
 
         .nav-tab.active {
             background: var(--gold);
-            color: var(--white);
+            color: var(--navy);
             transform: translateY(-2px);
         }
 
@@ -228,10 +228,11 @@
         /* Interactive Elements */
         .quiz-question {
             background: linear-gradient(135deg, var(--light-navy) 0%, var(--navy) 100%);
-            color: var(--white);
+            color: var(--light-gold;
             padding: 1.5rem;
             border-radius: 12px;
             margin: 1.5rem 0;
+            border: 2px solid var(--gold);
         }
 
         .quiz-options {
@@ -254,8 +255,8 @@
         }
 
         .quiz-option:hover {
-            background: var(--light-gold);
-            border-color: var(--gold);
+            background: var(--light-gray);
+            border-color: var(--navy);
             transform: translateX(5px);
         }
 
@@ -359,7 +360,7 @@
 
         .hypervisor-layer {
             background: linear-gradient(135deg, var(--gold) 0%, #b8860b 100%);
-            color: var(--white);
+            color: var(--navy);
         }
 
         .hardware-layer {
@@ -385,9 +386,11 @@
         }
 
         .interactive-btn:hover {
-            background: linear-gradient(135deg, var(--light-gold) 0%, var(--gold) 100%);
+            background: var(--navy);
+            color: var(--light-gold);
+            border-color: var(--gold);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(184, 134, 11, 0.4);
+            box-shadow: 0 6px 20px rgba(30, 58, 95, 0.4);
         }
 
         .interactive-btn:focus {
@@ -400,13 +403,13 @@
 
         /* Knowledge Check Styles */
         .knowledge-check {
-            background: linear-gradient(135deg, var(--light-gold) 0%, var(--gold) 100%);
+            background: var(--light-gray) ;
             color: var(--navy);
             padding: 2rem;
             border-radius: 15px;
             margin: 2rem 0;
             text-align: center;
-            border: 1px solid var(--gold);
+            border: 2px solid var(--gold);
         }
 
         .knowledge-score {
@@ -437,7 +440,8 @@
         }
 
         .glossary-term:hover {
-            background: var(--light-gold);
+            background: var(--light-gray);
+            border-left-color: var(--navy);
         }
 
         .glossary-term strong {
@@ -1493,9 +1497,9 @@
             }
             
             .checklist-item:hover {
-                background: var(--light-gold);
+                background: var(--light-gray);
                 transform: translateX(5px);
-                border-color: var(--gold);
+                border-color: var(--navy);
             }
 
             .checklist-item:focus {
