@@ -5,19 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hypervisor Learning Portal - Community College IT Program</title>
     <style>
-        /* Navy and Gold Color Scheme */
+        /* Enhanced Navy and Gold Color Scheme with ADA Compliance */
         :root {
             --navy: #1e3a5f;
             --light-navy: #2c5282;
-            --gold: #d4af37;
-            --light-gold: #f7e98e;
+            --gold: #b8860b; /* Adjusted for better contrast */
+            --light-gold: #f4e99b;
             --white: #ffffff;
             --light-gray: #f8f9fa;
             --medium-gray: #6c757d;
-            --success-green: #28a745;
-            --shadow: 0 2px 10px rgba(30, 58, 95, 0.1);
+            --dark-gray: #343a40;
+            --success-green: #155724;
+            --error-red: #721c24;
+            --warning-orange: #856404;
+            --shadow: 0 2px 10px rgba(30, 58, 95, 0.15);
+            --focus-outline: 2px solid #4a90e2;
         }
 
+        /* CSS Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -30,6 +35,30 @@
             color: var(--navy);
             background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
             min-height: 100vh;
+            font-size: 16px; /* Base font size for accessibility */
+        }
+
+        /* Skip Navigation Link for Screen Readers */
+        .skip-nav {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--navy);
+            color: var(--white);
+            padding: 8px;
+            text-decoration: none;
+            z-index: 100;
+            border-radius: 0 0 4px 0;
+        }
+
+        .skip-nav:focus {
+            top: 6px;
+        }
+
+        /* Focus Management */
+        *:focus {
+            outline: var(--focus-outline);
+            outline-offset: 2px;
         }
 
         /* Header */
@@ -42,14 +71,15 @@
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
             margin-bottom: 0.5rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 700;
         }
 
         .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            opacity: 0.95;
             max-width: 800px;
             margin: 0 auto;
             padding: 0 1rem;
@@ -65,28 +95,37 @@
         /* Navigation Tabs */
         .nav-tabs {
             display: flex;
+            flex-wrap: wrap;
             background: var(--white);
-            border-radius: 10px;
+            border-radius: 12px;
             box-shadow: var(--shadow);
             margin-bottom: 2rem;
             overflow: hidden;
+            gap: 2px;
         }
 
         .nav-tab {
             flex: 1;
-            padding: 1rem;
+            min-width: 140px;
+            padding: 1rem 0.5rem;
             background: var(--white);
             border: none;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: clamp(0.85rem, 2vw, 1rem);
             font-weight: 600;
             color: var(--navy);
             transition: all 0.3s ease;
             position: relative;
+            text-align: center;
         }
 
         .nav-tab:hover {
             background: var(--light-gray);
+            transform: translateY(-1px);
+        }
+
+        .nav-tab:focus {
+            background: var(--light-gold);
         }
 
         .nav-tab.active {
@@ -120,6 +159,14 @@
             display: block;
         }
 
+        .content-section h2 {
+            color: var(--navy);
+            margin-bottom: 1.5rem;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            border-bottom: 3px solid var(--gold);
+            padding-bottom: 0.5rem;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -131,14 +178,19 @@
             border: 2px solid var(--light-gold);
             border-radius: 12px;
             padding: 1.5rem;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
             box-shadow: var(--shadow);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 20px rgba(30, 58, 95, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(30, 58, 95, 0.2);
+        }
+
+        .card:focus-within {
+            border-color: var(--navy);
+            box-shadow: 0 0 0 2px var(--light-navy);
         }
 
         .card h3 {
@@ -146,12 +198,29 @@
             margin-bottom: 1rem;
             border-bottom: 2px solid var(--gold);
             padding-bottom: 0.5rem;
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+        }
+
+        .card h4 {
+            color: var(--light-navy);
+            margin: 1rem 0 0.5rem 0;
+            font-size: clamp(1rem, 2vw, 1.1rem);
+        }
+
+        .card ul, .card ol {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .card li {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
         }
 
         /* Comparison Grid */
         .comparison-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin: 2rem 0;
         }
@@ -162,74 +231,86 @@
             color: var(--white);
             padding: 1.5rem;
             border-radius: 12px;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
         }
 
         .quiz-options {
             display: grid;
-            gap: 0.5rem;
+            gap: 0.75rem;
             margin-top: 1rem;
         }
 
         .quiz-option {
             background: var(--white);
             color: var(--navy);
-            padding: 0.8rem;
-            border: none;
+            padding: 1rem;
+            border: 2px solid transparent;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
+            font-size: 1rem;
+            text-align: left;
         }
 
         .quiz-option:hover {
             background: var(--light-gold);
+            border-color: var(--gold);
             transform: translateX(5px);
+        }
+
+        .quiz-option:focus {
+            border-color: var(--navy);
+            box-shadow: 0 0 0 2px var(--light-navy);
         }
 
         .quiz-option.correct {
             background: var(--success-green);
             color: var(--white);
+            border-color: #0f4132;
         }
 
         .quiz-option.incorrect {
-            background: #dc3545;
+            background: var(--error-red);
             color: var(--white);
+            border-color: #501219;
         }
 
         /* Progress Bar */
         .progress-container {
             background: var(--light-gray);
-            border-radius: 10px;
-            padding: 3px;
+            border-radius: 12px;
+            padding: 4px;
             margin: 2rem 0;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
         }
 
         .progress-bar {
             background: linear-gradient(90deg, var(--gold) 0%, var(--light-gold) 100%);
-            height: 20px;
+            height: 24px;
             border-radius: 8px;
             width: 0%;
             transition: width 1s ease;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--navy);
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        .progress-bar::after {
-            content: '';
+        .progress-text {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
-            animation: shine 2s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--navy);
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 1;
         }
 
         /* Hypervisor Diagram */
@@ -239,6 +320,7 @@
             padding: 2rem;
             margin: 2rem 0;
             text-align: center;
+            border: 1px solid #dee2e6;
         }
 
         .hypervisor-stack {
@@ -246,36 +328,42 @@
             flex-direction: column;
             align-items: center;
             gap: 0.5rem;
-            margin: 1rem;
+            margin: 1rem 0;
         }
 
         .stack-layer {
-            width: 300px;
-            padding: 1rem;
-            border-radius: 8px;
+            width: min(350px, 90%);
+            padding: 1.2rem;
+            border-radius: 10px;
             font-weight: 600;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
         }
 
         .stack-layer:hover {
-            transform: scale(1.05);
-            cursor: pointer;
+            transform: scale(1.03);
+        }
+
+        .stack-layer:focus {
+            border-color: var(--navy);
+            outline: none;
         }
 
         .vm-layer {
-            background: var(--light-gold);
+            background: linear-gradient(135deg, var(--light-gold) 0%, #f7e98e 100%);
             color: var(--navy);
         }
 
         .hypervisor-layer {
-            background: var(--gold);
+            background: linear-gradient(135deg, var(--gold) 0%, #b8860b 100%);
             color: var(--white);
         }
 
         .hardware-layer {
-            background: var(--navy);
+            background: linear-gradient(135deg, var(--navy) 0%, var(--light-navy) 100%);
             color: var(--white);
         }
 
@@ -283,44 +371,31 @@
         .interactive-btn {
             background: linear-gradient(135deg, var(--gold) 0%, var(--light-gold) 100%);
             color: var(--navy);
-            border: none;
-            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--gold);
+            padding: 1rem 1.5rem;
             border-radius: 25px;
             font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
             margin: 0.5rem;
             box-shadow: var(--shadow);
+            text-decoration: none;
+            display: inline-block;
         }
 
         .interactive-btn:hover {
             background: linear-gradient(135deg, var(--light-gold) 0%, var(--gold) 100%);
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 6px 20px rgba(184, 134, 11, 0.4);
+        }
+
+        .interactive-btn:focus {
+            box-shadow: 0 0 0 3px var(--light-navy);
         }
 
         .interactive-btn:active {
             transform: translateY(0);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-tabs {
-                flex-direction: column;
-            }
-
-            .comparison-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .stack-layer {
-                width: 250px;
-            }
-
-            .header h1 {
-                font-size: 2rem;
-            }
         }
 
         /* Knowledge Check Styles */
@@ -331,15 +406,16 @@
             border-radius: 15px;
             margin: 2rem 0;
             text-align: center;
+            border: 1px solid var(--gold);
         }
 
         .knowledge-score {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             font-weight: bold;
             margin: 1rem 0;
         }
 
-        /* Animation for interactive elements */
+        /* Animation Classes */
         .bounce {
             animation: bounce 0.6s ease;
         }
@@ -355,114 +431,276 @@
             background: var(--light-gray);
             border-left: 4px solid var(--gold);
             padding: 1rem;
-            margin: 0.5rem 0;
+            margin: 0.75rem 0;
             border-radius: 0 8px 8px 0;
+            transition: background 0.3s ease;
+        }
+
+        .glossary-term:hover {
+            background: var(--light-gold);
         }
 
         .glossary-term strong {
             color: var(--navy);
             font-size: 1.1rem;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Table Styles */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin: 1rem 0;
+        }
+
+        .comparison-table th {
+            background: var(--navy);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            font-weight: 500;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: var(--light-gray);
+        }
+
+        .comparison-table tr:hover {
+            background: var(--light-gold);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+                gap: 1px;
+            }
+
+            .nav-tab {
+                min-width: unset;
+                flex: unset;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .stack-layer {
+                width: 95%;
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 1.5rem 0;
+            }
+
+            .interactive-btn {
+                padding: 0.8rem 1.2rem;
+                font-size: 0.9rem;
+                margin: 0.25rem;
+            }
+
+            .quiz-option {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .comparison-table {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* High Contrast Mode Support */
+        @media (prefers-contrast: high) {
+            :root {
+                --navy: #000000;
+                --gold: #ffd700;
+                --light-gold: #fff8dc;
+                --success-green: #008000;
+                --error-red: #ff0000;
+            }
+        }
+
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --white: #1a1a1a;
+                --light-gray: #2d2d2d;
+                --navy: #e6e6e6;
+                --light-navy: #b8b8b8;
+            }
+
+            body {
+                background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            }
+
+            .card {
+                background: #2d2d2d;
+                border-color: var(--gold);
+            }
+
+            .diagram-container {
+                background: #2d2d2d;
+                border-color: #555;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header">
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
+    
+    <header class="header" role="banner">
         <h1>🖥️ Hypervisor Learning Portal</h1>
         <p>Master the fundamentals of virtualization technology and prepare for hands-on Type 1 Hypervisor labs</p>
-    </div>
+    </header>
 
-    <div class="container">
+    <main id="main-content" class="container" role="main">
         <!-- Progress Bar -->
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
+        <div class="progress-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Learning progress">
+            <div class="progress-bar" id="progressBar">
+                <span class="progress-text" id="progressText">0%</span>
+            </div>
         </div>
 
         <!-- Navigation Tabs -->
-        <div class="nav-tabs">
-            <button class="nav-tab active" onclick="showSection('introduction')">📚 Introduction</button>
-            <button class="nav-tab" onclick="showSection('types')">🔄 Types</button>
-            <button class="nav-tab" onclick="showSection('benefits')">✨ Benefits</button>
-            <button class="nav-tab" onclick="showSection('examples')">💼 Examples</button>
-            <button class="nav-tab" onclick="showSection('preparation')">🎯 Lab Prep</button>
-            <button class="nav-tab" onclick="showSection('quiz')">🧠 Knowledge Check</button>
-        </div>
+        <nav class="nav-tabs" role="tablist" aria-label="Learning sections">
+            <button class="nav-tab active" role="tab" aria-selected="true" aria-controls="introduction" onclick="showSection('introduction', this)">📚 Introduction</button>
+            <button class="nav-tab" role="tab" aria-selected="false" aria-controls="types" onclick="showSection('types', this)">🔄 Types</button>
+            <button class="nav-tab" role="tab" aria-selected="false" aria-controls="benefits" onclick="showSection('benefits', this)">✨ Benefits</button>
+            <button class="nav-tab" role="tab" aria-selected="false" aria-controls="examples" onclick="showSection('examples', this)">💼 Examples</button>
+            <button class="nav-tab" role="tab" aria-selected="false" aria-controls="usecases" onclick="showSection('usecases', this)">🌐 Use Cases</button>
+            <button class="nav-tab" role="tab" aria-selected="false" aria-controls="preparation" onclick="showSection('preparation', this)">🎯 Lab Prep</button>
+            <button class="nav-tab" role="tab" aria-selected="false" aria-controls="quiz" onclick="showSection('quiz', this)">🧠 Knowledge Check</button>
+        </nav>
 
         <!-- Introduction Section -->
-        <div id="introduction" class="content-section active">
+        <section id="introduction" class="content-section active" role="tabpanel" aria-labelledby="introduction-tab">
             <h2>🌟 What is a Hypervisor?</h2>
             
             <div class="card">
                 <h3>Definition</h3>
                 <p>A hypervisor, also known as a virtual machine monitor (VMM), is a crucial software layer in virtualization technology that enables multiple virtual machines (VMs) to run on a single physical machine or host. Think of it as the supervisor in charge of dispersing the components that make up VMs.</p>
+                
+                <p>Hypervisors create a virtualization layer that runs between the OS and server hardware rather than between the OS and application. They isolate operating systems and applications from the underlying computer hardware, allowing multiple virtual environments to share the same physical computing resources.</p>
             </div>
 
             <div class="diagram-container">
                 <h3>📊 Hypervisor Architecture</h3>
                 <div class="hypervisor-stack">
-                    <div class="stack-layer vm-layer" onclick="highlightLayer('vm')">Virtual Machine 1 | Virtual Machine 2 | Virtual Machine 3</div>
-                    <div class="stack-layer hypervisor-layer" onclick="highlightLayer('hypervisor')">🎯 HYPERVISOR (VMM)</div>
-                    <div class="stack-layer hardware-layer" onclick="highlightLayer('hardware')">Physical Hardware (CPU, Memory, Storage, Network)</div>
+                    <div class="stack-layer vm-layer" tabindex="0" role="button" aria-label="Virtual Machine Layer" onclick="highlightLayer('vm')" onkeypress="handleKeyPress(event, 'vm')">Virtual Machine 1 | Virtual Machine 2 | Virtual Machine 3</div>
+                    <div class="stack-layer hypervisor-layer" tabindex="0" role="button" aria-label="Hypervisor Layer" onclick="highlightLayer('hypervisor')" onkeypress="handleKeyPress(event, 'hypervisor')">🎯 HYPERVISOR (VMM)</div>
+                    <div class="stack-layer hardware-layer" tabindex="0" role="button" aria-label="Hardware Layer" onclick="highlightLayer('hardware')" onkeypress="handleKeyPress(event, 'hardware')">Physical Hardware (CPU, Memory, Storage, Network)</div>
                 </div>
-                <p id="layerDescription">Click on any layer above to learn more!</p>
+                <p id="layerDescription" aria-live="polite">Click on any layer above to learn more!</p>
             </div>
 
             <div class="card">
                 <h3>🔑 Key Functions</h3>
                 <ul>
-                    <li>Managing and allocating hardware resources like CPU, memory, and storage</li>
-                    <li>Creating a virtualization layer that runs between the OS and server hardware</li>
-                    <li>Allowing each VM to operate as if it were on a separate, dedicated machine isolated from other VMs</li>
-                    <li>Scheduling operations so VMs don't overrun one another when using resources</li>
+                    <li><strong>Resource Management:</strong> Managing and allocating hardware resources like CPU, memory, and storage among virtual machines</li>
+                    <li><strong>Virtualization Layer:</strong> Creating a virtualization layer that runs between the OS and server hardware</li>
+                    <li><strong>Isolation:</strong> Allowing each VM to operate as if it were on a separate, dedicated machine isolated from other VMs</li>
+                    <li><strong>Scheduling:</strong> Scheduling operations so VMs don't overrun one another when using resources</li>
+                    <li><strong>Hardware Abstraction:</strong> Abstracting physical hardware to create virtual hardware interfaces for each VM</li>
                 </ul>
             </div>
 
-            <button class="interactive-btn" onclick="nextSection()">Continue to Types →</button>
-        </div>
+            <button class="interactive-btn" onclick="nextSection()" aria-label="Continue to Types section">Continue to Types →</button>
+        </section>
 
         <!-- Types Section -->
-        <div id="types" class="content-section">
+        <section id="types" class="content-section" role="tabpanel" aria-labelledby="types-tab">
             <h2>🔄 Types of Hypervisors</h2>
             
             <div class="comparison-grid">
                 <div class="card">
                     <h3>🎯 Type 1 - Bare Metal Hypervisor</h3>
-                    <p>A type 1 hypervisor, or a bare metal hypervisor, interacts directly with the underlying machine hardware. The type 1 hypervisor sits on top of the bare metal server and has direct access to the hardware resources.</p>
+                    <p>A type 1 hypervisor, or a bare metal hypervisor, interacts directly with the underlying machine hardware. The type 1 hypervisor sits on top of the bare metal server and has direct access to the hardware resources, making it the most efficient virtualization approach.</p>
                     
                     <h4>Characteristics:</h4>
                     <ul>
-                        <li>Runs directly on the underlying host system</li>
+                        <li>Runs directly on the underlying host system hardware</li>
                         <li>Does not require any base server operating system</li>
-                        <li>Most common in an enterprise data center or other server-based environments</li>
-                        <li>Very efficient because they have direct access to physical hardware resources</li>
+                        <li>Most common in enterprise data centers and server environments</li>
+                        <li>Very efficient with direct access to physical hardware resources</li>
+                        <li>Better performance and security than Type 2</li>
+                        <li>Lower latency and overhead</li>
                     </ul>
 
                     <h4>Examples:</h4>
                     <ul>
-                        <li>VMware ESXi</li>
-                        <li>Microsoft Hyper-V</li>
-                        <li>KVM (Kernel-based Virtual Machine)</li>
-                        <li>Citrix XenServer</li>
+                        <li><strong>Proxmox VE</strong> - Open-source, education-friendly</li>
+                        <li><strong>VMware ESXi</strong> - Enterprise standard (no longer free)</li>
+                        <li><strong>Microsoft Hyper-V</strong> - Windows-integrated</li>
+                        <li><strong>KVM</strong> - Linux kernel-based</li>
+                        <li><strong>Citrix XenServer</strong> - Enterprise solution</li>
                     </ul>
                 </div>
 
                 <div class="card">
                     <h3>🖥️ Type 2 - Hosted Hypervisor</h3>
-                    <p>The type 2 hypervisor is an application installed on the host operating system. It's also known as a hosted or embedded hypervisor.</p>
+                    <p>The type 2 hypervisor is an application installed on the host operating system. It's also known as a hosted or embedded hypervisor that relies on the host OS for resource management.</p>
                     
                     <h4>Characteristics:</h4>
                     <ul>
-                        <li>Run on a conventional operating system as a software layer or application</li>
-                        <li>The type 2 hypervisor negotiates with the operating system to obtain underlying system resources</li>
-                        <li>Better for individual users who want to run multiple operating systems on a personal computer</li>
+                        <li>Run on a conventional operating system as a software layer</li>
+                        <li>Negotiate with the host OS to obtain underlying system resources</li>
+                        <li>Better for individual users and development environments</li>
                         <li>Easier to install, configure, and use than bare-metal hypervisors</li>
+                        <li>More overhead due to host OS layer</li>
+                        <li>Better compatibility with desktop environments</li>
                     </ul>
 
                     <h4>Examples:</h4>
                     <ul>
-                        <li>VMware Workstation</li>
-                        <li>Oracle VirtualBox</li>
-                        <li>VMware Fusion</li>
-                        <li>Parallels Desktop</li>
+                        <li><strong>UTM</strong> - Mac-native, Apple Silicon optimized</li>
+                        <li><strong>VMware Workstation</strong> - Professional desktop solution</li>
+                        <li><strong>Oracle VirtualBox</strong> - Free, cross-platform</li>
+                        <li><strong>VMware Fusion</strong> - Mac-specific solution</li>
+                        <li><strong>Parallels Desktop</strong> - Mac virtualization</li>
                     </ul>
                 </div>
             </div>
@@ -470,157 +708,335 @@
             <div class="knowledge-check">
                 <h3>🤔 Quick Understanding Check</h3>
                 <p>Which type of hypervisor will you be working with in your lab exercises?</p>
-                <button class="interactive-btn" onclick="showAnswer('type1')">Type 1 - Bare Metal</button>
-                <button class="interactive-btn" onclick="showAnswer('type2')">Type 2 - Hosted</button>
-                <div id="typeAnswer" style="margin-top: 1rem; font-weight: bold;"></div>
+                <button class="interactive-btn" onclick="showAnswer('type1')" aria-label="Select Type 1 Bare Metal">Type 1 - Bare Metal</button>
+                <button class="interactive-btn" onclick="showAnswer('type2')" aria-label="Select Type 2 Hosted">Type 2 - Hosted</button>
+                <div id="typeAnswer" style="margin-top: 1rem; font-weight: bold;" aria-live="polite"></div>
             </div>
 
-            <button class="interactive-btn" onclick="nextSection()">Learn About Benefits →</button>
-        </div>
-
+            <button class="interactive-btn" onclick="nextSection()" aria-label="Continue to Benefits section">Learn About Benefits →</button>
+        </section>
         <!-- Benefits Section -->
-        <div id="benefits" class="content-section">
+        <section id="benefits" class="content-section" role="tabpanel" aria-labelledby="benefits-tab">
             <h2>✨ Benefits of Hypervisors</h2>
             
             <div class="card">
                 <h3>💰 Cost Efficiency</h3>
-                <p>By consolidating multiple virtual machines (VMs) onto a single physical server, organizations can significantly reduce both hardware and maintenance costs. Hypervisors help enterprises make more efficient use of the underlying physical equipment.</p>
+                <p>By consolidating multiple virtual machines (VMs) onto a single physical server, organizations can significantly reduce both hardware and maintenance costs. Traditional IT often results in underused infrastructure, like servers running at 20% to 30% capacity. Virtualization allows precise resource allocation and can achieve 70-80% utilization without sacrificing performance.</p>
             </div>
 
             <div class="card">
                 <h3>🔧 Resource Optimization</h3>
-                <p>Organizations use virtualization software like hypervisors because the software helps them to use resources efficiently and reduce hardware investment. Virtualization has substantially increased server utilization rates.</p>
+                <p>Hypervisors help enterprises make more efficient use of physical equipment by distributing network and bandwidth in an intelligent manner. Memory, CPU, and storage can be provisioned based on actual demand, not worst-case estimates, maximizing the value from every server.</p>
             </div>
 
             <div class="card">
                 <h3>🔒 Isolation and Security</h3>
-                <p>Hyper-V runs each virtual machine in its own isolated space, which means you can run more than one virtual machine on the same hardware at the same time. A VM provides an environment that is isolated from the rest of a system, so whatever is running inside a VM won't interfere with anything else running on the host hardware.</p>
+                <p>Each virtual machine runs in its own isolated space, which means multiple VMs can run on the same hardware simultaneously without interfering with each other. This isolation enhances security by separating one machine from another, preventing crashes or security breaches from affecting other workloads.</p>
             </div>
 
             <div class="card">
                 <h3>🌐 Flexibility and Portability</h3>
-                <p>A hypervisor abstracts the host's hardware from the operating software environment. IT administrators can configure, deploy, and manage software applications without being constrained to a specific hardware setup.</p>
+                <p>Hypervisors abstract the host's hardware from the operating software environment. IT administrators can configure, deploy, and manage software applications without being constrained to specific hardware setups. VMs can be easily moved between different physical servers or cloud environments.</p>
             </div>
 
             <div class="card">
-                <h3>🚀 Use Cases</h3>
+                <h3>⚡ Rapid Deployment and Scalability</h3>
+                <p>Virtual machines can be provisioned and deployed in minutes rather than the hours or days required for physical servers. This enables rapid scaling of computing resources based on demand, supporting business agility and growth.</p>
+            </div>
+
+            <div class="card">
+                <h3>🛡️ Disaster Recovery and High Availability</h3>
+                <p>Virtualization simplifies disaster recovery by enabling VM snapshots, replication, and migration. If a physical server fails, VMs can be automatically moved to another host and restarted, significantly reducing downtime and improving business continuity.</p>
+            </div>
+
+            <button class="interactive-btn" onclick="nextSection()" aria-label="Continue to Examples section">Explore Examples →</button>
+        </section>
+
+        <!-- Examples Section -->
+        <section id="examples" class="content-section" role="tabpanel" aria-labelledby="examples-tab">
+            <h2>💼 Popular Hypervisors for Education</h2>
+            
+            <div class="card">
+                <h3>🟢 Proxmox VE (Your Lab Platform)</h3>
+                <p>Proxmox Virtual Environment is an open-source server virtualization management platform that you'll be using in your labs. Based on Debian Linux with a modified kernel, it combines KVM for full virtualization and LXC for container-based virtualization.</p>
+                
+                <h4>Why Proxmox for Education:</h4>
                 <ul>
-                    <li>Server Consolidation: Companies use hypervisors to consolidate multiple computers that perform different functions into a single server</li>
-                    <li>Development and Testing: Reproduce different computing environments without having to buy or maintain all the hardware</li>
-                    <li>Virtual Desktop Infrastructure (VDI): Use a centralized desktop strategy with VDI to increase business agility and data security</li>
-                    <li>Private Cloud: Provide more flexible, on-demand IT services by moving to shared resources</li>
-                    <li>Desktop Virtualization: Employees use desktop virtualization software to emulate a version of their workstation computing environment on the server</li>
+                    <li><strong>Completely Free:</strong> Open-source with no licensing costs, perfect for educational environments</li>
+                    <li><strong>Enterprise Features:</strong> Includes clustering, high availability, live migration, and backup/restore</li>
+                    <li><strong>Web-Based Management:</strong> Intuitive web interface for easy learning and management</li>
+                    <li><strong>Educational Support:</strong> Extensive documentation and community support</li>
+                    <li><strong>Real-World Skills:</strong> Used by thousands of businesses, providing relevant job skills</li>
+                </ul>
+
+                <h4>Key Features You'll Learn:</h4>
+                <ul>
+                    <li>VM and container creation and management</li>
+                    <li>Storage management with various storage types</li>
+                    <li>Network configuration and VLANs</li>
+                    <li>Backup and restore operations</li>
+                    <li>User and permission management</li>
+                    <li>Monitoring and performance optimization</li>
                 </ul>
             </div>
 
-            <button class="interactive-btn" onclick="nextSection()">Explore Examples →</button>
-        </div>
-        <!-- Examples Section -->
-        <div id="examples" class="content-section">
-            <h2>💼 Popular Type 1 Hypervisors</h2>
-            
             <div class="card">
-                <h3>🔵 VMware ESXi</h3>
-                <p>VMware ESXi stands out as a prominent and widely adopted Type I hypervisor, known for its robust virtualization capabilities and efficient resource management in enterprise environments. VMware led the market in developing innovative features such as memory overcommitment, vMotion, Storage vMotion, Fault Tolerance, and more.</p>
+                <h3>🔵 VMware ESXi (Industry Reference)</h3>
+                <p>While no longer offering free licenses for education, ESXi remains the industry standard that Proxmox capabilities are often compared against. Understanding ESXi concepts helps in enterprise environments.</p>
                 
                 <h4>Key Features:</h4>
                 <ul>
-                    <li>Comprehensive suite of features for managing virtualized environments</li>
-                    <li>vSphere management platform enables centralized control and monitoring of multiple ESXi hosts</li>
-                    <li>VM Mobility - enables moving virtual machines between physical servers, manually or automatically</li>
-                    <li>Available in both free and commercial editions</li>
+                    <li>vSphere management platform for centralized control</li>
+                    <li>vMotion for live VM migration</li>
+                    <li>Advanced resource management and load balancing</li>
+                    <li>Enterprise-grade security and compliance features</li>
                 </ul>
             </div>
 
             <div class="card">
                 <h3>🟦 Microsoft Hyper-V</h3>
-                <p>Hyper-V is Microsoft's hypervisor designed for use on Windows systems. Hyper-V is a built-in component of all modern versions of Windows. Hyper-V is a type-1 hypervisor. When you install Hyper-V, the setup converts the original OS into something like a VM and puts the hypervisor below.</p>
+                <p>Microsoft's hypervisor integrated with Windows Server environments, offering seamless integration with Microsoft ecosystems and Azure cloud services.</p>
                 
                 <h4>Key Features:</h4>
                 <ul>
-                    <li>Built-in component of Windows Server environments</li>
-                    <li>Live migration, replication of virtual machines, dynamic memory</li>
-                    <li>Seamless integration with Microsoft Azure for hybrid cloud deployments</li>
-                    <li>Disaster recovery with Hyper-V Replica and backup capabilities</li>
+                    <li>Built into Windows Server and Windows 10/11 Pro</li>
+                    <li>Integration with System Center and Azure</li>
+                    <li>Live migration and dynamic memory allocation</li>
+                    <li>Hyper-V Replica for disaster recovery</li>
                 </ul>
             </div>
 
             <div class="card">
                 <h3>🐧 KVM (Kernel-based Virtual Machine)</h3>
-                <p>KVM is built into Linux as an added functionality that makes it possible to convert the Linux kernel into a hypervisor. KVM was merged into the Linux kernel in 2007, so if you're using a modern version of Linux, you already have access to KVM.</p>
+                <p>An open-source Type 1 hypervisor built into the Linux kernel, forming the foundation for many cloud platforms including Proxmox VE.</p>
                 
                 <h4>Key Features:</h4>
                 <ul>
-                    <li>Open-source solution with all the features of Linux</li>
-                    <li>Live migration, scheduling and resource control, and higher prioritization</li>
-                    <li>Can be added to most Linux operating systems, including Ubuntu, SUSE and Red Hat Enterprise Linux</li>
-                    <li>Supports virtualization extensions that Intel and AMD built into their processor architectures</li>
+                    <li>Integrated into Linux kernel since 2007</li>
+                    <li>High performance with hardware virtualization support</li>
+                    <li>Used by major cloud providers</li>
+                    <li>Excellent for Linux-centric environments</li>
                 </ul>
             </div>
 
-            <div class="interactive-btn" onclick="showComparison()">📊 Compare Hypervisors</div>
-            <div id="comparisonTable" style="display: none; margin-top: 1rem;">
-                <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <thead>
-                        <tr style="background: var(--navy); color: white;">
-                            <th style="padding: 1rem; text-align: left;">Hypervisor</th>
-                            <th style="padding: 1rem; text-align: left;">License</th>
-                            <th style="padding: 1rem; text-align: left;">Best For</th>
-                            <th style="padding: 1rem; text-align: left;">Management</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 1rem; font-weight: 600;">VMware ESXi</td>
-                            <td style="padding: 1rem;">Free/Commercial</td>
-                            <td style="padding: 1rem;">Enterprise environments</td>
-                            <td style="padding: 1rem;">vSphere/vCenter</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 1rem; font-weight: 600;">Microsoft Hyper-V</td>
-                            <td style="padding: 1rem;">Included with Windows</td>
-                            <td style="padding: 1rem;">Windows-centric environments</td>
-                            <td style="padding: 1rem;">Hyper-V Manager/SCVMM</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 1rem; font-weight: 600;">KVM</td>
-                            <td style="padding: 1rem;">Open Source/Free</td>
-                            <td style="padding: 1rem;">Linux environments</td>
-                            <td style="padding: 1rem;">Various (libvirt, RHEV)</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="card">
+                <h3>🍎 UTM (For Mac Users)</h3>
+                <p>UTM is a Type 2 hypervisor specifically designed for macOS, especially optimized for Apple Silicon Macs. It's perfect for students using Mac computers who want to run other operating systems.</p>
+                
+                <h4>Key Features for Apple Silicon:</h4>
+                <ul>
+                    <li><strong>Native Apple Hypervisor Framework:</strong> Uses Apple's built-in virtualization for near-native performance</li>
+                    <li><strong>ARM64 Optimization:</strong> Runs ARM-based operating systems at near-native speeds on Apple Silicon</li>
+                    <li><strong>QEMU Integration:</strong> Also supports emulation for running x86 systems on ARM Macs</li>
+                    <li><strong>Free and Open Source:</strong> Available free on GitHub or paid on Mac App Store</li>
+                    <li><strong>Multiple OS Support:</strong> Can run macOS, Windows 11 ARM, Linux distributions, and legacy systems</li>
+                </ul>
+
+                <h4>Perfect for Students Because:</h4>
+                <ul>
+                    <li>Easy setup with pre-configured VM gallery</li>
+                    <li>Runs efficiently on MacBook Air and MacBook Pro</li>
+                    <li>Great for testing and development work</li>
+                    <li>Supports both virtualization and emulation modes</li>
+                </ul>
             </div>
 
-            <button class="interactive-btn" onclick="nextSection()">Prepare for Labs →</button>
-        </div>
+            <div style="margin-top: 2rem;">
+                <button class="interactive-btn" onclick="showComparison()" aria-label="Show hypervisor comparison table">📊 Compare Hypervisors</button>
+                <div id="comparisonTable" style="display: none; margin-top: 1rem;">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Hypervisor</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">License</th>
+                                <th scope="col">Best For</th>
+                                <th scope="col">Education Friendly</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Proxmox VE</strong></td>
+                                <td>Type 1</td>
+                                <td>Free/Open Source</td>
+                                <td>Education, SMB, Enterprise</td>
+                                <td>✅ Excellent</td>
+                            </tr>
+                            <tr>
+                                <td><strong>VMware ESXi</strong></td>
+                                <td>Type 1</td>
+                                <td>Commercial Only</td>
+                                <td>Large Enterprise</td>
+                                <td>❌ Expensive</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Microsoft Hyper-V</strong></td>
+                                <td>Type 1</td>
+                                <td>Included with Windows</td>
+                                <td>Windows Environments</td>
+                                <td>⚠️ Limited</td>
+                            </tr>
+                            <tr>
+                                <td><strong>KVM</strong></td>
+                                <td>Type 1</td>
+                                <td>Free/Open Source</td>
+                                <td>Linux Environments</td>
+                                <td>✅ Good</td>
+                            </tr>
+                            <tr>
+                                <td><strong>UTM</strong></td>
+                                <td>Type 2</td>
+                                <td>Free/Open Source</td>
+                                <td>Mac Development</td>
+                                <td>✅ Excellent for Mac</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-        <!-- Preparation Section -->
-        <div id="preparation" class="content-section">
-            <h2>🎯 Preparing for Type 1 Hypervisor Labs</h2>
+            <button class="interactive-btn" onclick="nextSection()" aria-label="Continue to Use Cases section">Explore Use Cases →</button>
+        </section>
+
+        <!-- Use Cases Section -->
+        <section id="usecases" class="content-section" role="tabpanel" aria-labelledby="usecases-tab">
+            <h2>🌐 Virtualization Use Cases</h2>
             
             <div class="card">
-                <h3>📋 What to Expect in Lab</h3>
-                <p>Based on typical VMware ESXi installations and setups, you'll likely be working with:</p>
+                <h3>☁️ Cloud Computing Foundation</h3>
+                <p>Virtualization is the fundamental technology that powers modern cloud computing. Cloud service providers use hypervisors to create flexible, scalable infrastructure that can be shared among multiple customers.</p>
+                
+                <h4>How Virtualization Enables Cloud Computing:</h4>
                 <ul>
-                    <li>Interactive installation of ESXi on physical or virtual hardware</li>
-                    <li>Configuring the management interface and networking</li>
-                    <li>Creating and managing virtual machines</li>
-                    <li>Working with datastores and storage</li>
-                    <li>Understanding licensing and basic security</li>
+                    <li><strong>Resource Pooling:</strong> Physical servers are virtualized into resource pools that can be dynamically allocated</li>
+                    <li><strong>Multi-tenancy:</strong> Multiple customers can securely share the same physical infrastructure</li>
+                    <li><strong>Elasticity:</strong> Resources can be scaled up or down automatically based on demand</li>
+                    <li><strong>Pay-per-use:</strong> Customers only pay for the computing resources they actually consume</li>
+                    <li><strong>Geographic Distribution:</strong> VMs can be migrated between data centers worldwide</li>
+                </ul>
+
+                <h4>Cloud Service Models Enabled by Virtualization:</h4>
+                <ul>
+                    <li><strong>IaaS (Infrastructure as a Service):</strong> Virtual servers, storage, and networking (AWS EC2, Google Compute Engine)</li>
+                    <li><strong>PaaS (Platform as a Service):</strong> Virtualized development platforms and databases</li>
+                    <li><strong>SaaS (Software as a Service):</strong> Applications running on virtualized infrastructure</li>
                 </ul>
             </div>
 
             <div class="card">
-                <h3>🔧 Key Concepts to Master</h3>
+                <h3>🏢 Server Consolidation</h3>
+                <p>One of the most common uses of virtualization is consolidating multiple physical servers into fewer, more powerful machines running multiple VMs.</p>
+                
+                <h4>Benefits:</h4>
+                <ul>
+                    <li>Reduced hardware costs and data center space</li>
+                    <li>Lower power consumption and cooling requirements</li>
+                    <li>Simplified management and maintenance</li>
+                    <li>Better resource utilization (from 15-20% to 70-80%)</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🧪 Development and Testing</h3>
+                <p>Virtualization provides isolated environments for software development, testing, and quality assurance without requiring dedicated hardware.</p>
+                
+                <h4>Use Cases:</h4>
+                <ul>
+                    <li><strong>Multi-environment Testing:</strong> Test applications across different OS versions</li>
+                    <li><strong>Sandboxing:</strong> Isolate potentially harmful or experimental code</li>
+                    <li><strong>Rapid Provisioning:</strong> Quickly create new development environments</li>
+                    <li><strong>Snapshot Testing:</strong> Save and restore system states for repeatable testing</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🖥️ Virtual Desktop Infrastructure (VDI)</h3>
+                <p>VDI centralizes desktop computing by running desktop operating systems in VMs on servers, accessed remotely by end users.</p>
+                
+                <h4>Benefits:</h4>
+                <ul>
+                    <li>Centralized management and security</li>
+                    <li>Reduced endpoint hardware costs</li>
+                    <li>Remote access capabilities</li>
+                    <li>Simplified software deployment and updates</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🛡️ Disaster Recovery and Business Continuity</h3>
+                <p>Virtualization simplifies disaster recovery by enabling VM replication, migration, and rapid recovery capabilities.</p>
+                
+                <h4>Capabilities:</h4>
+                <ul>
+                    <li><strong>VM Replication:</strong> Copy VMs to remote locations automatically</li>
+                    <li><strong>Instant Recovery:</strong> Boot VMs from backup in minutes</li>
+                    <li><strong>Failover:</strong> Automatically switch to backup systems</li>
+                    <li><strong>Testing:</strong> Regularly test disaster recovery procedures</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🎓 Education and Training</h3>
+                <p>Educational institutions use virtualization to provide students with hands-on experience without requiring extensive physical infrastructure.</p>
+                
+                <h4>Educational Benefits:</h4>
+                <ul>
+                    <li><strong>Lab Environments:</strong> Each student gets their own isolated environment</li>
+                    <li><strong>Cost-Effective:</strong> Multiple VMs on fewer physical machines</li>
+                    <li><strong>Curriculum Flexibility:</strong> Support multiple operating systems and configurations</li>
+                    <li><strong>Reset Capability:</strong> Quickly restore lab environments to clean states</li>
+                    <li><strong>Real-World Skills:</strong> Experience with industry-standard virtualization platforms</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🔬 Legacy Application Support</h3>
+                <p>Virtualization allows organizations to maintain older applications that require specific operating systems or hardware configurations.</p>
+                
+                <h4>Applications:</h4>
+                <ul>
+                    <li>Running legacy Windows applications on modern hardware</li>
+                    <li>Maintaining older industrial control systems</li>
+                    <li>Supporting specialized software with specific OS requirements</li>
+                    <li>Gradual migration strategies for application modernization</li>
+                </ul>
+            </div>
+
+            <button class="interactive-btn" onclick="nextSection()" aria-label="Continue to Lab Preparation section">Prepare for Labs →</button>
+        </section>
+
+        <!-- Preparation Section -->
+        <section id="preparation" class="content-section" role="tabpanel" aria-labelledby="preparation-tab">
+            <h2>🎯 Preparing for Proxmox VE Labs</h2>
+            
+            <div class="card">
+                <h3>📋 What to Expect in Your Proxmox VE Labs</h3>
+                <p>You'll be working with Proxmox Virtual Environment, an enterprise-grade virtualization platform that provides hands-on experience with real-world virtualization concepts.</p>
+                
+                <h4>Lab Activities You'll Perform:</h4>
+                <ul>
+                    <li><strong>Proxmox Installation:</strong> Install and configure Proxmox VE on physical or virtual hardware</li>
+                    <li><strong>Web Interface Navigation:</strong> Learn the Proxmox web management interface</li>
+                    <li><strong>VM Creation:</strong> Create and configure virtual machines with different operating systems</li>
+                    <li><strong>Container Management:</strong> Work with LXC containers for lightweight virtualization</li>
+                    <li><strong>Storage Configuration:</strong> Set up and manage different storage types and datastores</li>
+                    <li><strong>Network Setup:</strong> Configure virtual networks, VLANs, and firewall rules</li>
+                    <li><strong>Backup and Restore:</strong> Implement backup strategies and perform recovery operations</li>
+                    <li><strong>User Management:</strong> Create users, groups, and assign permissions</li>
+                    <li><strong>Monitoring:</strong> Monitor system performance and resource usage</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🔧 Essential Proxmox VE Concepts</h3>
                 <div class="quiz-question">
-                    <p><strong>Virtual Machine Creation Process:</strong></p>
+                    <p><strong>Proxmox VE Architecture:</strong></p>
                     <ol style="margin-left: 1rem; margin-top: 0.5rem;">
-                        <li>Upload ISO files to datastore</li>
-                        <li>Create new virtual machine</li>
-                        <li>Configure hardware settings</li>
-                        <li>Install operating system</li>
-                        <li>Install VMware Tools (if applicable)</li>
+                        <li><strong>Nodes:</strong> Physical servers running Proxmox VE</li>
+                        <li><strong>Cluster:</strong> Group of nodes managed together</li>
+                        <li><strong>Datacenter:</strong> Top-level organizational unit</li>
+                        <li><strong>Storage:</strong> Various storage backends (local, NFS, iSCSI, Ceph)</li>
+                        <li><strong>Network:</strong> Virtual bridges and VLAN configuration</li>
                     </ol>
                 </div>
             </div>
@@ -628,57 +1044,88 @@
             <div class="card">
                 <h3>💡 Essential Terminology</h3>
                 <div class="glossary-term">
-                    <strong>Datastore:</strong> A logical storage container that holds virtual machine files, templates, and ISO images.
+                    <strong>Proxmox VE:</strong> Open-source virtualization platform combining KVM hypervisor and LXC containers with web-based management.
                 </div>
                 <div class="glossary-term">
-                    <strong>vSphere Client:</strong> The web-based management interface used to manage ESXi hosts and virtual machines.
+                    <strong>KVM (Kernel-based Virtual Machine):</strong> The Type 1 hypervisor technology underlying Proxmox VE for full virtualization.
                 </div>
                 <div class="glossary-term">
-                    <strong>VMkernel:</strong> The virtualization layer that provides core services like memory management, process scheduling, and I/O stack.
+                    <strong>LXC (Linux Containers):</strong> Lightweight virtualization technology for running containerized applications.
                 </div>
                 <div class="glossary-term">
-                    <strong>vMotion:</strong> Technology that allows live migration of running virtual machines from one ESXi host to another.
+                    <strong>Node:</strong> A physical server running Proxmox VE software.
                 </div>
                 <div class="glossary-term">
-                    <strong>VMFS:</strong> Virtual Machine File System - VMware's clustered file system designed for storing virtual machine files.
+                    <strong>Cluster:</strong> A group of Proxmox nodes managed as a single unit for high availability and resource sharing.
+                </div>
+                <div class="glossary-term">
+                    <strong>Datastore:</strong> A storage location where VM disks, container images, and backups are stored.
+                </div>
+                <div class="glossary-term">
+                    <strong>Live Migration:</strong> Moving a running VM from one node to another without downtime.
+                </div>
+                <div class="glossary-term">
+                    <strong>High Availability (HA):</strong> Automatic restart of VMs on other nodes if a node fails.
+                </div>
+                <div class="glossary-term">
+                    <strong>ZFS:</strong> Advanced file system with features like snapshots, compression, and data integrity checking.
                 </div>
             </div>
 
             <div class="card">
                 <h3>🚀 Pre-Lab Checklist</h3>
                 <div id="checklistContainer">
-                    <div class="checklist-item" onclick="toggleChecklist(this)">
-                        <span class="checkbox">☐</span> Understand the difference between Type 1 and Type 2 hypervisors
+                    <div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
+                        <span class="checkbox" aria-hidden="true">☐</span> Understand the difference between Type 1 and Type 2 hypervisors
                     </div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)">
-                        <span class="checkbox">☐</span> Know the basic architecture of virtualization
+                    <div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
+                        <span class="checkbox" aria-hidden="true">☐</span> Know the basic architecture of virtualization and Proxmox VE
                     </div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)">
-                        <span class="checkbox">☐</span> Understand hardware requirements for virtualization
+                    <div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
+                        <span class="checkbox" aria-hidden="true">☐</span> Understand hardware requirements for virtualization (VT-x/AMD-V)
                     </div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)">
-                        <span class="checkbox">☐</span> Familiar with virtualization terminology
+                    <div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
+                        <span class="checkbox" aria-hidden="true">☐</span> Familiar with virtualization terminology and concepts
                     </div>
-                    <div class="checklist-item" onclick="toggleChecklist(this)">
-                        <span class="checkbox">☐</span> Ready to work with management interfaces
+                    <div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
+                        <span class="checkbox" aria-hidden="true">☐</span> Ready to work with web-based management interfaces
+                    </div>
+                    <div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
+                        <span class="checkbox" aria-hidden="true">☐</span> Understand basic networking concepts (IP addresses, VLANs)
+                    </div>
+                    <div class="checklist-item" onclick="toggleChecklist(this)" tabindex="0" role="checkbox" aria-checked="false">
+                        <span class="checkbox" aria-hidden="true">☐</span> Know why Proxmox VE is ideal for educational environments
                     </div>
                 </div>
             </div>
 
-            <button class="interactive-btn" onclick="nextSection()">Take Knowledge Check →</button>
-        </div>
+            <div class="card">
+                <h3>🌟 Why Proxmox VE for Your Education</h3>
+                <p>Your program chose Proxmox VE because it offers real-world, enterprise-grade experience without licensing costs. You'll learn skills directly applicable to industry environments while using the same tools deployed in production systems worldwide.</p>
+                
+                <ul>
+                    <li><strong>Industry Relevance:</strong> Used by thousands of companies globally</li>
+                    <li><strong>Career Preparation:</strong> Direct experience with enterprise virtualization</li>
+                    <li><strong>Open Source Benefits:</strong> Full access to all features without restrictions</li>
+                    <li><strong>Community Support:</strong> Large, active community and extensive documentation</li>
+                    <li><strong>Future-Proof Skills:</strong> Modern, actively developed platform</li>
+                </ul>
+            </div>
+
+            <button class="interactive-btn" onclick="nextSection()" aria-label="Take Knowledge Check quiz">Take Knowledge Check →</button>
+        </section>
 
         <!-- Quiz Section -->
-        <div id="quiz" class="content-section">
+        <section id="quiz" class="content-section" role="tabpanel" aria-labelledby="quiz-tab">
             <h2>🧠 Knowledge Check</h2>
             
             <div class="knowledge-score">
-                <p>Score: <span id="score">0</span>/5</p>
+                <p>Score: <span id="score" aria-live="polite">0</span>/7</p>
             </div>
 
             <div class="quiz-question">
                 <p><strong>Question 1:</strong> What is the main difference between Type 1 and Type 2 hypervisors?</p>
-                <div class="quiz-options">
+                <div class="quiz-options" role="group" aria-labelledby="q1-label">
                     <button class="quiz-option" onclick="checkAnswer(this, false, 1)">A) Type 1 is faster, Type 2 is slower</button>
                     <button class="quiz-option" onclick="checkAnswer(this, true, 1)">B) Type 1 runs directly on hardware, Type 2 runs on an operating system</button>
                     <button class="quiz-option" onclick="checkAnswer(this, false, 1)">C) Type 1 is free, Type 2 costs money</button>
@@ -687,42 +1134,62 @@
             </div>
 
             <div class="quiz-question">
-                <p><strong>Question 2:</strong> Which of the following is a Type 1 hypervisor?</p>
-                <div class="quiz-options">
-                    <button class="quiz-option" onclick="checkAnswer(this, false, 2)">A) VMware Workstation</button>
-                    <button class="quiz-option" onclick="checkAnswer(this, true, 2)">B) VMware ESXi</button>
+                <p><strong>Question 2:</strong> Which hypervisor will you be using in your lab exercises?</p>
+                <div class="quiz-options" role="group" aria-labelledby="q2-label">
+                    <button class="quiz-option" onclick="checkAnswer(this, true, 2)">A) Proxmox VE</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 2)">B) VMware ESXi</button>
                     <button class="quiz-option" onclick="checkAnswer(this, false, 2)">C) Oracle VirtualBox</button>
-                    <button class="quiz-option" onclick="checkAnswer(this, false, 2)">D) Parallels Desktop</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 2)">D) Microsoft Hyper-V</button>
                 </div>
             </div>
 
             <div class="quiz-question">
-                <p><strong>Question 3:</strong> What is a primary benefit of using hypervisors?</p>
-                <div class="quiz-options">
-                    <button class="quiz-option" onclick="checkAnswer(this, false, 3)">A) They make computers run faster</button>
-                    <button class="quiz-option" onclick="checkAnswer(this, true, 3)">B) They allow multiple VMs to run on one physical machine</button>
-                    <button class="quiz-option" onclick="checkAnswer(this, false, 3)">C) They replace the need for operating systems</button>
-                    <button class="quiz-option" onclick="checkAnswer(this, false, 3)">D) They only work with specific hardware</button>
+                <p><strong>Question 3:</strong> What virtualization technologies does Proxmox VE combine?</p>
+                <div class="quiz-options" role="group" aria-labelledby="q3-label">
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 3)">A) VMware and Hyper-V</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, true, 3)">B) KVM and LXC</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 3)">C) VirtualBox and QEMU</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 3)">D) Xen and Docker</button>
                 </div>
             </div>
 
             <div class="quiz-question">
-                <p><strong>Question 4:</strong> What does VMM stand for?</p>
-                <div class="quiz-options">
-                    <button class="quiz-option" onclick="checkAnswer(this, false, 4)">A) Virtual Memory Manager</button>
-                    <button class="quiz-option" onclick="checkAnswer(this, true, 4)">B) Virtual Machine Monitor</button>
-                    <button class="quiz-option" onclick="checkAnswer(this, false, 4)">C) Virtual Management Module</button>
-                    <button class="quiz-option" onclick="checkAnswer(this, false, 4)">D) Virtual Media Manager</button>
+                <p><strong>Question 4:</strong> Which Type 2 hypervisor is optimized for Apple Silicon Macs?</p>
+                <div class="quiz-options" role="group" aria-labelledby="q4-label">
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 4)">A) VMware Fusion</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, true, 4)">B) UTM</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 4)">C) Parallels Desktop</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 4)">D) VirtualBox</button>
                 </div>
             </div>
 
             <div class="quiz-question">
-                <p><strong>Question 5:</strong> In your upcoming lab, what type of hypervisor will you most likely be working with?</p>
-                <div class="quiz-options">
-                    <button class="quiz-option" onclick="checkAnswer(this, true, 5)">A) Type 1 (Bare Metal)</button>
-                    <button class="quiz-option" onclick="checkAnswer(this, false, 5)">B) Type 2 (Hosted)</button>
-                    <button class="quiz-option" onclick="checkAnswer(this, false, 5)">C) Type 3 (Cloud-based)</button>
-                    <button class="quiz-option" onclick="checkAnswer(this, false, 5)">D) No hypervisor will be used</button>
+                <p><strong>Question 5:</strong> How does virtualization enable cloud computing?</p>
+                <div class="quiz-options" role="group" aria-labelledby="q5-label">
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 5)">A) It makes computers faster</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, true, 5)">B) It allows resource pooling and multi-tenancy</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 5)">C) It replaces the need for networks</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 5)">D) It only works with specific hardware</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Question 6:</strong> What does VMM stand for?</p>
+                <div class="quiz-options" role="group" aria-labelledby="q6-label">
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 6)">A) Virtual Memory Manager</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, true, 6)">B) Virtual Machine Monitor</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 6)">C) Virtual Management Module</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 6)">D) Virtual Media Manager</button>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <p><strong>Question 7:</strong> Why is Proxmox VE ideal for educational environments?</p>
+                <div class="quiz-options" role="group" aria-labelledby="q7-label">
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 7)">A) It's the easiest to use</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 7)">B) It only runs on old hardware</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, true, 7)">C) It's free, open-source, and enterprise-grade</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 7)">D) It doesn't require any technical knowledge</button>
                 </div>
             </div>
 
@@ -730,13 +1197,13 @@
                 <h3>🎉 Congratulations!</h3>
                 <p>You've completed the Hypervisor Learning Portal!</p>
                 <div class="knowledge-score">
-                    Final Score: <span id="finalScore">0</span>/5
+                    Final Score: <span id="finalScore" aria-live="polite">0</span>/7
                 </div>
-                <p id="resultMessage"></p>
-                <button class="interactive-btn" onclick="restartQuiz()">🔄 Retake Quiz</button>
+                <p id="resultMessage" aria-live="polite"></p>
+                <button class="interactive-btn" onclick="restartQuiz()" aria-label="Retake the quiz">🔄 Retake Quiz</button>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <script>
         // Global variables
@@ -745,30 +1212,68 @@
         let quizScore = 0;
         let answeredQuestions = new Set();
         
-        const sections = ['introduction', 'types', 'benefits', 'examples', 'preparation', 'quiz'];
+        const sections = ['introduction', 'types', 'benefits', 'examples', 'usecases', 'preparation', 'quiz'];
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
             updateProgressBar();
+            setupAccessibilityFeatures();
         });
 
-        // Section navigation
-        function showSection(sectionName) {
+        // Setup accessibility features
+        function setupAccessibilityFeatures() {
+            // Add keyboard navigation for checklist items
+            document.querySelectorAll('.checklist-item').forEach(item => {
+                item.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleChecklist(this);
+                    }
+                });
+            });
+
+            // Add keyboard navigation for stack layers
+            document.querySelectorAll('.stack-layer').forEach(layer => {
+                layer.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const layerType = this.classList.contains('vm-layer') ? 'vm' :
+                                        this.classList.contains('hypervisor-layer') ? 'hypervisor' : 'hardware';
+                        highlightLayer(layerType);
+                    }
+                });
+            });
+        }
+
+        // Handle keyboard events for diagram layers
+        function handleKeyPress(event, layer) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                highlightLayer(layer);
+            }
+        }
+
+        // Section navigation with accessibility
+        function showSection(sectionName, tabElement) {
             // Hide all sections
             document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.remove('active');
             });
             
-            // Remove active class from all tabs
+            // Remove active state from all tabs
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
             });
             
             // Show selected section
-            document.getElementById(sectionName).classList.add('active');
+            const targetSection = document.getElementById(sectionName);
+            targetSection.classList.add('active');
+            targetSection.focus();
             
             // Activate corresponding tab
-            event.target.classList.add('active');
+            tabElement.classList.add('active');
+            tabElement.setAttribute('aria-selected', 'true');
             
             // Update current section
             currentSection = sectionName;
@@ -782,30 +1287,29 @@
                 currentSectionIndex++;
                 const nextSectionName = sections[currentSectionIndex];
                 
-                // Simulate clicking the tab
-                const nextTab = document.querySelector(`[onclick="showSection('${nextSectionName}')"]`);
+                // Find and click the corresponding tab
+                const nextTab = document.querySelector(`[onclick*="showSection('${nextSectionName}'"]`);
                 if (nextTab) {
-                    showSection(nextSectionName);
-                    nextTab.classList.add('active');
-                    
-                    // Remove active from other tabs
-                    document.querySelectorAll('.nav-tab').forEach(tab => {
-                        if (tab !== nextTab) {
-                            tab.classList.remove('active');
-                        }
-                    });
+                    showSection(nextSectionName, nextTab);
                 }
                 updateProgressBar();
             }
         }
 
-        // Update progress bar
+        // Update progress bar with accessibility
         function updateProgressBar() {
             const progress = ((currentSectionIndex + 1) / sections.length) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            progressBar.style.width = progress + '%';
+            progressText.textContent = Math.round(progress) + '%';
+            
+            // Update ARIA attributes
+            progressBar.parentElement.setAttribute('aria-valuenow', Math.round(progress));
         }
 
-        // Layer highlighting for diagram
+        // Layer highlighting for diagram with accessibility
         function highlightLayer(layer) {
             const descriptions = {
                 'vm': 'Virtual Machines: These are the software-based computers that run operating systems and applications. Each VM operates independently and believes it has dedicated hardware.',
@@ -813,54 +1317,68 @@
                 'hardware': 'Physical Hardware: The actual computer components - CPU, memory, storage, and network interfaces - that provide the computing power for all virtual machines.'
             };
             
-            document.getElementById('layerDescription').textContent = descriptions[layer];
+            const descriptionElement = document.getElementById('layerDescription');
+            descriptionElement.textContent = descriptions[layer];
             
-            // Add bounce animation
-            event.target.classList.add('bounce');
-            setTimeout(() => {
-                event.target.classList.remove('bounce');
-            }, 600);
+            // Find and add bounce animation to the clicked layer
+            const layerElement = document.querySelector(`.${layer}-layer`);
+            if (layerElement) {
+                layerElement.classList.add('bounce');
+                setTimeout(() => {
+                    layerElement.classList.remove('bounce');
+                }, 600);
+            }
         }
 
-        // Type comparison answer
+        // Type comparison answer with accessibility
         function showAnswer(type) {
             const answerDiv = document.getElementById('typeAnswer');
             if (type === 'type1') {
-                answerDiv.innerHTML = '✅ Correct! You will be working with Type 1 (Bare Metal) hypervisors in your lab exercises. These provide direct access to hardware and are used in enterprise environments.';
+                answerDiv.innerHTML = '✅ Correct! You will be working with Type 1 (Bare Metal) hypervisors like Proxmox VE in your lab exercises. These provide direct access to hardware and are used in enterprise environments.';
                 answerDiv.style.color = 'var(--success-green)';
+                answerDiv.setAttribute('role', 'status');
             } else {
-                answerDiv.innerHTML = '❌ Not quite. While Type 2 hypervisors are great for personal use, your lab will focus on Type 1 hypervisors for enterprise-level virtualization.';
-                answerDiv.style.color = '#dc3545';
+                answerDiv.innerHTML = '❌ Not quite. While Type 2 hypervisors like UTM are great for personal use and development, your lab will focus on Type 1 hypervisors for enterprise-level virtualization.';
+                answerDiv.style.color = 'var(--error-red)';
+                answerDiv.setAttribute('role', 'status');
             }
         }
 
         // Show comparison table
         function showComparison() {
             const table = document.getElementById('comparisonTable');
+            const button = event.target;
+            
             if (table.style.display === 'none') {
                 table.style.display = 'block';
-                event.target.textContent = '📊 Hide Comparison';
+                button.textContent = '📊 Hide Comparison';
+                button.setAttribute('aria-expanded', 'true');
             } else {
                 table.style.display = 'none';
-                event.target.textContent = '📊 Compare Hypervisors';
+                button.textContent = '📊 Compare Hypervisors';
+                button.setAttribute('aria-expanded', 'false');
             }
         }
 
-        // Checklist functionality
+        // Checklist functionality with accessibility
         function toggleChecklist(item) {
             const checkbox = item.querySelector('.checkbox');
-            if (checkbox.textContent === '☐') {
+            const isChecked = checkbox.textContent === '✅';
+            
+            if (!isChecked) {
                 checkbox.textContent = '✅';
                 item.style.color = 'var(--success-green)';
                 item.style.fontWeight = 'bold';
+                item.setAttribute('aria-checked', 'true');
             } else {
                 checkbox.textContent = '☐';
                 item.style.color = '';
                 item.style.fontWeight = '';
+                item.setAttribute('aria-checked', 'false');
             }
         }
 
-        // Quiz functionality
+        // Quiz functionality with accessibility
         function checkAnswer(button, isCorrect, questionNumber) {
             // Prevent multiple answers for the same question
             if (answeredQuestions.has(questionNumber)) {
@@ -875,6 +1393,7 @@
             allOptions.forEach(option => {
                 option.disabled = true;
                 option.style.cursor = 'not-allowed';
+                option.setAttribute('aria-disabled', 'true');
             });
             
             // Style the clicked button
@@ -882,15 +1401,18 @@
                 button.classList.add('correct');
                 quizScore++;
                 button.textContent += ' ✓ Correct!';
+                button.setAttribute('aria-label', button.textContent + ' - Correct answer');
             } else {
                 button.classList.add('incorrect');
                 button.textContent += ' ✗ Incorrect';
+                button.setAttribute('aria-label', button.textContent + ' - Incorrect answer');
                 
                 // Highlight the correct answer
                 allOptions.forEach(option => {
                     if (option.onclick.toString().includes('true')) {
                         option.classList.add('correct');
                         option.textContent += ' ✓ Correct Answer';
+                        option.setAttribute('aria-label', option.textContent + ' - This was the correct answer');
                     }
                 });
             }
@@ -899,34 +1421,38 @@
             document.getElementById('score').textContent = quizScore;
             
             // Check if all questions are answered
-            if (answeredQuestions.size === 5) {
+            if (answeredQuestions.size === 7) {
                 setTimeout(showFinalResults, 1000);
             }
         }
 
-        // Show final quiz results
+        // Show final quiz results with accessibility
         function showFinalResults() {
-            document.getElementById('finalResults').style.display = 'block';
+            const resultsDiv = document.getElementById('finalResults');
+            resultsDiv.style.display = 'block';
             document.getElementById('finalScore').textContent = quizScore;
             
             let message = '';
-            if (quizScore === 5) {
-                message = '🌟 Perfect! You have an excellent understanding of hypervisors and are well-prepared for your lab work!';
-            } else if (quizScore >= 4) {
+            if (quizScore === 7) {
+                message = '🌟 Perfect! You have an excellent understanding of hypervisors and are well-prepared for your Proxmox VE lab work!';
+            } else if (quizScore >= 6) {
                 message = '👍 Great job! You have a solid understanding of hypervisors. Review any missed concepts before your lab.';
-            } else if (quizScore >= 3) {
+            } else if (quizScore >= 5) {
                 message = '📚 Good effort! Consider reviewing the material again to strengthen your understanding before the lab.';
+            } else if (quizScore >= 3) {
+                message = '🔄 You might want to go through the material again. Understanding these concepts will help you succeed in your Proxmox VE exercises.';
             } else {
-                message = '🔄 You might want to go through the material again. Understanding these concepts will help you succeed in your lab exercises.';
+                message = '📖 Please review the learning material carefully. A strong foundation in these concepts is essential for your upcoming labs.';
             }
             
             document.getElementById('resultMessage').textContent = message;
             
-            // Scroll to results
-            document.getElementById('finalResults').scrollIntoView({ behavior: 'smooth' });
+            // Focus on results for screen readers
+            resultsDiv.focus();
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Restart quiz
+        // Restart quiz with accessibility
         function restartQuiz() {
             quizScore = 0;
             answeredQuestions.clear();
@@ -936,10 +1462,12 @@
                 option.classList.remove('correct', 'incorrect');
                 option.disabled = false;
                 option.style.cursor = 'pointer';
+                option.removeAttribute('aria-disabled');
                 
                 // Reset text content
                 const originalText = option.textContent.split(' ✓')[0].split(' ✗')[0];
                 option.textContent = originalText;
+                option.removeAttribute('aria-label');
             });
             
             // Reset displays
@@ -950,31 +1478,115 @@
             document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Add styles for checklist items
+        // Add styles for checklist items with enhanced accessibility
         const checklistStyle = document.createElement('style');
         checklistStyle.textContent = `
             .checklist-item {
-                padding: 0.8rem;
-                margin: 0.5rem 0;
+                padding: 1rem;
+                margin: 0.75rem 0;
                 background: var(--light-gray);
                 border-radius: 8px;
                 cursor: pointer;
                 transition: all 0.3s ease;
                 border-left: 4px solid var(--gold);
+                border: 2px solid transparent;
             }
             
             .checklist-item:hover {
                 background: var(--light-gold);
                 transform: translateX(5px);
+                border-color: var(--gold);
+            }
+
+            .checklist-item:focus {
+                outline: 2px solid var(--navy);
+                outline-offset: 2px;
+                border-color: var(--navy);
             }
             
             .checkbox {
                 font-size: 1.2rem;
-                margin-right: 0.5rem;
+                margin-right: 0.75rem;
                 color: var(--gold);
+                font-weight: bold;
+            }
+
+            /* Enhanced quiz button accessibility */
+            .quiz-option:disabled {
+                opacity: 0.8;
+            }
+
+            .quiz-option:focus {
+                outline: 2px solid var(--navy);
+                outline-offset: 2px;
+            }
+
+            /* Better table accessibility */
+            .comparison-table th {
+                position: sticky;
+                top: 0;
+                z-index: 1;
+            }
+
+            .comparison-table tr:focus-within {
+                outline: 2px solid var(--navy);
+                outline-offset: -2px;
+            }
+
+            /* Improved progress bar accessibility */
+            .progress-container[role="progressbar"] {
+                position: relative;
+            }
+
+            /* Enhanced section transitions */
+            .content-section:focus {
+                outline: none;
+            }
+
+            /* Better responsive button sizing */
+            @media (max-width: 768px) {
+                .interactive-btn {
+                    min-height: 44px;
+                    padding: 1rem;
+                }
+
+                .quiz-option {
+                    min-height: 44px;
+                    padding: 1rem;
+                }
+
+                .nav-tab {
+                    min-height: 44px;
+                }
             }
         `;
         document.head.appendChild(checklistStyle);
+
+        // Add live region for announcements
+        const liveRegion = document.createElement('div');
+        liveRegion.setAttribute('aria-live', 'polite');
+        liveRegion.setAttribute('aria-atomic', 'true');
+        liveRegion.style.position = 'absolute';
+        liveRegion.style.left = '-10000px';
+        liveRegion.style.width = '1px';
+        liveRegion.style.height = '1px';
+        liveRegion.style.overflow = 'hidden';
+        document.body.appendChild(liveRegion);
+
+        // Function to announce to screen readers
+        function announceToScreenReader(message) {
+            liveRegion.textContent = message;
+            setTimeout(() => {
+                liveRegion.textContent = '';
+            }, 1000);
+        }
+
+        // Add section change announcements
+        const originalShowSection = showSection;
+        showSection = function(sectionName, tabElement) {
+            originalShowSection(sectionName, tabElement);
+            announceToScreenReader(`Navigated to ${sectionName.replace(/([A-Z])/g, ' $1').toLowerCase()} section`);
+        };
     </script>
 </body>
 </html>
