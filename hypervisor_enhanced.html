@@ -593,29 +593,18 @@
             }
         }
 
-        /* Dark Mode Support */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --white: #1a1a1a;
-                --light-gray: #2d2d2d;
-                --navy: #e6e6e6;
-                --light-navy: #b8b8b8;
-            }
-
-            body {
-                background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            }
-
-            .card {
-                background: #2d2d2d;
-                border-color: var(--gold);
-            }
-
-            .diagram-container {
-                background: #2d2d2d;
-                border-color: #555;
-            }
-        }
+        /* Dark mode support disabled for color consistency */
+@media (prefers-color-scheme: dark) {
+    /* Override system dark mode preference to maintain color contrast */
+    :root {
+        --navy: #1e3a5f !important;
+        --light-navy: #2c5282 !important;
+        --gold: #b8860b !important;
+        --light-gold: #f4e99b !important;
+        --white: #ffffff !important;
+        --light-gray: #f8f9fa !important;
+    }
+}
     </style>
 </head>
 <body>
