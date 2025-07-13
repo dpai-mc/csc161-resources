@@ -356,6 +356,7 @@
         .vm-layer {
             background: linear-gradient(135deg, var(--light-gold) 0%, #f7e98e 100%);
             color: var(--navy);
+            font-weight: 700;
         }
 
         .hypervisor-layer {
@@ -486,11 +487,27 @@
         }
 
         .comparison-table td {
-    padding: 1rem;
-    border-bottom: 1px solid #eee;
-    font-weight: 500;
-    color: var(--navy);  /* Ensure all table cell text is navy for good contrast */
-}
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            font-weight: 500;
+            color: var(--navy);  /* Ensure all table cell text is navy for good contrast */
+        }
+        #typeAnswer {
+            margin-top: 1rem;
+            font-weight: bold;
+            padding: 1rem;
+            border-radius: 8px;
+            background: var(--light-gray);
+            color: var(--navy);
+        }
+
+        #typeAnswer.correct {
+            border: 2px solid var(--success-green);
+        }
+
+        #typeAnswer.incorrect {
+            border: 2px solid var(--error-red);
+        }
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -1390,17 +1407,16 @@
 
         // Type comparison answer with accessibility
         function showAnswer(type) {
-            const answerDiv = document.getElementById('typeAnswer');
-            if (type === 'type1') {
-                answerDiv.innerHTML = '✅ Correct! You will be working with Type 1 (Bare Metal) hypervisors like Proxmox VE in your lab exercises. These provide direct access to hardware and are used in enterprise environments.';
-                answerDiv.style.color = 'var(--success-green)';
-                answerDiv.setAttribute('role', 'status');
-            } else {
-                answerDiv.innerHTML = '❌ Not quite. While Type 2 hypervisors like UTM are great for personal use and development, your lab will focus on Type 1 hypervisors for enterprise-level virtualization.';
-                answerDiv.style.color = 'var(--error-red)';
-                answerDiv.setAttribute('role', 'status');
-            }
-        }
+    const answerDiv = document.getElementById('typeAnswer');
+    if (type === 'type1') {
+        answerDiv.innerHTML = '✅ Correct! You will be working with Type 1 (Bare Metal) hypervisors like Proxmox VE in your lab exercises. These provide direct access to hardware and are used in enterprise environments.';
+        answerDiv.className = 'correct';
+    } else {
+        answerDiv.innerHTML = '❌ Not quite. While Type 2 hypervisors like UTM are great for personal use and development, your lab will focus on Type 1 hypervisors for enterprise-level virtualization.';
+        answerDiv.className = 'incorrect';
+    }
+    answerDiv.setAttribute('role', 'status');
+}
 
         // Show comparison table
         function showComparison() {
