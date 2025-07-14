@@ -214,15 +214,10 @@
         <!-- Header -->
         <header class="mb-12">
             <!-- Hero Section -->
-            <div class="gradient-hero text-white p-8 sm:p-12 rounded-3xl shadow-xl mb-8 text-center relative overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+            <div class="gradient-hero text-white p-4 sm:p-6 rounded-2xl shadow-lg mb-8 text-center">
                 <div class="relative z-10">
-                    <h1 class="text-display mb-4 text-white">Technology Requirements</h1>
-                    <p class="text-heading mb-2 opacity-90 text-white">CSC 161: Cloud Infrastructure and Security</p>
-                    <div class="flex flex-wrap justify-center gap-4 mt-6">
-                        <span class="badge" style="background-color: rgba(255,255,255,0.9); color: var(--school-blue); border-color: rgba(255,255,255,0.3); font-weight: 700;">Fall 2025</span>
-                        <span class="badge" style="background-color: rgba(255,255,255,0.2); color: white; border-color: rgba(255,255,255,0.3);">David Pai</span>
-                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-white">Technology Requirements</h1>
+                    <p class="text-lg opacity-90 text-white">CSC 161: Cloud Infrastructure and Security - Fall 2025</p>
                 </div>
             </div>
         </header>
@@ -236,15 +231,15 @@
                     </svg>
                     <div>
                         <h3 class="font-bold text-red-800 text-xl mb-3">Most Critical Requirement: Reliable Internet Connection</h3>
-                        <p class="text-red-700 mb-4">A stable, high-speed internet connection is absolutely essential for success in this course. All course activities depend on internet connectivity:</p>
+                        <p class="text-red-700 mb-4">A stable internet connection is essential for success in this course. All course activities depend on internet connectivity:</p>
                         <ul class="text-red-700 space-y-2">
-                            <li><strong>• Zoom Classes:</strong> Weekly Thursday meetings require stable video for participation</li>
-                            <li><strong>• VPN Access:</strong> Part 1 labs require constant connection to college Proxmox infrastructure</li>
-                            <li><strong>• Cloud Platforms:</strong> Part 2 labs use AWS, Azure, and GCP web consoles extensively</li>
+                            <li><strong>• Zoom Classes:</strong> Weekly Thursday meetings (video not required, audio participation only)</li>
+                            <li><strong>• VPN Access:</strong> Part 1 labs require connection to college Proxmox infrastructure</li>
+                            <li><strong>• Cloud Platforms:</strong> Part 2 labs use AWS, Azure, and GCP web consoles</li>
                         </ul>
                         <div class="mt-4 p-3 bg-red-50 rounded-lg">
-                            <p class="text-red-800 font-semibold">Minimum: 25 Mbps download, 5 Mbps upload with low latency</p>
-                            <p class="text-red-700 text-sm">Recommended: 50+ Mbps with wired ethernet connection when possible</p>
+                            <p class="text-red-800 font-semibold">Minimum: 5 Mbps download, 2 Mbps upload</p>
+                            <p class="text-red-700 text-sm">Recommended: 10+ Mbps download for smoother experience</p>
                         </div>
                     </div>
                 </div>
@@ -324,7 +319,7 @@
                             </tr>
                             <tr>
                                 <td class="font-semibold">Internet Speed</td>
-                                <td><strong>25+ Mbps stable connection (critical)</strong></td>
+                                <td><strong>5+ Mbps download, 2+ Mbps upload (stable connection)</strong></td>
                             </tr>
                             <tr>
                                 <td class="font-semibold">Web Browser</td>
@@ -357,7 +352,7 @@
                             </tr>
                             <tr>
                                 <td class="font-semibold">Internet Speed</td>
-                                <td><strong>50+ Mbps with low latency</strong></td>
+                                <td><strong>10+ Mbps download, 3+ Mbps upload</strong></td>
                             </tr>
                             <tr>
                                 <td class="font-semibold">Display</td>
@@ -436,13 +431,18 @@
             
             <div class="grid md:grid-cols-3 gap-6">
                 <div class="modern-card p-6">
-                    <h3 class="text-lg font-bold school-blue-text mb-3">Campus Lab Access</h3>
+                    <h3 class="text-lg font-bold school-blue-text mb-3">Campus Resources</h3>
                     <ul class="text-sm text-gray-600 space-y-2">
-                        <li>• High-speed computers in library lab</li>
+                        <li>• <strong>Loaner Chromebooks</strong> available for checkout</li>
+                        <li>• <strong>T-Mobile hotspots</strong> for internet access</li>
+                        <li>• High-speed computers in library labs</li>
                         <li>• Pre-configured with required software</li>
                         <li>• Extended hours during busy periods</li>
-                        <li>• Technical support available</li>
                     </ul>
+                    <div class="mt-3 p-3 bg-blue-50 rounded-lg">
+                        <p class="text-blue-800 text-sm font-semibold">Request Equipment Early</p>
+                        <p class="text-blue-700 text-xs">Visit main desk at: Ukiah Campus Library, Coast (Fort Bragg), North County (Willits), or Lakeport campuses</p>
+                    </div>
                 </div>
                 
                 <div class="modern-card p-6">
@@ -486,20 +486,20 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Zoom Video Classes</td>
-                                    <td>10 Mbps down, 3 Mbps up</td>
+                                    <td>Zoom Audio Classes (no video required)</td>
+                                    <td>3 Mbps down, 1 Mbps up</td>
                                 </tr>
                                 <tr>
                                     <td>VPN + Proxmox Web UI</td>
-                                    <td>15 Mbps down, 5 Mbps up</td>
+                                    <td>5 Mbps down, 2 Mbps up</td>
                                 </tr>
                                 <tr>
                                     <td>Cloud Console Work</td>
-                                    <td>10 Mbps down, 3 Mbps up</td>
+                                    <td>3 Mbps down, 1 Mbps up</td>
                                 </tr>
                                 <tr>
                                     <td>Recommended Total</td>
-                                    <td><strong>25+ Mbps down, 5+ Mbps up</strong></td>
+                                    <td><strong>10+ Mbps down, 3+ Mbps up</strong></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -517,7 +517,7 @@
                         
                         <div class="mt-4 p-3 bg-yellow-50 rounded-lg">
                             <p class="text-yellow-800 text-sm">
-                                <strong>Backup Options:</strong> Mobile hotspot, campus WiFi, public library, or study partner's connection
+                                <strong>Backup Options:</strong> College T-Mobile hotspots, campus WiFi, public library, or study partner's connection
                             </p>
                         </div>
                     </div>
