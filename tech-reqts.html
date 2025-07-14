@@ -310,11 +310,11 @@
 
             <!-- Navigation Tabs -->
             <div class="tab-container">
-                <button class="tab-button active" data-tab="overview">Overview</button>
-                <button class="tab-button" data-tab="hardware">Hardware</button>
-                <button class="tab-button" data-tab="software">Software</button>
-                <button class="tab-button" data-tab="cloud">Cloud Accounts</button>
-                <button class="tab-button" data-tab="alternative">Alternatives</button>
+                <button class="tab-button active" data-tab="overview" role="tab" id="tab-overview">Overview</button>
+                <button class="tab-button" data-tab="hardware" role="tab" id="tab-hardware">Hardware</button>
+                <button class="tab-button" data-tab="software" role="tab" id="tab-software">Software</button>
+                <button class="tab-button" data-tab="cloud" role="tab" id="tab-cloud">Cloud Accounts</button>
+                <button class="tab-button" data-tab="alternative" role="tab" id="tab-alternative">Alternatives</button>
             </div>
         </header>
 
@@ -377,8 +377,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         <div>
-                            <h3 class="font-bold text-blue-800 mb-2">Reduced Hardware Requirements</h3>
-                            <p class="text-blue-700">Part 1 labs use college-hosted Proxmox VE instances accessed via VPN, dramatically reducing local hardware requirements. Students only need a stable internet connection and basic computer. Part 2 cloud labs may incur minimal charges (typically $5-15 total) for advanced features beyond free tiers.</p>
+                            <h3 class="font-bold text-blue-800 mb-2">Minimal Requirements & Maximum Accessibility</h3>
+                            <p class="text-blue-700">Part 1 labs work on any device with OpenVPN client and web browser - smartphones, tablets, Chromebooks, or computers. Part 2 cloud labs use free tiers with potential minimal charges ($0-15 total). <strong>Reliable internet connection is the most critical requirement</strong> for Zoom classes, VPN access, and cloud resources.</p>
                         </div>
                     </div>
                 </div>
@@ -395,36 +395,36 @@
                     <div class="modern-card p-6">
                         <div class="flex items-center mb-4">
                             <span class="badge badge-minimum mr-3">Minimum</span>
-                            <h3 class="text-xl font-bold school-blue-text">Basic Requirements</h3>
+                            <h3 class="text-xl font-bold school-blue-text">Any Internet-Connected Device</h3>
                         </div>
                         
                         <table class="spec-table">
                             <tbody>
                                 <tr>
-                                    <td class="font-semibold">CPU</td>
-                                    <td>Dual-core, 64-bit processor</td>
+                                    <td class="font-semibold">Device</td>
+                                    <td>Smartphone, tablet, Chromebook, laptop, or desktop</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-semibold">RAM</td>
-                                    <td>4 GB</td>
+                                    <td class="font-semibold">Internet</td>
+                                    <td><strong>25+ Mbps stable connection (critical)</strong></td>
                                 </tr>
                                 <tr>
-                                    <td class="font-semibold">Storage</td>
-                                    <td>50 GB available space</td>
-                                </tr>
-                                <tr>
-                                    <td class="font-semibold">Network</td>
-                                    <td>Broadband internet (10+ Mbps stable)</td>
+                                    <td class="font-semibold">Browser</td>
+                                    <td>Chrome, Firefox, Safari, or Edge (recent version)</td>
                                 </tr>
                                 <tr>
                                     <td class="font-semibold">VPN Client</td>
-                                    <td>OpenVPN compatible client</td>
+                                    <td>OpenVPN app (available on all platforms)</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">Display</td>
+                                    <td>Large enough to view web interfaces comfortably</td>
                                 </tr>
                             </tbody>
                         </table>
 
                         <div class="success-box mt-4">
-                            <p class="text-sm text-green-700"><strong>Part 1 Advantage:</strong> College-hosted PVE instances eliminate need for local virtualization hardware.</p>
+                            <p class="text-sm text-green-700"><strong>Universal Access:</strong> Part 1 works on any device that can run a VPN client and web browser.</p>
                         </div>
                     </div>
 
@@ -432,84 +432,87 @@
                     <div class="modern-card p-6">
                         <div class="flex items-center mb-4">
                             <span class="badge badge-recommended mr-3">Recommended</span>
-                            <h3 class="text-xl font-bold school-blue-text">Optimal Experience</h3>
+                            <h3 class="text-xl font-bold school-blue-text">Enhanced Experience</h3>
                         </div>
                         
                         <table class="spec-table">
                             <tbody>
                                 <tr>
-                                    <td class="font-semibold">CPU</td>
-                                    <td>Quad-core processor or better</td>
+                                    <td class="font-semibold">Device</td>
+                                    <td>Laptop or desktop with keyboard</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-semibold">RAM</td>
-                                    <td>8 GB or more</td>
-                                </tr>
-                                <tr>
-                                    <td class="font-semibold">Storage</td>
-                                    <td>256 GB SSD</td>
-                                </tr>
-                                <tr>
-                                    <td class="font-semibold">Network</td>
-                                    <td>25+ Mbps with low latency</td>
+                                    <td class="font-semibold">Internet</td>
+                                    <td><strong>50+ Mbps with low latency</strong></td>
                                 </tr>
                                 <tr>
                                     <td class="font-semibold">Display</td>
-                                    <td>1920x1080 or higher resolution</td>
+                                    <td>1920x1080 or higher (multiple monitor support)</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">Input</td>
+                                    <td>Physical keyboard and mouse/trackpad</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">Storage</td>
+                                    <td>Minimal local storage for documentation</td>
                                 </tr>
                             </tbody>
                         </table>
 
                         <div class="info-box mt-4">
-                            <p class="text-sm text-blue-700"><strong>Benefits:</strong> Smooth remote desktop performance, better multi-tab cloud console experience.</p>
+                            <p class="text-sm text-blue-700"><strong>Benefits:</strong> Better multitasking, easier text input, comfortable extended lab sessions.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Detailed Hardware Explanations -->
+                <!-- Internet Connection Requirements -->
                 <div class="modern-card p-8 mt-8">
-                    <h3 class="text-xl font-bold school-blue-text mb-6">Hardware Justification</h3>
+                    <h3 class="text-xl font-bold school-blue-text mb-6">Internet Connection: The Critical Requirement</h3>
                     
-                    <div class="grid md:grid-cols-2 gap-6">
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                                Zoom Classes
+                            </h4>
+                            <p class="text-gray-600 text-sm">Weekly Thursday meetings require stable video conferencing capabilities. Poor connection affects participation and learning.</p>
+                            <p class="text-xs text-gray-500 mt-1"><strong>Requirement:</strong> 10+ Mbps for reliable video</p>
+                        </div>
+                        
                         <div>
                             <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
                                 <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                                 </svg>
-                                Network Connection
+                                VPN Access to PVE
                             </h4>
-                            <p class="text-gray-600 text-sm">Stable internet is critical for VPN access to college PVE instances and cloud platform work. Higher bandwidth improves remote desktop responsiveness and reduces latency.</p>
+                            <p class="text-gray-600 text-sm">Part 1 labs require constant VPN connection to college Proxmox infrastructure. Web interface responsiveness depends on connection quality.</p>
+                            <p class="text-xs text-gray-500 mt-1"><strong>Requirement:</strong> 15+ Mbps for smooth remote desktop</p>
                         </div>
                         
                         <div>
                             <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
                                 <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
                                 </svg>
-                                Display & Interface
+                                Cloud Platform Access
                             </h4>
-                            <p class="text-gray-600 text-sm">Higher resolution displays improve readability of remote desktop sessions and cloud consoles. Multiple browser tabs and terminal windows benefit from larger screens.</p>
+                            <p class="text-gray-600 text-sm">Part 2 uses AWS, Azure, and GCP web consoles. Multiple browser tabs and API calls require consistent bandwidth.</p>
+                            <p class="text-xs text-gray-500 mt-1"><strong>Requirement:</strong> 10+ Mbps for web console responsiveness</p>
                         </div>
-                        
-                        <div>
-                            <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
-                                <svg class="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                                </svg>
-                                VPN Client Support
-                            </h4>
-                            <p class="text-gray-600 text-sm">OpenVPN client required for secure access to college Proxmox infrastructure. All major operating systems support OpenVPN connections.</p>
-                        </div>
-                        
-                        <div>
-                            <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
-                                <svg class="w-5 h-5 mr-2 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
-                                </svg>
-                                Local Storage
-                            </h4>
-                            <p class="text-gray-600 text-sm">Minimal local storage needed since virtualization runs remotely. Space required for VPN client, documentation, screenshots, and cloud CLI tools.</p>
-                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-yellow-50 rounded-lg">
+                        <h4 class="font-semibold text-yellow-800 mb-2">Connection Reliability Tips</h4>
+                        <ul class="text-yellow-700 text-sm space-y-1">
+                            <li>• Test connection speed at <a href="https://speedtest.net" target="_blank" class="text-blue-600 hover:underline">speedtest.net</a> before each lab session</li>
+                            <li>• Use wired ethernet when possible for most stable connection</li>
+                            <li>• Consider mobile hotspot as backup for critical lab deadlines</li>
+                            <li>• Campus WiFi available as alternative during lab hours</li>
+                        </ul>
                     </div>
                 </div>
             </section>
@@ -1265,7 +1268,10 @@
             // Add ARIA attributes to tab contents
             tabContents.forEach((content, index) => {
                 content.setAttribute('role', 'tabpanel');
-                content.setAttribute('aria-labelledby', tabButtons[index].id);
+                const correspondingButton = tabButtons[index];
+                if (correspondingButton) {
+                    content.setAttribute('aria-labelledby', correspondingButton.id);
+                }
             });
             
             // Cost calculator functionality (interactive feature)
