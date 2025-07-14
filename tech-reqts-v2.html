@@ -472,7 +472,66 @@
             </div>
         </section>
 
-        <!-- Connection Testing -->
+        <!-- Interactive Requirements Checklist -->
+        <section class="mb-12">
+            <h2 class="text-heading school-blue-text section-header">Setup Progress Tracker</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Part 1 Checklist -->
+                <div class="modern-card p-6">
+                    <h3 class="text-xl font-bold school-blue-text mb-4">Part 1: Virtualization Labs (Weeks 1-6)</h3>
+                    <div class="space-y-3" id="part1-checklist">
+                        <label class="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                            <input type="checkbox" class="w-5 h-5 text-blue-600 rounded checklist-item" data-part="1">
+                            <span class="text-sm text-gray-700">Stable internet connection (5+ Mbps tested)</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                            <input type="checkbox" class="w-5 h-5 text-blue-600 rounded checklist-item" data-part="1">
+                            <span class="text-sm text-gray-700">Device with web browser (phone, tablet, laptop, etc.)</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                            <input type="checkbox" class="w-5 h-5 text-blue-600 rounded checklist-item" data-part="1">
+                            <span class="text-sm text-gray-700">OpenVPN client installed on device</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                            <input type="checkbox" class="w-5 h-5 text-blue-600 rounded checklist-item" data-part="1">
+                            <span class="text-sm text-gray-700">Equipment request submitted (if needed)</span>
+                        </label>
+                    </div>
+                    <div class="mt-4 bg-gray-200 rounded-full h-3">
+                        <div id="progress-bar-1" class="bg-blue-600 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2" id="progress-text-1">0 of 4 requirements completed for Part 1</p>
+                </div>
+
+                <!-- Part 2 Checklist -->
+                <div class="modern-card p-6">
+                    <h3 class="text-xl font-bold school-blue-text mb-4">Part 2: Cloud Security Labs (Weeks 7-17)</h3>
+                    <div class="space-y-3" id="part2-checklist">
+                        <label class="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                            <input type="checkbox" class="w-5 h-5 text-blue-600 rounded checklist-item" data-part="2">
+                            <span class="text-sm text-gray-700">College Google account verified for GCP access</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                            <input type="checkbox" class="w-5 h-5 text-blue-600 rounded checklist-item" data-part="2">
+                            <span class="text-sm text-gray-700">Azure access through college MSLE program confirmed</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                            <input type="checkbox" class="w-5 h-5 text-blue-600 rounded checklist-item" data-part="2">
+                            <span class="text-sm text-gray-700">AWS personal free tier account created</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                            <input type="checkbox" class="w-5 h-5 text-blue-600 rounded checklist-item" data-part="2">
+                            <span class="text-sm text-gray-700">All cloud platform consoles tested and accessible</span>
+                        </label>
+                    </div>
+                    <div class="mt-4 bg-gray-200 rounded-full h-3">
+                        <div id="progress-bar-2" class="bg-green-600 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2" id="progress-text-2">0 of 4 requirements completed for Part 2</p>
+                </div>
+            </div>
+        </section>
         <section class="mb-12">
             <h2 class="text-heading school-blue-text section-header">Internet Connection Testing</h2>
             
@@ -530,7 +589,84 @@
             </div>
         </section>
 
-        <!-- Footer -->
+        <!-- FAQ Section -->
+        <section class="mb-12">
+            <h2 class="text-heading school-blue-text section-header">Frequently Asked Questions</h2>
+            
+            <div class="space-y-4">
+                <div class="modern-card overflow-hidden">
+                    <button class="faq-button w-full flex justify-between items-center text-left p-6 bg-transparent focus:outline-none focus:bg-gray-50 hover:bg-gray-50 transition-colors" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-gray-800">What if my internet speed is too slow for the course?</span>
+                        <svg class="w-5 h-5 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600">The college provides several backup options: request a T-Mobile hotspot from any campus main desk, use campus WiFi during extended library hours, or coordinate with study partners. We can also arrange alternative assignment formats if needed.</p>
+                    </div>
+                </div>
+
+                <div class="modern-card overflow-hidden">
+                    <button class="faq-button w-full flex justify-between items-center text-left p-6 bg-transparent focus:outline-none focus:bg-gray-50 hover:bg-gray-50 transition-colors" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-gray-800">How do I get a loaner Chromebook or hotspot?</span>
+                        <svg class="w-5 h-5 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600">Visit the main desk at any campus location: Ukiah Campus Library, Coast (Fort Bragg), North County (Willits), or Lakeport. Request equipment as early as possible since availability is limited. Bring your student ID and be prepared to sign a usage agreement.</p>
+                    </div>
+                </div>
+
+                <div class="modern-card overflow-hidden">
+                    <button class="faq-button w-full flex justify-between items-center text-left p-6 bg-transparent focus:outline-none focus:bg-gray-50 hover:bg-gray-50 transition-colors" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-gray-800">Do I really need a credit card for AWS?</span>
+                        <svg class="w-5 h-5 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600">Yes, AWS requires a credit card for identity verification, even for the free tier. However, most activities stay within free tier limits. We'll provide detailed cost monitoring guidance, and the department has emergency funds to help with any unexpected charges. Estimated total cost is $0-15 for the entire semester.</p>
+                    </div>
+                </div>
+
+                <div class="modern-card overflow-hidden">
+                    <button class="faq-button w-full flex justify-between items-center text-left p-6 bg-transparent focus:outline-none focus:bg-gray-50 hover:bg-gray-50 transition-colors" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-gray-800">Can I use my smartphone for everything?</span>
+                        <svg class="w-5 h-5 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600">Yes! Part 1 labs work on any device with OpenVPN and a web browser, including smartphones. Part 2 cloud consoles are also mobile-friendly. However, a larger screen makes the experience more comfortable, especially for extended lab sessions. Consider requesting a loaner Chromebook if you'll be doing most work on a phone.</p>
+                    </div>
+                </div>
+
+                <div class="modern-card overflow-hidden">
+                    <button class="faq-button w-full flex justify-between items-center text-left p-6 bg-transparent focus:outline-none focus:bg-gray-50 hover:bg-gray-50 transition-colors" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-gray-800">What happens if I can't access the VPN or cloud platforms?</span>
+                        <svg class="w-5 h-5 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600">Contact the instructor immediately - don't wait until the deadline. We have campus lab access as backup, can provide alternative assignment formats, and offer technical support for connection issues. The college IT department can also help with VPN troubleshooting.</p>
+                    </div>
+                </div>
+
+                <div class="modern-card overflow-hidden">
+                    <button class="faq-button w-full flex justify-between items-center text-left p-6 bg-transparent focus:outline-none focus:bg-gray-50 hover:bg-gray-50 transition-colors" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-gray-800">When should I start setting up cloud accounts?</span>
+                        <svg class="w-5 h-5 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-6">
+                        <p class="text-gray-600">Focus on Part 1 requirements first (internet, OpenVPN, device). You won't need cloud accounts until Week 7 when we transition to Part 2. Your college Google account and Azure access are already available. Only AWS requires setup, which we'll do together in class around Week 6.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
         <footer class="mt-16 pt-8 border-t border-gray-200 text-center">
             <div class="modern-card p-6 bg-gray-50">
                 <h3 class="font-bold text-gray-800 mb-2">Questions About Technology Requirements?</h3>
@@ -543,5 +679,80 @@
         </footer>
     </div>
 
-</body>
+    <script>
+        // Progress tracking for checklists
+        document.addEventListener('DOMContentLoaded', function() {
+            const checklistItems = document.querySelectorAll('.checklist-item');
+            
+            checklistItems.forEach(function(item) {
+                item.addEventListener('change', function() {
+                    updateProgress(this.getAttribute('data-part'));
+                });
+            });
+            
+            function updateProgress(part) {
+                const items = document.querySelectorAll('.checklist-item[data-part="' + part + '"]');
+                const completed = Array.from(items).filter(function(item) {
+                    return item.checked;
+                }).length;
+                const total = items.length;
+                const percentage = (completed / total) * 100;
+                
+                const progressBar = document.getElementById('progress-bar-' + part);
+                const progressText = document.getElementById('progress-text-' + part);
+                
+                progressBar.style.width = percentage + '%';
+                
+                if (part === '1') {
+                    progressText.textContent = completed + ' of ' + total + ' requirements completed for Part 1';
+                    if (percentage === 100) {
+                        progressText.textContent += ' ✓ Ready for virtualization labs!';
+                        progressBar.classList.remove('bg-blue-600');
+                        progressBar.classList.add('bg-green-600');
+                    } else {
+                        progressBar.classList.remove('bg-green-600');
+                        progressBar.classList.add('bg-blue-600');
+                    }
+                } else {
+                    progressText.textContent = completed + ' of ' + total + ' requirements completed for Part 2';
+                    if (percentage === 100) {
+                        progressText.textContent += ' ✓ Ready for cloud security labs!';
+                    }
+                }
+            }
+        });
+        
+        // FAQ toggle functionality
+        function toggleFAQ(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('.faq-icon');
+            const isOpen = !content.classList.contains('hidden');
+            
+            if (isOpen) {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+        
+        // Close other FAQs when opening a new one (accordion behavior)
+        document.querySelectorAll('.faq-button').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const currentContent = this.nextElementSibling;
+                const currentIcon = this.querySelector('.faq-icon');
+                
+                // Close all other FAQs
+                document.querySelectorAll('.faq-button').forEach(function(otherButton) {
+                    if (otherButton !== button) {
+                        const otherContent = otherButton.nextElementSibling;
+                        const otherIcon = otherButton.querySelector('.faq-icon');
+                        otherContent.classList.add('hidden');
+                        otherIcon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+        });
+    </script>
 </html>
