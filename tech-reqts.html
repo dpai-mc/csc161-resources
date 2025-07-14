@@ -377,8 +377,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         <div>
-                            <h3 class="font-bold text-blue-800 mb-2">Financial Considerations</h3>
-                            <p class="text-blue-700">While cloud provider free tiers cover most course activities, minimal charges (typically $5-15 total) may occur for advanced labs. Hardware requirements can be met through various alternatives listed in the Alternative Solutions tab.</p>
+                            <h3 class="font-bold text-blue-800 mb-2">Reduced Hardware Requirements</h3>
+                            <p class="text-blue-700">Part 1 labs use college-hosted Proxmox VE instances accessed via VPN, dramatically reducing local hardware requirements. Students only need a stable internet connection and basic computer. Part 2 cloud labs may incur minimal charges (typically $5-15 total) for advanced features beyond free tiers.</p>
                         </div>
                     </div>
                 </div>
@@ -395,36 +395,36 @@
                     <div class="modern-card p-6">
                         <div class="flex items-center mb-4">
                             <span class="badge badge-minimum mr-3">Minimum</span>
-                            <h3 class="text-xl font-bold school-blue-text">Basic Lab Requirements</h3>
+                            <h3 class="text-xl font-bold school-blue-text">Basic Requirements</h3>
                         </div>
                         
                         <table class="spec-table">
                             <tbody>
                                 <tr>
                                     <td class="font-semibold">CPU</td>
-                                    <td>4 cores, 64-bit with VT-x/AMD-V support</td>
+                                    <td>Dual-core, 64-bit processor</td>
                                 </tr>
                                 <tr>
                                     <td class="font-semibold">RAM</td>
-                                    <td>16 GB</td>
+                                    <td>4 GB</td>
                                 </tr>
                                 <tr>
                                     <td class="font-semibold">Storage</td>
-                                    <td>500 GB available space (SSD preferred)</td>
+                                    <td>50 GB available space</td>
                                 </tr>
                                 <tr>
                                     <td class="font-semibold">Network</td>
-                                    <td>Broadband internet (10+ Mbps)</td>
+                                    <td>Broadband internet (10+ Mbps stable)</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-semibold">BIOS/UEFI</td>
-                                    <td>Virtualization enabled</td>
+                                    <td class="font-semibold">VPN Client</td>
+                                    <td>OpenVPN compatible client</td>
                                 </tr>
                             </tbody>
                         </table>
 
-                        <div class="warning-box mt-4">
-                            <p class="text-sm text-yellow-700"><strong>Note:</strong> Minimum requirements may limit the number of concurrent VMs and could result in slower lab performance.</p>
+                        <div class="success-box mt-4">
+                            <p class="text-sm text-green-700"><strong>Part 1 Advantage:</strong> College-hosted PVE instances eliminate need for local virtualization hardware.</p>
                         </div>
                     </div>
 
@@ -432,36 +432,36 @@
                     <div class="modern-card p-6">
                         <div class="flex items-center mb-4">
                             <span class="badge badge-recommended mr-3">Recommended</span>
-                            <h3 class="text-xl font-bold school-blue-text">Optimal Lab Experience</h3>
+                            <h3 class="text-xl font-bold school-blue-text">Optimal Experience</h3>
                         </div>
                         
                         <table class="spec-table">
                             <tbody>
                                 <tr>
                                     <td class="font-semibold">CPU</td>
-                                    <td>8+ cores, Intel i7/AMD Ryzen 7 or better</td>
+                                    <td>Quad-core processor or better</td>
                                 </tr>
                                 <tr>
                                     <td class="font-semibold">RAM</td>
-                                    <td>32 GB or more</td>
+                                    <td>8 GB or more</td>
                                 </tr>
                                 <tr>
                                     <td class="font-semibold">Storage</td>
-                                    <td>1 TB NVMe SSD</td>
+                                    <td>256 GB SSD</td>
                                 </tr>
                                 <tr>
                                     <td class="font-semibold">Network</td>
-                                    <td>Gigabit ethernet + Wi-Fi</td>
+                                    <td>25+ Mbps with low latency</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-semibold">Additional</td>
-                                    <td>Dedicated graphics card (optional)</td>
+                                    <td class="font-semibold">Display</td>
+                                    <td>1920x1080 or higher resolution</td>
                                 </tr>
                             </tbody>
                         </table>
 
-                        <div class="success-box mt-4">
-                            <p class="text-sm text-green-700"><strong>Benefits:</strong> Smooth multi-VM operations, faster lab completion, better learning experience.</p>
+                        <div class="info-box mt-4">
+                            <p class="text-sm text-blue-700"><strong>Benefits:</strong> Smooth remote desktop performance, better multi-tab cloud console experience.</p>
                         </div>
                     </div>
                 </div>
@@ -474,41 +474,41 @@
                         <div>
                             <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
                                 <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path>
                                 </svg>
-                                CPU Requirements
+                                Network Connection
                             </h4>
-                            <p class="text-gray-600 text-sm">Virtualization requires hardware support (VT-x/AMD-V). Course labs will run 3-5 VMs simultaneously including Proxmox host, pfSense firewall, and multiple guest systems.</p>
+                            <p class="text-gray-600 text-sm">Stable internet is critical for VPN access to college PVE instances and cloud platform work. Higher bandwidth improves remote desktop responsiveness and reduces latency.</p>
                         </div>
                         
                         <div>
                             <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
                                 <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                 </svg>
-                                Memory (RAM)
+                                Display & Interface
                             </h4>
-                            <p class="text-gray-600 text-sm">Each VM requires 2-4 GB RAM. With host OS overhead, 16 GB allows 2-3 VMs, while 32 GB enables full lab scenarios with 5+ concurrent VMs.</p>
+                            <p class="text-gray-600 text-sm">Higher resolution displays improve readability of remote desktop sessions and cloud consoles. Multiple browser tabs and terminal windows benefit from larger screens.</p>
                         </div>
                         
                         <div>
                             <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
                                 <svg class="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                                 </svg>
-                                Storage
+                                VPN Client Support
                             </h4>
-                            <p class="text-gray-600 text-sm">VM images, ISOs, and snapshots consume significant space. SSD dramatically improves VM boot times and overall lab performance.</p>
+                            <p class="text-gray-600 text-sm">OpenVPN client required for secure access to college Proxmox infrastructure. All major operating systems support OpenVPN connections.</p>
                         </div>
                         
                         <div>
                             <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
                                 <svg class="w-5 h-5 mr-2 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
                                 </svg>
-                                Network
+                                Local Storage
                             </h4>
-                            <p class="text-gray-600 text-sm">Cloud labs require reliable internet for VM creation, software downloads, and remote access. Course involves significant file transfers and cloud API interactions.</p>
+                            <p class="text-gray-600 text-sm">Minimal local storage needed since virtualization runs remotely. Space required for VPN client, documentation, screenshots, and cloud CLI tools.</p>
                         </div>
                     </div>
                 </div>
@@ -530,14 +530,52 @@
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="space-y-4">
                             <div class="border-l-4 border-blue-500 pl-4">
-                                <h4 class="font-semibold text-gray-800">Proxmox VE 8.x</h4>
-                                <p class="text-sm text-gray-600">Open-source virtualization platform</p>
-                                <p class="text-xs text-gray-500 mt-1">Free download from proxmox.com</p>
+                                <h4 class="font-semibold text-gray-800">OpenVPN Client</h4>
+                                <p class="text-sm text-gray-600">Secure VPN access to college PVE infrastructure</p>
+                                <p class="text-xs text-gray-500 mt-1">Free download from openvpn.net</p>
                             </div>
                             
                             <div class="border-l-4 border-green-500 pl-4">
-                                <h4 class="font-semibold text-gray-800">pfSense Community Edition</h4>
-                                <p class="text-sm text-gray-600">Network firewall and router platform</p>
+                                <h4 class="font-semibold text-gray-800">Remote Desktop Client</h4>
+                                <p class="text-sm text-gray-600">Access to college-hosted Proxmox instances</p>
+                                <p class="text-xs text-gray-500 mt-1">Built-in (Windows/Mac) or VNC Viewer</p>
+                            </div>
+                            
+                            <div class="border-l-4 border-purple-500 pl-4">
+                                <h4 class="font-semibold text-gray-800">Web Browser</h4>
+                                <p class="text-sm text-gray-600">Chrome, Firefox, or Safari (latest version)</p>
+                                <p class="text-xs text-gray-500 mt-1">For Proxmox web interface and cloud consoles</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-yellow-500 pl-4">
+                                <h4 class="font-semibold text-gray-800">SSH Client</h4>
+                                <p class="text-sm text-gray-600">PuTTY (Windows) or Terminal (Mac/Linux)</p>
+                                <p class="text-xs text-gray-500 mt-1">For command-line access to VMs</p>
+                            </div>
+                            
+                            <div class="border-l-4 border-red-500 pl-4">
+                                <h4 class="font-semibold text-gray-800">Text Editor</h4>
+                                <p class="text-sm text-gray-600">VS Code, Notepad++, or similar</p>
+                                <p class="text-xs text-gray-500 mt-1">For configuration files and documentation</p>
+                            </div>
+                            
+                            <div class="border-l-4 border-indigo-500 pl-4">
+                                <h4 class="font-semibold text-gray-800">Network Analysis Tools</h4>
+                                <p class="text-sm text-gray-600">Wireshark, Nmap (optional but recommended)</p>
+                                <p class="text-xs text-gray-500 mt-1">For network troubleshooting and analysis</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                        <h4 class="font-semibold text-blue-800 mb-2">College Infrastructure Access</h4>
+                        <p class="text-blue-700 text-sm">
+                            Students receive VPN credentials and connection profiles during the first week. The college provides pre-configured Proxmox VE instances with allocated resources eliminating the need for local virtualization software.
+                        </p>
+                    </div>
+                </div> text-gray-600">Network firewall and router platform</p>
                                 <p class="text-xs text-gray-500 mt-1">Free download from pfsense.org</p>
                             </div>
                             
@@ -861,37 +899,39 @@
                         <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                         </svg>
-                        Campus Lab Resources
+                        College Infrastructure & Support
                     </h3>
                     
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <h4 class="font-semibold text-gray-800 mb-3">Computer Lab Access</h4>
+                            <h4 class="font-semibold text-gray-800 mb-3">Hosted Proxmox Infrastructure</h4>
                             <ul class="space-y-2 text-sm text-gray-600">
-                                <li>• Library computer lab with high-end workstations</li>
-                                <li>• Extended hours during finals week</li>
-                                <li>• Reserved time slots for CSC 161 students</li>
-                                <li>• Technical support staff available</li>
+                                <li>• Enterprise-grade server cluster hosting PVE instances</li>
+                                <li>• Mikrotik gateway with OpenVPN server for secure access</li>
+                                <li>• Pre-allocated resources per student (CPU, RAM, storage)</li>
+                                <li>• High-speed internet backbone connectivity</li>
+                                <li>• Professional backup and disaster recovery</li>
                             </ul>
                             
-                            <div class="mt-4 p-3 bg-blue-50 rounded-lg">
-                                <p class="text-blue-700 font-semibold text-sm">Lab Specifications:</p>
-                                <p class="text-blue-600 text-xs">32GB RAM, 8-core processors, high-speed internet</p>
+                            <div class="mt-4 p-3 bg-green-50 rounded-lg">
+                                <p class="text-green-700 font-semibold text-sm">Student Benefits:</p>
+                                <p class="text-green-600 text-xs">Enterprise infrastructure experience, no hardware investment required</p>
                             </div>
                         </div>
                         
                         <div>
-                            <h4 class="font-semibold text-gray-800 mb-3">Remote Lab Access</h4>
+                            <h4 class="font-semibold text-gray-800 mb-3">Technical Support</h4>
                             <ul class="space-y-2 text-sm text-gray-600">
-                                <li>• VPN access to campus virtualization servers</li>
-                                <li>• Pre-configured Proxmox environments</li>
-                                <li>• 24/7 remote access availability</li>
-                                <li>• Shared cloud accounts for labs</li>
+                                <li>• VPN setup assistance and troubleshooting</li>
+                                <li>• Network connectivity support</li>
+                                <li>• Proxmox instance management and reset capabilities</li>
+                                <li>• Extended lab hours during peak assignment periods</li>
+                                <li>• Backup campus lab access for connectivity issues</li>
                             </ul>
                             
-                            <div class="mt-4 p-3 bg-green-50 rounded-lg">
-                                <p class="text-green-700 font-semibold text-sm">Requirements:</p>
-                                <p class="text-green-600 text-xs">Stable internet connection, RDP client</p>
+                            <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+                                <p class="text-blue-700 font-semibold text-sm">Access Hours:</p>
+                                <p class="text-blue-600 text-xs">24/7 VPN access, IT support during business hours</p>
                             </div>
                         </div>
                     </div>
@@ -903,48 +943,513 @@
                         <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
-                        Lightweight Virtualization Options
+                        Basic Computer Lab Access
                     </h3>
                     
                     <div class="space-y-6">
                         <div class="border-l-4 border-blue-500 pl-4">
-                            <h4 class="font-semibold text-gray-800">VirtualBox (Free)</h4>
-                            <p class="text-sm text-gray-600 mb-2">Cross-platform virtualization for systems with limited resources</p>
+                            <h4 class="font-semibold text-gray-800">Library Computer Lab</h4>
+                            <p class="text-sm text-gray-600 mb-2">High-speed workstations with VPN access for students without adequate home computers</p>
                             <div class="grid md:grid-cols-3 gap-4 text-xs">
                                 <div>
-                                    <span class="font-semibold">Minimum RAM:</span> 8GB
+                                    <span class="font-semibold">Specifications:</span> High-end workstations
                                 </div>
                                 <div>
-                                    <span class="font-semibold">Storage:</span> 200GB
+                                    <span class="font-semibold">Internet:</span> Gigabit connection
                                 </div>
                                 <div>
-                                    <span class="font-semibold">Performance:</span> Moderate
+                                    <span class="font-semibold">Availability:</span> Extended hours
                                 </div>
                             </div>
                         </div>
                         
                         <div class="border-l-4 border-green-500 pl-4">
-                            <h4 class="font-semibold text-gray-800">VMware Workstation Player (Free for Education)</h4>
-                            <p class="text-sm text-gray-600 mb-2">Professional-grade virtualization with educational licensing</p>
+                            <h4 class="font-semibold text-gray-800">Mobile Device Options</h4>
+                            <p class="text-sm text-gray-600 mb-2">Limited coursework possible with tablets and smartphones</p>
                             <div class="grid md:grid-cols-3 gap-4 text-xs">
                                 <div>
-                                    <span class="font-semibold">Minimum RAM:</span> 12GB
+                                    <span class="font-semibold">Cloud Consoles:</span> Mobile-friendly
                                 </div>
                                 <div>
-                                    <span class="font-semibold">Storage:</span> 300GB
+                                    <span class="font-semibold">VPN Apps:</span> Available
                                 </div>
                                 <div>
-                                    <span class="font-semibold">Performance:</span> Good
+                                    <span class="font-semibold">Limitations:</span> Part 1 labs require desktop
                                 </div>
                             </div>
                         </div>
                         
                         <div class="border-l-4 border-purple-500 pl-4">
-                            <h4 class="font-semibold text-gray-800">Docker Desktop (Containerization)</h4>
-                            <p class="text-sm text-gray-600 mb-2">Lightweight alternative for some labs using containers</p>
+                            <h4 class="font-semibold text-gray-800">Chromebook Support</h4>
+                            <p class="text-sm text-gray-600 mb-2">Basic functionality for cloud-based activities in Part 2</p>
                             <div class="grid md:grid-cols-3 gap-4 text-xs">
                                 <div>
-                                    <span class="font-semibold">Minimum RAM:</span> 4GB
+                                    <span class="font-semibold">Cloud Access:</span> Full support
                                 </div>
                                 <div>
-                                    <span class="font-
+                                    <span class="font-semibold">VPN:</span> Chrome extensions available
+                                </div>
+                                <div>
+                                    <span class="font-semibold">Part 1:</span> Campus lab required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financial Support -->
+                <div class="modern-card p-8 mb-8">
+                    <h3 class="text-xl font-bold school-blue-text mb-6 flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                        Financial Support Options
+                    </h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">Hardware Assistance</h4>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li>• College laptop lending program</li>
+                                <li>• Technology fee support for upgrades</li>
+                                <li>• Student emergency fund assistance</li>
+                                <li>• Work-study positions in IT department</li>
+                                <li>• Refurbished equipment availability</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">Cloud Cost Support</h4>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li>• Department cloud credits for students</li>
+                                <li>• Group lab arrangements to share costs</li>
+                                <li>• Extended free tier access guidance</li>
+                                <li>• Alternative assignment formats</li>
+                                <li>• Payment plan options for small charges</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-yellow-50 rounded-lg">
+                        <p class="text-yellow-800 text-sm">
+                            <strong>Contact Information:</strong> Reach out to the instructor or student services early in the semester to discuss support options. All conversations are confidential.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Collaboration Options -->
+                <div class="modern-card p-8">
+                    <h3 class="text-xl font-bold school-blue-text mb-6 flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        Study Groups & Collaboration
+                    </h3>
+                    
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">VPN Access Sharing</h4>
+                            <p class="text-sm text-gray-600 mb-2">Partner with classmates for campus lab access during peak times</p>
+                            <ul class="text-xs text-gray-500">
+                                <li>• Scheduled lab time coordination</li>
+                                <li>• Screen sharing for remote observation</li>
+                                <li>• Documentation sharing for all members</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">Cloud Account Coordination</h4>
+                            <p class="text-sm text-gray-600 mb-2">Optimize free tier usage and share Part 2 cloud costs</p>
+                            <ul class="text-xs text-gray-500">
+                                <li>• Sequential lab completion</li>
+                                <li>• Shared screenshots and documentation</li>
+                                <li>• Cost pooling for advanced labs</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">Virtual Study Sessions</h4>
+                            <p class="text-sm text-gray-600 mb-2">Learn through observation and peer discussion</p>
+                            <ul class="text-xs text-gray-500">
+                                <li>• Live streaming lab sessions</li>
+                                <li>• Q&A discussion forums</li>
+                                <li>• Peer mentoring programs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-8 border-t border-gray-200">
+            <div class="text-center">
+                <button id="print-page" class="modern-btn mb-4">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                    </svg>
+                    Print Requirements
+                </button>
+                <p class="text-sm text-gray-500">© 2025 Mendocino College - CSC 161: Technology Requirements</p>
+                <p class="text-xs text-gray-400 mt-2">Last updated: Fall 2025 | For questions, contact David Pai at dpai@mendocino.edu</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTab = button.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    button.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                    
+                    // Update URL hash without scrolling
+                    history.replaceState(null, null, '#' + targetTab);
+                });
+            });
+            
+            // Initialize from URL hash if present
+            const urlHash = window.location.hash.substring(1);
+            if (urlHash && document.getElementById(urlHash)) {
+                // Remove active from current
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Activate target tab
+                const targetButton = document.querySelector(`[data-tab="${urlHash}"]`);
+                if (targetButton) {
+                    targetButton.classList.add('active');
+                    document.getElementById(urlHash).classList.add('active');
+                }
+            }
+            
+            // Print functionality
+            document.getElementById('print-page').addEventListener('click', () => {
+                // Show loading state
+                const printBtn = document.getElementById('print-page');
+                const originalHTML = printBtn.innerHTML;
+                printBtn.innerHTML = `
+                    <svg class="w-5 h-5 mr-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    Preparing...
+                `;
+                printBtn.disabled = true;
+                
+                // Temporarily show all tab contents for printing
+                const originalDisplays = [];
+                tabContents.forEach((content, index) => {
+                    originalDisplays[index] = content.style.display;
+                    content.style.display = 'block';
+                    content.classList.add('active');
+                });
+                
+                // Small delay to ensure content is rendered
+                setTimeout(() => {
+                    window.print();
+                    
+                    // Restore original state after printing
+                    setTimeout(() => {
+                        tabContents.forEach((content, index) => {
+                            content.style.display = originalDisplays[index];
+                        });
+                        
+                        // Restore active tab
+                        const activeButton = document.querySelector('.tab-button.active');
+                        const activeTab = activeButton ? activeButton.getAttribute('data-tab') : 'overview';
+                        
+                        tabContents.forEach(content => {
+                            if (content.id === activeTab) {
+                                content.classList.add('active');
+                            } else {
+                                content.classList.remove('active');
+                            }
+                        });
+                        
+                        // Restore button
+                        printBtn.innerHTML = originalHTML;
+                        printBtn.disabled = false;
+                    }, 500);
+                }, 100);
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Add interactive hover effects to cards
+            const cards = document.querySelectorAll('.modern-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('no-hover')) {
+                        this.style.transform = 'translateY(-2px)';
+                        this.style.transition = 'transform 0.3s ease';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('no-hover')) {
+                        this.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+            
+            // Add click tracking for important links (analytics purposes)
+            const importantLinks = document.querySelectorAll('a[href*="aws.amazon.com"], a[href*="azure.microsoft.com"], a[href*="cloud.google.com"], a[href*="openvpn.net"]');
+            importantLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    console.log('Important link clicked:', this.href);
+                    // Could integrate with analytics here
+                });
+            });
+            
+            // Keyboard accessibility for tabs
+            tabButtons.forEach((button, index) => {
+                button.addEventListener('keydown', (e) => {
+                    let nextIndex;
+                    
+                    switch(e.key) {
+                        case 'ArrowRight':
+                        case 'ArrowDown':
+                            e.preventDefault();
+                            nextIndex = (index + 1) % tabButtons.length;
+                            tabButtons[nextIndex].focus();
+                            tabButtons[nextIndex].click();
+                            break;
+                        case 'ArrowLeft':
+                        case 'ArrowUp':
+                            e.preventDefault();
+                            nextIndex = (index - 1 + tabButtons.length) % tabButtons.length;
+                            tabButtons[nextIndex].focus();
+                            tabButtons[nextIndex].click();
+                            break;
+                        case 'Home':
+                            e.preventDefault();
+                            tabButtons[0].focus();
+                            tabButtons[0].click();
+                            break;
+                        case 'End':
+                            e.preventDefault();
+                            tabButtons[tabButtons.length - 1].focus();
+                            tabButtons[tabButtons.length - 1].click();
+                            break;
+                    }
+                });
+                
+                // Add ARIA attributes for better accessibility
+                button.setAttribute('role', 'tab');
+                button.setAttribute('tabindex', index === 0 ? '0' : '-1');
+            });
+            
+            // Add ARIA attributes to tab contents
+            tabContents.forEach((content, index) => {
+                content.setAttribute('role', 'tabpanel');
+                content.setAttribute('aria-labelledby', tabButtons[index].id);
+            });
+            
+            // Cost calculator functionality (interactive feature)
+            const costCalculator = {
+                aws: { ec2: 0, s3: 0, misc: 2 },
+                azure: { vm: 0, storage: 0, misc: 1 },
+                gcp: { compute: 0, storage: 0, misc: 1 }
+            };
+            
+            // Add cost estimation tooltips
+            const cloudBadges = document.querySelectorAll('.badge');
+            cloudBadges.forEach(badge => {
+                if (badge.textContent.includes(')) {
+                    badge.style.cursor = 'help';
+                    badge.title = 'Click for cost breakdown';
+                    
+                    badge.addEventListener('click', function() {
+                        const platform = this.closest('.modern-card').querySelector('h3').textContent;
+                        showCostBreakdown(platform);
+                    });
+                }
+            });
+            
+            function showCostBreakdown(platform) {
+                alert(`${platform} Cost Breakdown:\n• Free tier covers most activities\n• Advanced labs may incur $1-5 in charges\n• Total estimated cost: $0-15 for entire semester`);
+            }
+            
+            // Add progress indicator for requirements checklist
+            function createProgressTracker() {
+                const requirements = [
+                    'Stable internet connection (10+ Mbps)',
+                    'Computer or laptop (4GB+ RAM recommended)',
+                    'OpenVPN client installed',
+                    'AWS account created',
+                    'Azure account created',
+                    'Google Cloud account created'
+                ];
+                
+                const progressContainer = document.createElement('div');
+                progressContainer.className = 'modern-card p-6 mt-8';
+                progressContainer.innerHTML = `
+                    <h3 class="text-xl font-bold school-blue-text mb-4">Setup Progress Tracker</h3>
+                    <div class="space-y-3">
+                        ${requirements.map((req, index) => `
+                            <label class="flex items-center space-x-3 cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-blue-600 rounded" data-req="${index}">
+                                <span class="text-sm text-gray-700">${req}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <div class="mt-4 bg-gray-200 rounded-full h-2">
+                        <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">
+                        <span id="progress-text">0 of ${requirements.length} requirements completed</span>
+                    </p>
+                `;
+                
+                // Add to cloud accounts tab
+                const cloudTab = document.getElementById('cloud');
+                cloudTab.appendChild(progressContainer);
+                
+                // Progress tracking functionality
+                const checkboxes = progressContainer.querySelectorAll('input[type="checkbox"]');
+                const progressBar = document.getElementById('progress-bar');
+                const progressText = document.getElementById('progress-text');
+                
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', updateProgress);
+                });
+                
+                function updateProgress() {
+                    const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+                    const percentage = (completed / requirements.length) * 100;
+                    
+                    progressBar.style.width = percentage + '%';
+                    progressText.textContent = `${completed} of ${requirements.length} requirements completed`;
+                    
+                    if (percentage === 100) {
+                        progressText.textContent += ' ✓ Ready for class!';
+                        progressBar.classList.add('bg-green-600');
+                        progressBar.classList.remove('bg-blue-600');
+                    } else {
+                        progressBar.classList.add('bg-blue-600');
+                        progressBar.classList.remove('bg-green-600');
+                    }
+                }
+            }
+            
+            // Initialize progress tracker
+            createProgressTracker();
+            
+            // Add dynamic content loading indicator
+            function showLoadingState() {
+                const loadingDiv = document.createElement('div');
+                loadingDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                loadingDiv.innerHTML = `
+                    <div class="bg-white rounded-lg p-6 flex items-center space-x-3">
+                        <svg class="animate-spin w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        <span class="text-gray-700">Loading...</span>
+                    </div>
+                `;
+                return loadingDiv;
+            }
+            
+            // Enhanced error handling
+            window.addEventListener('error', function(e) {
+                console.error('Page error:', e.error);
+                // Could show user-friendly error message here
+            });
+            
+            // Add scroll-to-top functionality
+            const scrollButton = document.createElement('button');
+            scrollButton.className = 'fixed bottom-6 right-6 w-12 h-12 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 opacity-0 pointer-events-none';
+            scrollButton.innerHTML = `
+                <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+                </svg>
+            `;
+            scrollButton.setAttribute('aria-label', 'Scroll to top');
+            document.body.appendChild(scrollButton);
+            
+            scrollButton.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    scrollButton.style.opacity = '1';
+                    scrollButton.style.pointerEvents = 'auto';
+                } else {
+                    scrollButton.style.opacity = '0';
+                    scrollButton.style.pointerEvents = 'none';
+                }
+            });
+            
+            console.log('CSC 161 Technology Requirements page loaded successfully');
+        });
+        
+        // Print styles - inject into document
+        const printStyles = `
+            @media print {
+                .tab-container, .modern-btn, footer button, .fixed {
+                    display: none !important;
+                }
+                .tab-content {
+                    display: block !important;
+                    page-break-before: always;
+                }
+                .tab-content:first-of-type {
+                    page-break-before: avoid;
+                }
+                .modern-card {
+                    box-shadow: none !important;
+                    border: 1px solid #e2e8f0 !important;
+                    break-inside: avoid;
+                    margin-bottom: 1rem !important;
+                }
+                .gradient-hero {
+                    -webkit-print-color-adjust: exact;
+                    color-adjust: exact;
+                }
+                body {
+                    font-size: 12px !important;
+                    line-height: 1.4 !important;
+                }
+                h1, h2, h3 {
+                    color: #00275D !important;
+                }
+                .badge {
+                    border: 1px solid #333 !important;
+                    background: transparent !important;
+                    color: #333 !important;
+                }
+            }
+        `;
+        
+        // Inject print styles
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = printStyles;
+        document.head.appendChild(styleSheet);
+    </script>
+
+</body>
+</html>
