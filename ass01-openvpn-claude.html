@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OpenVPN Lab Access Setup Assignment</title>
     <style>
         :root {
@@ -33,10 +33,9 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 20px;
-            min-width: 1000px;
+            padding: 15px;
         }
 
         .header {
@@ -541,18 +540,14 @@
                     <ol class="steps-list">
                         <li>
                             <strong>Access the OpenVPN Setup Chatbot</strong><br>
-                            Navigate to the provided chatbot link and initiate a conversation. The AI assistant will guide you through the entire process.
+                            <a href="[CHATBOT_LINK_PLACEHOLDER]" target="_blank" rel="noopener noreferrer" style="color: var(--primary-blue); text-decoration: underline; font-weight: 600;">🤖 Click here to open the OpenVPN Setup Assistant</a> (opens in new tab)<br>
+                            The AI assistant will guide you through the entire process.
                         </li>
                         
                         <li>
                             <strong>Provide Your Class Passcode</strong><br>
-                            When prompted, enter your instructor-provided passcode. This determines which lab environment you'll access:
-                            <ul style="margin: 0.5rem 0; padding-left: 2rem;">
-                                <li>PROXMOX2025 - Virtualization Lab</li>
-                                <li>WORDPRESS2025 - Web Development Lab</li>
-                                <li>ETHICALHACK2025 - Penetration Testing Lab</li>
-                                <li>NETDEFENSE2025 - Network Security Lab</li>
-                            </ul>
+                            When prompted by the chatbot, enter your class passcode: <strong style="background: var(--light-gold); padding: 4px 8px; border-radius: 4px; color: var(--primary-blue);">PROXMOX2025</strong><br>
+                            This gives you access to the Proxmox Virtualization Lab environment (10.255.254.100-140).
                         </li>
                         
                         <li>
@@ -562,7 +557,7 @@
                         
                         <li>
                             <strong>Download Configuration File</strong><br>
-                            Use the provided OneDrive link to download your class-specific .ovpn configuration file. Save it in a secure, memorable location.
+                            Use the provided OneDrive link to download your Proxmox class .ovpn configuration file. Save it in a secure, memorable location.
                         </li>
                         
                         <li>
@@ -577,7 +572,7 @@
                         
                         <li>
                             <strong>Verify Lab Access</strong><br>
-                            Test connectivity to your assigned lab resources to ensure proper network access and restrictions.
+                            Test connectivity to your assigned Proxmox VE lab resources to ensure proper network access and restrictions.
                         </li>
                         
                         <li>
@@ -587,7 +582,7 @@
                     </ol>
 
                     <div class="alert alert-success">
-                        <strong>Success Indicator:</strong> You'll know you're successful when you can access your class-specific lab resources and receive confirmation from the verification tests.
+                        <strong>Success Indicator:</strong> You'll know you're successful when you can access your Proxmox VE lab resources and receive confirmation from the verification tests.
                     </div>
                 </div>
             </section>
@@ -621,7 +616,7 @@
 
                         <div class="checklist-item">
                             <input type="checkbox" id="item4" onchange="updateProgress()">
-                            <label for="item4"><strong>Screenshot 4:</strong> Verification of lab resource access (ping test, web interface, or service connection as appropriate for your class)</label>
+                            <label for="item4"><strong>Screenshot 4:</strong> Verification of Proxmox VE lab access (ping test, web interface login, or successful connection to your assigned VM)</label>
                         </div>
 
                         <div class="checklist-item">
@@ -644,9 +639,7 @@
                     <div style="background: var(--light-gold); padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
                         <ol style="padding-left: 1.5rem;">
                             <li style="margin: 1rem 0;">Explain how VPN technology enhances network security when accessing remote resources.</li>
-                            <li style="margin: 1rem 0;">Describe the role of digital certificates in OpenVPN authentication and why they're important.</li>
                             <li style="margin: 1rem 0;">What are the potential risks of using VPN connections, and how can they be mitigated?</li>
-                            <li style="margin: 1rem 0;">How does network segmentation (as implemented in this lab) improve security in educational environments?</li>
                             <li style="margin: 1rem 0;">Reflect on your experience using AI assistance for technical setup. What were the benefits and limitations?</li>
                         </ol>
                     </div>
@@ -728,7 +721,7 @@
                     </div>
 
                     <div class="alert alert-info">
-                        <strong>Late Submission Policy:</strong> 10% deduction per day late. Assignments more than one week late will receive a maximum score of 50%.
+                        <strong>Late Submission Policy:</strong> Refer to the course syllabus for complete policy details. Assignments submitted after being reviewed in class (typically the first class meeting after the due date) will receive a 15% deduction.
                     </div>
 
                     <div class="alert alert-success">
