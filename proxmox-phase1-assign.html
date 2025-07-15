@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 1: ProxMox VE Initial Setup and Configuration</title>
+    <style>
+        :root {
+            --primary-blue: #2563eb;
+            --secondary-blue: #3b82f6;
+            --light-blue: #dbeafe;
+            --primary-gold: #f59e0b;
+            --light-gold: #fef3c7;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --border-color: #e5e7eb;
+            --success-green: #10b981;
+            --warning-orange: #f97316;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: white;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            background: var(--primary-gold);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: #fafafa;
+        }
+
+        .section h2 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-blue);
+        }
+
+        .section h3 {
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        .objectives-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objectives-list li {
+            background: white;
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-blue);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .objectives-list li::before {
+            content: "✓";
+            color: var(--success-green);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .tutor-access {
+            background: linear-gradient(135deg, var(--light-blue) 0%, var(--light-gold) 100%);
+            border: 2px solid var(--primary-gold);
+            text-align: center;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .tutor-btn {
+            display: inline-block;
+            background: var(--primary-gold);
+            color: white;
+            padding: 0.75rem 2rem;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .tutor-btn:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .tutor-btn:focus {
+            outline: 2px solid var(--primary-blue);
+            outline-offset: 2px;
+        }
+
+        .deliverables {
+            background: white;
+        }
+
+        .deliverable-item {
+            background: #f8fafc;
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .deliverable-title {
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .grading-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: white;
+        }
+
+        .grading-table th,
+        .grading-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        .grading-table th {
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .grading-table tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        .points {
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary-gold);
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border: 1px solid var(--warning-orange);
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .warning-box h4 {
+            color: var(--warning-orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .success-box {
+            background: #d1fae5;
+            border: 1px solid var(--success-green);
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .success-box h4 {
+            color: var(--success-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .collapsible {
+            cursor: pointer;
+            padding: 1rem;
+            background: var(--light-blue);
+            border: none;
+            text-align: left;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            border-radius: 6px;
+            margin: 0.5rem 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .collapsible:hover {
+            background: #bfdbfe;
+        }
+
+        .collapsible:focus {
+            outline: 2px solid var(--primary-blue);
+            outline-offset: 2px;
+        }
+
+        .collapsible.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .content-panel {
+            display: none;
+            padding: 1rem;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+        }
+
+        .content-panel.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1rem;
+            }
+            
+            .grading-table {
+                font-size: 0.9rem;
+            }
+            
+            .grading-table th,
+            .grading-table td {
+                padding: 0.5rem;
+            }
+        }
+
+        .progress-tracker {
+            background: white;
+            border: 2px solid var(--light-blue);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .progress-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .progress-item:last-child {
+            border-bottom: none;
+        }
+
+        .progress-checkbox {
+            margin-right: 1rem;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--success-green);
+        }
+
+        .progress-text {
+            flex: 1;
+        }
+
+        /* Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-blue);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 1000;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <div class="container">
+        <header class="header">
+            <h1>ProxMox VE Initial Setup and Configuration</h1>
+            <div class="subtitle">Building Enterprise Virtualization Infrastructure</div>
+            <div class="phase-badge">Phase 1 of 6</div>
+        </header>
+
+        <main id="main-content" class="content">
+            <section class="section">
+                <h2>Course Overview</h2>
+                <p>Welcome to Phase 1 of our comprehensive virtualization lab series! In this phase, you'll establish the foundation for a pseudo-realistic business network by setting up and configuring a ProxMox VE 8.x environment. This hands-on experience will prepare you for real-world enterprise virtualization scenarios.</p>
+                
+                <div class="success-box">
+                    <h4>Learning Objectives</h4>
+                    <ul class="objectives-list">
+                        <li>Configure ProxMox VE repository settings for non-production environments</li>
+                        <li>Perform system updates and maintenance procedures safely</li>
+                        <li>Install essential monitoring and administration tools</li>
+                        <li>Navigate the ProxMox VE web interface effectively</li>
+                        <li>Understand enterprise virtualization best practices</li>
+                        <li>Generate comprehensive system status documentation</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>AI Tutor Access</h2>
+                <div class="tutor-access">
+                    <h3>Work with Your Personal AI Instructor</h3>
+                    <p>Meet <strong>"Alex"</strong> - your patient and knowledgeable ProxMox instructor with 10+ years of enterprise virtualization experience. Alex will guide you through each step with real-world context and practical explanations.</p>
+                    <a href="https://www.playlab.ai/project/cmbznxudc0m38lt0uvhxqfrod" class="tutor-btn" target="_blank" rel="noopener" aria-label="Access AI Tutor Alex for ProxMox VE training">
+                        🤖 Start Working with Alex
+                    </a>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                        <strong>Important:</strong> If you need to pause your session, Alex will provide a status summary to resume exactly where you left off.
+                    </p>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Assignment Tasks</h2>
+                
+                <button class="collapsible" aria-expanded="false" aria-controls="task1-content">
+                    Task 1: Repository Configuration 📦
+                </button>
+                <div class="content-panel" id="task1-content">
+                    <h4>Business Context</h4>
+                    <p>Learn to configure ProxMox VE repositories for non-production environments. Understand the difference between Enterprise, No-Subscription, and Test repositories.</p>
+                    <h4>Technical Requirements</h4>
+                    <ul>
+                        <li>Disable the default enterprise repository</li>
+                        <li>Enable the no-subscription repository</li>
+                        <li>Configure Ceph repository for ProxMox 8.x</li>
+                        <li>Verify repository configuration via web interface</li>
+                    </ul>
+                </div>
+
+                <button class="collapsible" aria-expanded="false" aria-controls="task2-content">
+                    Task 2: System Updates and Maintenance 🔄
+                </button>
+                <div class="content-panel" id="task2-content">
+                    <h4>Business Context</h4>
+                    <p>Perform system updates following enterprise best practices, including proper sequencing and verification procedures.</p>
+                    <h4>Technical Requirements</h4>
+                    <ul>
+                        <li>Refresh package lists from configured repositories</li>
+                        <li>Review available updates before applying</li>
+                        <li>Execute full system upgrade safely</li>
+                        <li>Perform post-update reboot when necessary</li>
+                        <li>Verify system stability after updates</li>
+                    </ul>
+                </div>
+
+                <button class="collapsible" aria-expanded="false" aria-controls="task3-content">
+                    Task 3: Essential Tools Installation 🛠️
+                </button>
+                <div class="content-panel" id="task3-content">
+                    <h4>Business Context</h4>
+                    <p>Install critical monitoring and administration tools used in production environments for system management and troubleshooting.</p>
+                    <h4>Technical Requirements</h4>
+                    <ul>
+                        <li>Install system monitoring tools (htop, iftop, iotop)</li>
+                        <li>Install network utilities (net-tools, curl, wget)</li>
+                        <li>Install text editor (vim)</li>
+                        <li>Verify all tools are functional</li>
+                    </ul>
+                </div>
+
+                <button class="collapsible" aria-expanded="false" aria-controls="task4-content">
+                    Task 4: System Verification and Documentation 📋
+                </button>
+                <div class="content-panel" id="task4-content">
+                    <h4>Business Context</h4>
+                    <p>Perform comprehensive system verification and generate detailed documentation for handoff to subsequent phases.</p>
+                    <h4>Technical Requirements</h4>
+                    <ul>
+                        <li>Verify ProxMox VE version and components</li>
+                        <li>Check system resources and network configuration</li>
+                        <li>Generate comprehensive status summary</li>
+                        <li>Document current configuration state</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Student Deliverables</h2>
+                <div class="deliverables">
+                    <div class="deliverable-item">
+                        <div class="deliverable-title">1. Repository Configuration Screenshot</div>
+                        <p>Screenshot of the ProxMox web interface showing the Repositories page with:</p>
+                        <ul>
+                            <li>Enterprise repository disabled (marked with ❌)</li>
+                            <li>No-subscription repository enabled (marked with ✅)</li>
+                            <li>Green checkmark next to "ProxMox VE Updates"</li>
+                        </ul>
+                    </div>
+
+                    <div class="deliverable-item">
+                        <div class="deliverable-title">2. System Update Verification</div>
+                        <p>Command output showing successful system update completion:</p>
+                        <div class="code-block">pveversion -v</div>
+                        <p>Output should show current ProxMox VE 8.x versions for all components.</p>
+                    </div>
+
+                    <div class="deliverable-item">
+                        <div class="deliverable-title">3. Installed Tools Verification</div>
+                        <p>Command output demonstrating all required tools are installed:</p>
+                        <div class="code-block">which htop iftop iotop vim curl wget</div>
+                        <p>All commands should return valid paths to the installed tools.</p>
+                    </div>
+
+                    <div class="deliverable-item">
+                        <div class="deliverable-title">4. Comprehensive Status Summary</div>
+                        <p>Complete status summary generated by Alex at the end of Phase 1, including:</p>
+                        <ul>
+                            <li>System state information</li>
+                            <li>Network configuration</li>
+                            <li>Storage configuration</li>
+                            <li>Repository status</li>
+                            <li>Completion checklist with all tasks marked complete (✅)</li>
+                        </ul>
+                    </div>
+
+                    <div class="deliverable-item">
+                        <div class="deliverable-title">5. Reflection Report (500 words)</div>
+                        <p>Written reflection addressing:</p>
+                        <ul>
+                            <li>Why repository configuration is critical in enterprise environments</li>
+                            <li>Best practices learned for system maintenance</li>
+                            <li>How this foundation prepares for subsequent phases</li>
+                            <li>Challenges encountered and how they were resolved</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Progress Tracker</h2>
+                <div class="progress-tracker">
+                    <h3 style="margin-bottom: 1rem;">Track Your Completion</h3>
+                    <div class="progress-item">
+                        <input type="checkbox" class="progress-checkbox" id="repo-config" aria-describedby="repo-config-desc">
+                        <label for="repo-config" class="progress-text" id="repo-config-desc">Repository configuration completed and verified</label>
+                    </div>
+                    <div class="progress-item">
+                        <input type="checkbox" class="progress-checkbox" id="system-updates" aria-describedby="system-updates-desc">
+                        <label for="system-updates" class="progress-text" id="system-updates-desc">System updates applied and system rebooted</label>
+                    </div>
+                    <div class="progress-item">
+                        <input type="checkbox" class="progress-checkbox" id="tools-installed" aria-describedby="tools-installed-desc">
+                        <label for="tools-installed" class="progress-text" id="tools-installed-desc">Essential tools installed and verified</label>
+                    </div>
+                    <div class="progress-item">
+                        <input type="checkbox" class="progress-checkbox" id="system-verified" aria-describedby="system-verified-desc">
+                        <label for="system-verified" class="progress-text" id="system-verified-desc">System verification completed</label>
+                    </div>
+                    <div class="progress-item">
+                        <input type="checkbox" class="progress-checkbox" id="deliverables" aria-describedby="deliverables-desc">
+                        <label for="deliverables" class="progress-text" id="deliverables-desc">All deliverables collected and ready for submission</label>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Grading Rubric</h2>
+                <table class="grading-table" role="table" aria-label="Assignment grading rubric">
+                    <thead>
+                        <tr>
+                            <th scope="col">Criteria</th>
+                            <th scope="col">Excellent (90-100)</th>
+                            <th scope="col">Good (80-89)</th>
+                            <th scope="col">Satisfactory (70-79)</th>
+                            <th scope="col">Needs Improvement (&lt;70)</th>
+                            <th scope="col">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Repository Configuration</th>
+                            <td>Perfect configuration with clear understanding of enterprise vs. no-subscription repos</td>
+                            <td>Correct configuration with minor documentation gaps</td>
+                            <td>Configuration works but limited understanding shown</td>
+                            <td>Incorrect configuration or major issues</td>
+                            <td class="points">20</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">System Updates</th>
+                            <td>Flawless update process with proper verification and best practices followed</td>
+                            <td>Successful updates with minor procedural variations</td>
+                            <td>Updates completed but some steps missed</td>
+                            <td>Update issues or poor documentation</td>
+                            <td class="points">20</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Tools Installation</th>
+                            <td>All tools installed correctly with verification and understanding of their purpose</td>
+                            <td>Tools installed with minor verification gaps</td>
+                            <td>Most tools installed successfully</td>
+                            <td>Missing tools or installation errors</td>
+                            <td class="points">15</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Documentation Quality</th>
+                            <td>Comprehensive, clear screenshots and command outputs with proper formatting</td>
+                            <td>Good documentation with minor formatting issues</td>
+                            <td>Adequate documentation but missing some elements</td>
+                            <td>Poor or incomplete documentation</td>
+                            <td class="points">20</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Reflection Report</th>
+                            <td>Insightful analysis showing deep understanding of enterprise practices and learning</td>
+                            <td>Good reflection with solid understanding</td>
+                            <td>Basic reflection meeting requirements</td>
+                            <td>Superficial or incomplete reflection</td>
+                            <td class="points">15</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Technical Accuracy</th>
+                            <td>All technical deliverables accurate and demonstrate mastery</td>
+                            <td>Mostly accurate with minor technical errors</td>
+                            <td>Generally accurate but some technical gaps</td>
+                            <td>Significant technical errors or gaps</td>
+                            <td class="points">10</td>
+                        </tr>
+                        <tr style="background: var(--light-gold); font-weight: bold;">
+                            <th scope="row">Total Points</th>
+                            <td colspan="4" style="text-align: center;">Maximum Score</td>
+                            <td class="points">100</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="section">
+                <div class="warning-box">
+                    <h4>⚠️ Important Reminders</h4>
+                    <ul>
+                        <li><strong>Session Management:</strong> If you need to pause your work, ask Alex for a status summary to resume later</li>
+                        <li><strong>Documentation:</strong> Take screenshots as you complete each task - you can't go back easily</li>
+                        <li><strong>Verification:</strong> Always verify your work before proceeding to the next task</li>
+                        <li><strong>Questions:</strong> Ask Alex to explain anything you don't understand - that's what they're there for!</li>
+                    </ul>
+                </div>
+
+                <div class="success-box">
+                    <h4>🎯 Success Tips</h4>
+                    <ul>
+                        <li>Work methodically through each task with Alex's guidance</li>
+                        <li>Ask for business context when you want to understand the "why" behind tasks</li>
+                        <li>Use the web interface first, then learn the command-line alternatives</li>
+                        <li>Document everything as you go - this builds good professional habits</li>
+                        <li>Don't rush - understanding is more important than speed</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Collapsible sections functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const collapsibles = document.querySelectorAll('.collapsible');
+            
+            collapsibles.forEach(function(collapsible) {
+                collapsible.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    
+                    // Toggle aria-expanded
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    
+                    // Toggle content visibility
+                    if (content.classList.contains('active')) {
+                        content.classList.remove('active');
+                    } else {
+                        content.classList.add('active');
+                    }
+                });
+            });
+
+            // Progress tracking with local storage
+            const checkboxes = document.querySelectorAll('.progress-checkbox');
+            const storageKey = 'proxmox_phase1_progress';
+
+            // Load saved progress
+            const savedProgress = localStorage.getItem(storageKey);
+            if (savedProgress) {
+                const progress = JSON.parse(savedProgress);
+                checkboxes.forEach(function(checkbox) {
+                    if (progress[checkbox.id]) {
+                        checkbox.checked = true;
+                    }
+                });
+            }
+
+            // Save progress on change
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    const progress = {};
+                    checkboxes.forEach(function(cb) {
+                        progress[cb.id] = cb.checked;
+                    });
+                    localStorage.setItem(storageKey, JSON.stringify(progress));
+                    
+                    // Check if all tasks are complete
+                    const allComplete = Array.from(checkboxes).every(cb => cb.checked);
+                    if (allComplete) {
+                        showCompletionMessage();
+                    }
+                });
+            });
+
+            // Completion message
+            function showCompletionMessage() {
+                if (!document.getElementById('completion-message')) {
+                    const message = document.createElement('div');
+                    message.id = 'completion-message';
+                    message.className = 'success-box';
+                    message.innerHTML = `
+                        <h4>🎉 Congratulations!</h4>
+                        <p>You've completed all Phase 1 tasks! Make sure you have collected all your deliverables and are ready to submit your work.</p>
+                    `;
+                    document.querySelector('.progress-tracker').appendChild(message);
+                }
+            }
+
+            // Keyboard navigation improvements
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    if (e.target.classList.contains('collapsible')) {
+                        e.preventDefault();
+                        e.target.click();
+                    }
+                }
+            });
+
+            // Focus management for accessibility
+            const tutorBtn = document.querySelector('.tutor-btn');
+            tutorBtn.addEventListener('click', function() {
+                // Announce to screen readers that link is opening in new tab
+                const announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.setAttribute('aria-atomic', 'true');
+                announcement.className = 'sr-only';
+                announcement.textContent = 'Opening AI Tutor in new tab';
+                document.body.appendChild(announcement);
+                
+                setTimeout(() => {
+                    document.body.removeChild(announcement);
+                }, 1000);
+            });
+        });
+
+        // Add screen reader only class for accessibility announcements
+        const style = document.createElement('style');
+        style.textContent = `
+            .sr-only {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                padding: 0;
+                margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border: 0;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
