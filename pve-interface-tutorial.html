@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProxMox VE Interface - Interactive Learning Guide</title>
+    <style>
+        :root {
+            --primary-blue: #2563eb;
+            --secondary-blue: #3b82f6;
+            --light-blue: #dbeafe;
+            --primary-gold: #f59e0b;
+            --light-gold: #fef3c7;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --border-color: #e5e7eb;
+            --success-green: #10b981;
+            --warning-orange: #f97316;
+            --error-red: #ef4444;
+            --background-gray: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .learning-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .interface-panel {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: var(--light-blue);
+            padding: 1rem 1.5rem;
+            border-bottom: 2px solid var(--primary-blue);
+        }
+
+        .panel-header h2 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .panel-content {
+            padding: 1.5rem;
+        }
+
+        .screenshot-container {
+            position: relative;
+            background: var(--background-gray);
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .screenshot-placeholder {
+            text-align: center;
+            color: var(--text-light);
+            padding: 2rem;
+        }
+
+        .screenshot-img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot-img:hover {
+            transform: scale(1.02);
+        }
+
+        .hotspot {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: var(--primary-gold);
+            border: 3px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .hotspot:hover {
+            background: var(--warning-orange);
+            transform: scale(1.2);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+
+        .hotspot-tooltip {
+            position: absolute;
+            background: var(--text-dark);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .hotspot-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--text-dark) transparent transparent transparent;
+        }
+
+        .hotspot:hover .hotspot-tooltip {
+            opacity: 1;
+        }
+
+        .interface-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .section-tabs {
+            display: flex;
+            background: var(--background-gray);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-button.active {
+            background: white;
+            color: var(--primary-blue);
+            border-bottom-color: var(--primary-blue);
+        }
+
+        .tab-button:hover:not(.active) {
+            background: var(--light-blue);
+            color: var(--primary-blue);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 2rem;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .feature-card {
+            background: var(--background-gray);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-blue);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: var(--light-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-title {
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .quiz-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .quiz-question {
+            background: var(--light-blue);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .quiz-options {
+            margin: 1rem 0;
+        }
+
+        .quiz-option {
+            display: block;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary-blue);
+            background: var(--light-blue);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success-green);
+            background: #d1fae5;
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--error-red);
+            background: #fee2e2;
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            background: #d1fae5;
+            border: 1px solid var(--success-green);
+            color: #065f46;
+        }
+
+        .quiz-feedback.incorrect {
+            background: #fee2e2;
+            border: 1px solid var(--error-red);
+            color: #991b1b;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-gold) 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .navigation-tree {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .tree-item {
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            user-select: none;
+        }
+
+        .tree-item:hover {
+            background: var(--light-blue);
+        }
+
+        .tree-item.selected {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .tree-item.expandable::before {
+            content: '▶';
+            margin-right: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .tree-item.expanded::before {
+            transform: rotate(90deg);
+        }
+
+        .tree-children {
+            margin-left: 1.5rem;
+            display: none;
+        }
+
+        .tree-children.expanded {
+            display: block;
+        }
+
+        .interactive-demo {
+            background: white;
+            border: 2px solid var(--primary-blue);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .demo-btn {
+            padding: 0.5rem 1rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .demo-btn:hover {
+            background: var(--secondary-blue);
+        }
+
+        .demo-btn.active {
+            background: var(--primary-gold);
+        }
+
+        .keyboard-shortcuts {
+            background: var(--background-gray);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .shortcut-item:last-child {
+            border-bottom: none;
+        }
+
+        .shortcut-key {
+            background: var(--text-dark);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .completion-badge {
+            display: inline-block;
+            background: var(--success-green);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin: 0.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .learning-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-tabs {
+                flex-direction: column;
+            }
+            
+            .demo-controls {
+                flex-direction: column;
+            }
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-blue);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 1000;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header class="header">
+        <h1>ProxMox VE Interface Mastery</h1>
+        <div class="subtitle">Interactive Learning Guide for Enterprise Virtualization Management</div>
+    </header>
+
+    <main id="main-content" class="container">
+        <!-- Progress Tracking -->
+        <div class="interface-section">
+            <div class="panel-header">
+                <h2>🎯 Learning Progress</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="overall-progress"></div>
+                </div>
+                <div id="completion-badges"></div>
+            </div>
+        </div>
+
+        <!-- Main Interface Overview -->
+        <div class="learning-grid">
+            <div class="interface-panel">
+                <div class="panel-header">
+                    <h2>🖥️ Main Interface Overview</h2>
+                    <p>Explore the key areas of the ProxMox VE web interface</p>
+                </div>
+                <div class="panel-content">
+                    <div class="screenshot-container" id="main-interface">
+                        <div class="screenshot-placeholder">
+                            <p><strong>Main Interface Screenshot Needed</strong></p>
+                            <p>Full ProxMox VE web interface showing:</p>
+                            <ul style="text-align: left; margin-top: 1rem;">
+                                <li>Left navigation tree</li>
+                                <li>Main content area</li>
+                                <li>Top toolbar</li>
+                                <li>Status bar</li>
+                            </ul>
+                        </div>
+                        <!-- Hotspots will be added via JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="interface-panel">
+                <div class="panel-header">
+                    <h2>🌳 Navigation Tree</h2>
+                    <p>Interactive simulation of the navigation hierarchy</p>
+                </div>
+                <div class="panel-content">
+                    <div class="navigation-tree" id="nav-tree">
+                        <div class="tree-item expandable" data-level="datacenter">
+                            🏢 Datacenter
+                        </div>
+                        <div class="tree-children">
+                            <div class="tree-item expandable" data-level="node">
+                                🖥️ pve-node-01
+                            </div>
+                            <div class="tree-children">
+                                <div class="tree-item" data-level="summary">📊 Summary</div>
+                                <div class="tree-item" data-level="shell">💻 Shell</div>
+                                <div class="tree-item" data-level="system">⚙️ System</div>
+                                <div class="tree-item" data-level="updates">🔄 Updates</div>
+                                <div class="tree-item" data-level="firewall">🛡️ Firewall</div>
+                                <div class="tree-item" data-level="disks">💾 Disks</div>
+                                <div class="tree-item" data-level="ceph">🐙 Ceph</div>
+                                <div class="tree-item" data-level="replication">🔄 Replication</div>
+                            </div>
+                            <div class="tree-item expandable" data-level="storage">
+                                💽 Storage
+                            </div>
+                            <div class="tree-children">
+                                <div class="tree-item" data-level="local">📁 local</div>
+                                <div class="tree-item" data-level="local-lvm">📁 local-lvm</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interface Sections -->
+        <div class="interface-section">
+            <div class="section-tabs">
+                <button class="tab-button active" data-tab="datacenter">Datacenter View</button>
+                <button class="tab-button" data-tab="node">Node Management</button>
+                <button class="tab-button" data-tab="vm">VM/Container</button>
+                <button class="tab-button" data-tab="storage">Storage</button>
+            </div>
+
+            <div class="tab-content active" id="datacenter-tab">
+                <h3>🏢 Datacenter Overview</h3>
+                <p>The datacenter view provides cluster-wide management and overview of your entire ProxMox VE environment.</p>
+                
+                <div class="screenshot-container">
+                    <div class="screenshot-placeholder">
+                        <p><strong>Datacenter View Screenshot Needed</strong></p>
+                        <p>Showing datacenter summary with cluster information, search functionality, and datacenter-level settings</p>
+                    </div>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-title">🔍 Search</div>
+                        <p>Global search across all VMs, containers, storage, and pools in your infrastructure.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">📊 Summary</div>
+                        <p>High-level overview of cluster resources, nodes status, and overall health metrics.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">⚙️ Options</div>
+                        <p>Datacenter-wide settings including console, email, keyboard layout, and language preferences.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">💾 Storage</div>
+                        <p>Cluster-wide storage management, adding new storage backends, and storage configuration.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🗂️ Backup</div>
+                        <p>Configure backup jobs, schedules, and backup storage destinations for your VMs and containers.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🔄 Replication</div>
+                        <p>Set up and manage replication jobs between cluster nodes for high availability.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="node-tab">
+                <h3>🖥️ Node Management</h3>
+                <p>Individual node management provides detailed control over each physical server in your cluster.</p>
+                
+                <div class="screenshot-container">
+                    <div class="screenshot-placeholder">
+                        <p><strong>Node View Screenshot Needed</strong></p>
+                        <p>Showing node summary with system information, resource usage graphs, and node-specific options</p>
+                    </div>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-title">📊 Summary</div>
+                        <p>Real-time system metrics including CPU, memory, disk usage, and network statistics.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">💻 Shell</div>
+                        <p>Direct command-line access to the node with multiple console options (noVNC, SPICE, xterm.js).</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">⚙️ System</div>
+                        <p>Network configuration, DNS settings, time synchronization, and system logs.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🔄 Updates</div>
+                        <p>Package management, repository configuration, and system update procedures.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🛡️ Firewall</div>
+                        <p>Node-level firewall rules, security groups, and network security policies.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">💾 Disks</div>
+                        <p>Physical disk management, SMART monitoring, and storage device configuration.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="vm-tab">
+                <h3>🖥️ Virtual Machine & Container Management</h3>
+                <p>Comprehensive management interface for VMs and LXC containers with all operational controls.</p>
+                
+                <div class="screenshot-container">
+                    <div class="screenshot-placeholder">
+                        <p><strong>VM Management Screenshot Needed</strong></p>
+                        <p>Showing VM summary with hardware configuration, console access, and management options</p>
+                    </div>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-title">📊 Summary</div>
+                        <p>VM/CT status, resource usage, uptime, and quick overview of configuration.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">💻 Console</div>
+                        <p>Direct console access with multiple connection types and console management options.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">⚙️ Hardware</div>
+                        <p>Virtual hardware configuration including CPU, memory, disks, and network interfaces.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">⚡ Options</div>
+                        <p>Boot order, startup/shutdown behavior, protection settings, and advanced options.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">📸 Snapshots</div>
+                        <p>Create, manage, and restore VM snapshots for backup and testing purposes.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🔄 Backup</div>
+                        <p>Individual backup jobs, restore operations, and backup scheduling for the VM/CT.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="storage-tab">
+                <h3>💽 Storage Management</h3>
+                <p>Comprehensive storage backend management for various storage types and technologies.</p>
+                
+                <div class="screenshot-container">
+                    <div class="screenshot-placeholder">
+                        <p><strong>Storage View Screenshot Needed</strong></p>
+                        <p>Showing storage summary with content types, usage statistics, and storage configuration</p>
+                    </div>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-title">📊 Summary</div>
+                        <p>Storage capacity, utilization, type information, and health status overview.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">📁 Content</div>
+                        <p>Browse and manage stored content including VM disks, ISO images, and backups.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🔧 Configuration</div>
+                        <p>Storage backend settings, access permissions, and storage-specific options.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🔒 Permissions</div>
+                        <p>Access control for storage resources and user/group permission management.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Demo Section -->
+        <div class="interface-section">
+            <div class="panel-header">
+                <h2>🎮 Interactive Demo</h2>
+                <p>Practice common tasks with guided interactions</p>
+            </div>
+            <div class="interactive-demo">
+                <div class="demo-controls">
+                    <button class="demo-btn active" data-demo="navigation">Navigation Practice</button>
+                    <button class="demo-btn" data-demo="vm-create">VM Creation Flow</button>
+                    <button class="demo-btn" data-demo="updates">Update Process</button>
+                </div>
+                <div id="demo-content">
+                    <div class="demo-section active" id="navigation-demo">
+                        <h4>🧭 Navigation Practice</h4>
+                        <p>Click through the navigation tree to explore different sections. Try to find:</p>
+                        <ul>
+                            <li id="task-datacenter">✅ Datacenter summary</li>
+                            <li id="task-node-summary">⏳ Node summary page</li>
+                            <li id="task-updates">⏳ Updates section</li>
+                            <li id="task-storage">⏳ Storage configuration</li>
+                        </ul>
+                    </div>
+                    <div class="demo-section" id="vm-create-demo">
+                        <h4>🖥️ VM Creation Workflow</h4>
+                        <p>Learn the step-by-step process of creating a new virtual machine:</p>
+                        <ol>
+                            <li>Navigate to node → Create VM</li>
+                            <li>Configure general settings (VM ID, name)</li>
+                            <li>Select operating system and ISO</li>
+                            <li>Configure virtual hardware (CPU, memory, disk)</li>
+                            <li>Set up network configuration</li>
+                            <li>Review and create</li>
+                        </ol>
+                    </div>
+                    <div class="demo-section" id="updates-demo">
+                        <h4>🔄 System Update Process</h4>
+                        <p>Practice the safe system update procedure:</p>
+                        <ol>
+                            <li>Check current system status</li>
+                            <li>Review available updates</li>
+                            <li>Apply updates systematically</li>
+                            <li>Reboot if kernel updates are installed</li>
+                            <li>Verify system after updates</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Knowledge Check Quiz -->
+        <div class="quiz-section">
+            <h2>🧠 Knowledge Check</h2>
+            <div class="quiz-question">
+                <h4>Question 1: Interface Navigation</h4>
+                <p>Where would you go to configure cluster-wide backup jobs in ProxMox VE?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option" data-answer="incorrect">
+                        <input type="radio" name="q1" value="a"> Node → Backup
+                    </label>
+                    <label class="quiz-option" data-answer="correct">
+                        <input type="radio" name="q1" value="b"> Datacenter → Backup
+                    </label>
+                    <label class="quiz-option" data-answer="incorrect">
+                        <input type="radio" name="q1" value="c"> Storage → Backup
+                    </label>
+                    <label class="quiz-option" data-answer="incorrect">
+                        <input type="radio" name="q1" value="d"> VM → Backup
+                    </label>
+                </div>
+                <div class="quiz-feedback correct">
+                    ✅ Correct! Datacenter → Backup is where you configure cluster-wide backup jobs that can affect multiple nodes and VMs.
+                </div>
+                <div class="quiz-feedback incorrect">
+                    ❌ Incorrect. Cluster-wide backup jobs are configured at the Datacenter level, not at individual node or VM levels.
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>Question 2: System Management</h4>
+                <p>Which console type provides the best compatibility for web browsers without additional plugins?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option" data-answer="incorrect">
+                        <input type="radio" name="q2" value="a"> SPICE
+                    </label>
+                    <label class="quiz-option" data-answer="correct">
+                        <input type="radio" name="q2" value="b"> noVNC
+                    </label>
+                    <label class="quiz-option" data-answer="incorrect">
+                        
