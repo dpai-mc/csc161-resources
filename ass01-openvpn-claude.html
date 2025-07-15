@@ -302,6 +302,18 @@
             color: var(--primary-blue);
         }
 
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -363,6 +375,13 @@
             .card h3 {
                 font-size: 1.2rem;
             }
+        }
+
+        @media print {
+            .nav-tabs { display: none; }
+            .tab-content { display: block !important; }
+            .card { break-inside: avoid; }
+            .header { break-after: page; }
         }
 
         /* High contrast mode support */
@@ -683,9 +702,7 @@
             const tabContents = document.querySelectorAll('.tab-content');
             tabContents.forEach(content => {
                 content.classList.remove('active');
-        </script>
-</body>
-</html>
+            });
 
             // Remove active class from all tabs
             const tabs = document.querySelectorAll('.nav-tab');
@@ -731,28 +748,7 @@
             }
         }
 
-        // Keyboard navigation for tabs
-        document.addEventListener('keydown', function(e) {
-            if (e.target.classList.contains('nav-tab')) {
-                const tabs = Array.from(document.querySelectorAll('.nav-tab'));
-                const currentIndex = tabs.indexOf(e.target);
-                
-                if (e.key === 'ArrowLeft' && currentIndex > 0) {
-                    tabs[currentIndex - 1].focus();
-                    tabs[currentIndex - 1].click();
-                } else if (e.key === 'ArrowRight' && currentIndex < tabs.length - 1) {
-                    tabs[currentIndex + 1].focus();
-                    tabs[currentIndex + 1].click();
-                }
-            }
-        });
-
-        // Initialize progress on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            updateProgress();
-        });
-
-        // Save progress to localStorage
+        // Save and load progress
         function saveProgress() {
             const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
             const progress = {};
@@ -764,7 +760,6 @@
             localStorage.setItem('openvpn-assignment-progress', JSON.stringify(progress));
         }
 
-        // Load progress from localStorage
         function loadProgress() {
             const saved = localStorage.getItem('openvpn-assignment-progress');
             if (saved) {
@@ -781,10 +776,28 @@
             }
         }
 
-        // Add event listeners for auto-save
+        // Keyboard navigation for tabs
+        document.addEventListener('keydown', function(e) {
+            if (e.target.classList.contains('nav-tab')) {
+                const tabs = Array.from(document.querySelectorAll('.nav-tab'));
+                const currentIndex = tabs.indexOf(e.target);
+                
+                if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                    tabs[currentIndex - 1].focus();
+                    tabs[currentIndex - 1].click();
+                } else if (e.key === 'ArrowRight' && currentIndex < tabs.length - 1) {
+                    tabs[currentIndex + 1].focus();
+                    tabs[currentIndex + 1].click();
+                }
+            }
+        });
+
+        // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadProgress();
+            updateProgress();
             
+            // Add event listeners for auto-save
             const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', function() {
@@ -793,92 +806,6 @@
                 });
             });
         });
-
-        // Print functionality
-        function printAssignment() {
-            window.print();
-        }
-
-        // Add print button functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Create print button
-            const printButton = document.createElement('button');
-            printButton.innerHTML = '🖨️ Print Assignment';
-            printButton.className = 'nav-tab';
-            printButton.style.marginLeft = 'auto';
-            printButton.onclick = printAssignment;
-            printButton.setAttribute('aria-label', 'Print assignment page');
-            
-            const navTabs = document.querySelector('.nav-tabs');
-            navTabs.appendChild(printButton);
-        });
-
-        // Accessibility: Announce tab changes to screen readers
-        function announceTabChange(tabName) {
-            const announcement = document.createElement('div');
-            announcement.setAttribute('aria-live', 'polite');
-            announcement.setAttribute('aria-atomic', 'true');
-            announcement.className = 'sr-only';
-            announcement.textContent = `Switched to ${tabName} tab`;
-            document.body.appendChild(announcement);
-            
-            setTimeout(() => {
-                document.body.removeChild(announcement);
-            }, 1000);
-        }
-
-        // Enhanced showTab function with accessibility
-        function showTab(tabName) {
-            // Hide all tab contents
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => {
-                content.classList.remove('active');
-            });
-
-            // Remove active class from all tabs
-            const tabs = document.querySelectorAll('.nav-tab');
-            tabs.forEach(tab => {
-                tab.classList.remove('active');
-                tab.setAttribute('aria-selected', 'false');
-            });
-
-            // Show selected tab content
-            document.getElementById(tabName).classList.add('active');
-
-            // Add active class to clicked tab
-            event.target.classList.add('active');
-            event.target.setAttribute('aria-selected', 'true');
-
-            // Announce change for screen readers
-            announceTabChange(tabName);
-            
-            // Focus management for keyboard users
-            document.getElementById(tabName).focus();
-        }
-
-        // Add visual focus indicators
-        document.addEventListener('DOMContentLoaded', function() {
-            const style = document.createElement('style');
-            style.textContent = `
-                .sr-only {
-                    position: absolute;
-                    width: 1px;
-                    height: 1px;
-                    padding: 0;
-                    margin: -1px;
-                    overflow: hidden;
-                    clip: rect(0, 0, 0, 0);
-                    white-space: nowrap;
-                    border: 0;
-                }
-                
-                @media print {
-                    .nav-tabs { display: none; }
-                    .tab-content { display: block !important; }
-                    .card { break-inside: avoid; }
-                    .header { break-after: page; }
-                }
-            `;
-            document.head.appendChild(style);
-        });
-                
+    </script>
+</body>
+</html>
