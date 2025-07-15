@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1200, initial-scale=1.0">
     <title>OpenVPN Lab Access Setup Assignment</title>
     <style>
         :root {
@@ -36,6 +36,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            min-width: 1000px;
         }
 
         .header {
@@ -314,7 +315,49 @@
             border: 0;
         }
 
-        @media (max-width: 768px) {
+        /* Canvas LMS iframe optimization */
+        @media screen and (min-width: 900px) {
+            .container {
+                max-width: 100%;
+                padding: 15px;
+            }
+            
+            .nav-tabs {
+                flex-direction: row;
+                gap: 0;
+            }
+
+            .nav-tab {
+                text-align: center;
+                min-width: 120px;
+            }
+
+            .objectives-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+
+            .rubric-table {
+                display: table;
+                width: 100%;
+                overflow-x: auto;
+            }
+        }
+
+        /* Force desktop layout in iframes wider than 1000px */
+        @media screen and (min-width: 1000px) {
+            .nav-tabs {
+                flex-direction: row !important;
+            }
+
+            .nav-tab {
+                min-width: 140px !important;
+                text-align: center !important;
+            }
+
+            .objectives-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+            }
+        }
             .container {
                 padding: 10px;
             }
