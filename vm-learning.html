@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VM Learning Platform - Master Virtual Machines & Proxmox VE</title>
+    <meta name="description" content="Comprehensive learning platform for college students to master virtual machines and Proxmox VE">
+    
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+        }
+
+        /* Skip Link for Screen Readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 1000;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        nav a:hover, nav a:focus {
+            color: var(--primary-color);
+            background: var(--bg-secondary);
+        }
+
+        nav a.active {
+            color: var(--primary-color);
+            background: var(--bg-secondary);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            border-radius: 12px;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover, .cta-button:focus {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Learning Modules */
+        .modules-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .module-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .module-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .module-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .module-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .module-progress {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            height: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--success-color);
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Interactive Content */
+        .content-section {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .content-section h3 {
+            color: var(--text-primary);
+            margin: 2rem 0 1rem 0;
+            font-size: 1.3rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .code-block {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .interactive-demo {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .demo-button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .demo-button:hover, .demo-button:focus {
+            background: var(--primary-color);
+        }
+
+        .demo-output {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 1rem;
+            min-height: 100px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quiz-option:hover {
+            background: var(--bg-primary);
+        }
+
+        .quiz-option input[type="radio"] {
+            margin: 0;
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .quiz-feedback.incorrect {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        /* Accessibility Features */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* High Contrast Mode */
+        @media (prefers-contrast: high) {
+            :root {
+                --primary-color: #000080;
+                --text-primary: #000000;
+                --text-secondary: #000000;
+                --border-color: #000000;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 1rem;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg-primary);
+                border-top: 1px solid var(--border-color);
+                display: none;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0;
+            }
+
+            nav a {
+                display: block;
+                padding: 1rem;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-controls {
+                flex-direction: column;
+            }
+        }
+
+        /* Animation for smooth transitions */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Focus styles for accessibility */
+        *:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        button:focus, a:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header role="banner">
+        <div class="header-content">
+            <div class="logo">VM Learning Platform</div>
+            <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                ☰
+            </button>
+            <nav role="navigation" aria-label="Main navigation">
+                <ul>
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#fundamentals" class="nav-link">Fundamentals</a></li>
+                    <li><a href="#proxmox" class="nav-link">Proxmox VE</a></li>
+                    <li><a href="#hands-on" class="nav-link">Hands-On</a></li>
+                    <li><a href="#advanced" class="nav-link">Advanced</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        <!-- Home Section -->
+        <section id="home" class="content-section active">
+            <div class="hero">
+                <h1>Master Virtual Machines & Proxmox VE</h1>
+                <p>Comprehensive learning platform designed for college students to understand virtual machine concepts and gain hands-on experience with Proxmox VE</p>
+                <button class="cta-button" onclick="navigateToSection('fundamentals')">Start Learning</button>
+            </div>
+
+            <div class="modules-section">
+                <h2 class="section-title">Learning Modules</h2>
+                <div class="modules-grid">
+                    <div class="module-card">
+                        <h3>Virtual Machine Fundamentals</h3>
+                        <p>Learn the core concepts of virtualization, hypervisors, and why VMs are essential in modern computing.</p>
+                        <div class="module-progress">
+                            <div class="progress-bar" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-text">0% Complete</div>
+                        <button class="cta-button" onclick="navigateToSection('fundamentals')">Begin Module</button>
+                    </div>
+
+                    <div class="module-card">
+                        <h3>Proxmox VE Deep Dive</h3>
+                        <p>Explore Proxmox Virtual Environment, its features, architecture, and web interface.</p>
+                        <div class="module-progress">
+                            <div class="progress-bar" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-text">0% Complete</div>
+                        <button class="cta-button" onclick="navigateToSection('proxmox')">Begin Module</button>
+                    </div>
+
+                    <div class="module-card">
+                        <h3>Hands-On VM Creation</h3>
+                        <p>Step-by-step tutorials for creating and configuring virtual machines with detailed explanations.</p>
+                        <div class="module-progress">
+                            <div class="progress-bar" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-text">0% Complete</div>
+                        <button class="cta-button" onclick="navigateToSection('hands-on')">Begin Module</button>
+                    </div>
+
+                    <div class="module-card">
+                        <h3>Advanced Topics</h3>
+                        <p>Resource management, backup strategies, security best practices, and optimization techniques.</p>
+                        <div class="module-progress">
+                            <div class="progress-bar" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-text">0% Complete</div>
+                        <button class="cta-button" onclick="navigateToSection('advanced')">Begin Module</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fundamentals Section -->
+        <section id="fundamentals" class="content-section">
+            <h2>Virtual Machine Fundamentals</h2>
+            
+            <h3>What is a Virtual Machine?</h3>
+            <p>A virtual machine (VM) is a software-based emulation of a physical computer system. It runs on top of a host operating system and provides the same functionality as a physical computer, including its own operating system, applications, and allocated hardware resources.</p>
+            
+            <h3>Key Components of Virtualization</h3>
+            <p><strong>Hypervisor:</strong> The software layer that creates and manages virtual machines. There are two types:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Type 1 (Bare-metal):</strong> Runs directly on physical hardware (e.g., VMware vSphere, Proxmox VE)</li>
+                <li><strong>Type 2 (Hosted):</strong> Runs on top of a host OS (e.g., VMware Workstation, VirtualBox)</li>
+            </ul>
+
+            <div class="interactive-demo">
+                <h4>Interactive Demo: VM Architecture</h4>
+                <div class="demo-controls">
+                    <button class="demo-button" onclick="showVMLayer('physical')">Physical Layer</button>
+                    <button class="demo-button" onclick="showVMLayer('hypervisor')">Hypervisor Layer</button>
+                    <button class="demo-button" onclick="showVMLayer('vm')">Virtual Machine Layer</button>
+                </div>
+                <div class="demo-output" id="vm-demo-output">Click a button above to explore VM architecture layers</div>
+            </div>
+
+            <h3>Benefits of Virtualization</h3>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Resource Efficiency:</strong> Multiple VMs share physical hardware resources</li>
+                <li><strong>Isolation:</strong> VMs are isolated from each other and the host system</li>
+                <li><strong>Flexibility:</strong> Easy to create, modify, and delete VMs</li>
+                <li><strong>Cost Savings:</strong> Reduced hardware requirements and energy consumption</li>
+                <li><strong>Disaster Recovery:</strong> VMs can be easily backed up and restored</li>
+            </ul>
+
+            <div class="quiz-container">
+                <div class="quiz-question">What type of hypervisor runs directly on physical hardware?</div>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="hypervisor-type" value="type1">
+                        Type 1 (Bare-metal)
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="hypervisor-type" value="type2">
+                        Type 2 (Hosted)
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="hypervisor-type" value="type3">
+                        Type 3 (Cloud-based)
+                    </label>
+                </div>
+                <button class="demo-button" onclick="checkQuiz('hypervisor-type', 'type1', 'Correct! Type 1 hypervisors run directly on physical hardware, providing better performance and resource management.')">Submit Answer</button>
+                <div class="quiz-feedback" id="hypervisor-type-feedback"></div>
+            </div>
+
+            <button class="cta-button" onclick="navigateToSection('proxmox')" style="margin-top: 2rem;">Next: Proxmox VE Deep Dive</button>
+        </section>
+
+        <!-- Proxmox Section -->
+        <section id="proxmox" class="content-section">
+            <h2>Proxmox VE Deep Dive</h2>
+            
+            <h3>What is Proxmox VE?</h3>
+            <p>Proxmox Virtual Environment (VE) is an open-source virtualization platform that combines KVM hypervisor and LXC containers. It provides a web-based management interface for creating and managing virtual machines and containers.</p>
+
+            <h3>Key Features</h3>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>KVM Virtualization:</strong> Full virtualization support for various operating systems</li>
+                <li><strong>LXC Containers:</strong> Lightweight container virtualization</li>
+                <li><strong>Web Interface:</strong> User-friendly web-based management console</li>
+                <li><strong>Clustering:</strong> Multiple nodes can be clustered for high availability</li>
+                <li><strong>Storage Options:</strong> Local storage, NFS, iSCSI, Ceph, and more</li>
+                <li><strong>Backup & Restore:</strong> Built-in backup solutions</li>
+            </ul>
+
+            <div class="interactive-demo">
+                <h4>Proxmox Web Interface Simulator</h4>
+                <div class="demo-controls">
+                    <button class="demo-button" onclick="showProxmoxInterface('dashboard')">Dashboard</button>
+                    <button class="demo-button" onclick="showProxmoxInterface('nodes')">Nodes</button>
+                    <button class="demo-button" onclick="showProxmoxInterface('storage')">Storage</button>
+                    <button class="demo-button" onclick="showProxmoxInterface('datacenter')">Datacenter</button>
+                </div>
+                <div class="demo-output" id="proxmox-interface-output">Select a section to explore the Proxmox web interface</div>
+            </div>
+
+            <h3>System Requirements</h3>
+            <div class="code-block">
+Minimum Requirements:
+- CPU: 64-bit processor with virtualization support (Intel VT-x or AMD-V)
+- RAM: 1 GB (4 GB recommended)
+- Storage: 32 GB available space
+- Network: Ethernet connection
+
+Recommended for Production:
+- CPU: Multi-core 64-bit processor
+- RAM: 8 GB or more
+- Storage: SSD with 100 GB+ space
+- Network: Gigabit Ethernet
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">Which virtualization technologies does Proxmox VE combine?</div>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="proxmox-tech" value="kvm-xen">
+                        KVM and Xen
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="proxmox-tech" value="kvm-lxc">
+                        KVM and LXC
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="proxmox-tech" value="vmware-hyperv">
+                        VMware and Hyper-V
+                    </label>
+                </div>
+                <button class="demo-button" onclick="checkQuiz('proxmox-tech', 'kvm-lxc', 'Correct! Proxmox VE combines KVM for full virtualization and LXC for container virtualization.')">Submit Answer</button>
+                <div class="quiz-feedback" id="proxmox-tech-feedback"></div>
+            </div>
+
+            <button class="cta-button" onclick="navigateToSection('hands-on')" style="margin-top: 2rem;">Next: Hands-On VM Creation</button>
+        </section>
+
+        <!-- Hands-On Section -->
+        <section id="hands-on" class="content-section">
+            <h2>Hands-On VM Creation</h2>
+            
+            <h3>Creating Your First Virtual Machine</h3>
+            <p>This section will walk you through creating a virtual machine in Proxmox VE, explaining each configuration option and its impact on VM performance.</p>
+
+            <div class="interactive-demo">
+                <h4>VM Configuration Simulator</h4>
+                <p>Use this simulator to understand different VM configuration options:</p>
+                <div class="demo-controls">
+                    <button class="demo-button" onclick="showVMConfig('general')">General Settings</button>
+                    <button class="demo-button" onclick="showVMConfig('os')">Operating System</button>
+                    <button class="demo-button" onclick="showVMConfig('system')">System Settings</button>
+                    <button class="demo-button" onclick="showVMConfig('disks')">Hard Disk</button>
+                    <button class="demo-button" onclick="showVMConfig('cpu')">CPU Settings</button>
+                    <button class="demo-button" onclick="showVMConfig('memory')">Memory Settings</button>
+                    <button class="demo-button" onclick="showVMConfig('network')">Network Settings</button>
+                </div>
+                <div class="demo-output" id="vm-config-output">Select a configuration category to learn about VM settings</div>
+            </div>
+
+            <h3>Step-by-Step VM Creation Process</h3>
+            
+            <h4>1. General Settings</h4>
+            <div class="code-block">
+Node: Select the Proxmox node where the VM will be created
+VM ID: Unique identifier (100-999999999)
+Name: Descriptive name for the VM
+Resource Pool: Optional grouping for resource management
+            </div>
+
+            <h4>2. Operating System Configuration</h4>
+            <p>Choose the installation media and OS type:</p>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>ISO Image:</strong> Upload or select ISO file for OS installation</li>
+                <li><strong>Guest OS:</strong> Select OS type (Linux, Windows, Other)</li>
+                <li><strong>Version:</strong> Specific OS version for optimal compatibility</li>
+            </ul>
+
+            <h4>3. System Settings</h4>
+            <div class="code-block">
+Graphics card: Default, SPICE, VNC, or none
+SCSI Controller: VirtIO SCSI (recommended) or LSI 53C895A
+Qemu Agent: Enable for better integration (recommended)
+BIOS: SeaBIOS (default) or OVMF (UEFI)
+            </div>
+
+            <h4>4. Hard Disk Configuration</h4>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Bus/Device:</strong> VirtIO Block (best performance), SATA, SCSI, or IDE</li>
+                <li><strong>Storage:</strong> Select storage location</li>
+                <li><strong>Disk Size:</strong> Allocate appropriate space</li>
+                <li><strong>Format:</strong> Raw (better performance) or qcow2 (more features)</li>
+                <li><strong>Cache:</strong> None, Write back, Write through</li>
+            </ul>
+
+            <div class="quiz-container">
+                <div class="quiz-question">Which disk format provides better performance in Proxmox VE?</div>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="disk-format" value="qcow2">
+                        qcow2
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="disk-format" value="raw">
+                        Raw
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="disk-format" value="vmdk">
+                        VMDK
+                    </label>
+                </div>
+                <button class="demo-button" onclick="checkQuiz('disk-format', 'raw', 'Correct! Raw format provides better performance as it has less overhead compared to qcow2.')">Submit Answer</button>
+                <div class="quiz-feedback" id="disk-format-feedback"></div>
+            </div>
+
+            <button class="cta-button" onclick="navigateToSection('advanced')" style="margin-top: 2rem;">Next: Advanced Topics</button>
+        </section>
+
+        <!-- Advanced Section -->
+        <section id="advanced" class="content-section">
+            <h2>Advanced Topics</h2>
+            
+            <h3>Resource Management</h3>
+            <p>Effective resource management is crucial for optimal VM performance and system stability.</p>
+
+            <h4>CPU Management</h4>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>CPU Cores:</strong> Number of CPU cores assigned to the VM</li>
+                <li><strong>CPU Sockets:</strong> Number of CPU sockets (affects software licensing)</li>
+                <li><strong>CPU Type:</strong> host, kvm64, or specific CPU models</li>
+                <li><strong>CPU Units:</strong> Relative weight for CPU time allocation (1024 = 100%)</li>
+            </ul>
+
+            <h4>Memory Management</h4>
+            <div class="code-block">
+Memory (MiB): Amount of RAM allocated to the VM
+Minimum memory: Minimum RAM guaranteed to the VM
+Ballooning: Allows dynamic memory adjustment
+Shares: Memory priority relative to other VMs
+            </div>
+
+            <h3>Storage Best Practices</h3>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Use SSDs:</strong> For better I/O performance</li>
+                <li><strong>Separate Storage:</strong> OS and data on different disks</li>
+                <li><strong>Backup Strategy:</strong> Regular automated backups</li>
+                <li><strong>Monitoring:</strong> Watch disk usage and performance</li>
+            </ul>
+
+            <div class="interactive-demo">
+                <h4>Performance Monitoring</h4>
+                <div class="demo-controls">
+                    <button class="demo-button" onclick="showMonitoring('cpu')">CPU Usage</button>
+                    <button class="demo-button" onclick="showMonitoring('memory')">Memory Usage</button>
+                    <button class="demo-button" onclick="showMonitoring('disk')">Disk I/O</button>
+                    <button class="demo-button" onclick="showMonitoring('network')">Network Traffic</button>
+                </div>
+                <div class="demo-output" id="monitoring-output">Select a metric to view performance monitoring data</div>
+            </div>
+
+            <h3>Security Best Practices</h3>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li><strong>Regular Updates:</strong> Keep Proxmox and guest OS updated</li>
+                <li><strong>Firewall Rules:</strong> Configure appropriate firewall settings</li>
+                <li><strong>User Management:</strong> Use role-based access control</li>
+                <li><strong>Backup Encryption:</strong> Encrypt backup data</li>
+                <li><strong>Network Segmentation:</strong> Isolate VMs using VLANs</li>
+            </ul>
+
+            <h3>Backup and Disaster Recovery</h3>
+            <div class="code-block">
+Backup Types:
+- Full Backup: Complete VM image backup
+- Incremental: Only changes since last backup
+- Differential: Changes since last full backup
+
+Backup Storage:
+- Local storage (fast, but single point of failure)
+- Network storage (NFS, SMB/CIFS)
+- Cloud storage (offsite protection)
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question">What is the main advantage of incremental backups?</div>
+                <div class="quiz-options">
+                    <label class="quiz-option">
+                        <input type="radio" name="backup-type" value="speed">
+                        Faster backup and restore times
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="backup-type" value="storage">
+                        Reduced storage space requirements
+                    </label>
+                    <label class="quiz-option">
+                        <input type="radio" name="backup-type" value="security">
+                        Better security and encryption
+                    </label>
+                </div>
+                <button class="demo-button" onclick="checkQuiz('backup-type', 'storage', 'Correct! Incremental backups only store changes since the last backup, significantly reducing storage space requirements.')">Submit Answer</button>
+                <div class="quiz-feedback" id="backup-type-feedback"></div>
+            </div>
+
+            <h3>Troubleshooting Common Issues</h3>
+            <h4>Performance Issues</h4>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Check CPU and memory allocation</li>
+                <li>Monitor disk I/O performance</li>
+                <li>Verify network configuration</li>
+                <li>Review hypervisor logs</li>
+            </ul>
+
+            <h4>Connectivity Problems</h4>
+            <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                <li>Verify bridge configuration</li>
+                <li>Check firewall rules</li>
+                <li>Test network adapter settings</li>
+                <li>Validate VLAN configuration</li>
+            </ul>
+
+            <div class="interactive-demo">
+                <h4>Troubleshooting Checklist</h4>
+                <div class="demo-controls">
+                    <button class="demo-button" onclick="showTroubleshooting('performance')">Performance Issues</button>
+                    <button class="demo-button" onclick="showTroubleshooting('network')">Network Problems</button>
+                    <button class="demo-button" onclick="showTroubleshooting('storage')">Storage Issues</button>
+                    <button class="demo-button" onclick="showTroubleshooting('boot')">Boot Problems</button>
+                </div>
+                <div class="demo-output" id="troubleshooting-output">Select an issue type to view troubleshooting steps</div>
+            </div>
+
+            <div style="margin-top: 3rem; text-align: center; padding: 2rem; background: var(--bg-secondary); border-radius: 8px;">
+                <h3>Congratulations!</h3>
+                <p>You've completed the Virtual Machine Learning Platform course. You now have a comprehensive understanding of virtual machines and Proxmox VE.</p>
+                <button class="cta-button" onclick="navigateToSection('home')">Return to Home</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Navigation functionality
+        function navigateToSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show target section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                targetSection.classList.add('fade-in');
+                
+                // Update progress for completed sections
+                updateProgress(sectionId);
+                
+                // Update navigation
+                updateNavigation(sectionId);
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+                
+                // Focus management for accessibility
+                targetSection.focus();
+            }
+        }
+
+        // Update navigation active state
+        function updateNavigation(activeSection) {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + activeSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Progress tracking
+        function updateProgress(completedSection) {
+            const progressMap = {
+                'fundamentals': 25,
+                'proxmox': 50,
+                'hands-on': 75,
+                'advanced': 100
+            };
+
+            const moduleCards = document.querySelectorAll('.module-card');
+            moduleCards.forEach((card, index) => {
+                const sections = ['fundamentals', 'proxmox', 'hands-on', 'advanced'];
+                const section = sections[index];
+                const progressBar = card.querySelector('.progress-bar');
+                const progressText = card.querySelector('.progress-text');
+                
+                if (progressMap[completedSection] && sections.indexOf(section) <= sections.indexOf(completedSection)) {
+                    const progress = progressMap[section] || 0;
+                    progressBar.style.width = progress + '%';
+                    progressText.textContent = progress + '% Complete';
+                }
+            });
+
+            // Save progress to memory
+            window.learningProgress = window.learningProgress || {};
+            window.learningProgress[completedSection] = true;
+        }
+
+        // VM Architecture Demo
+        function showVMLayer(layer) {
+            const output = document.getElementById('vm-demo-output');
+            const layerInfo = {
+                'physical': `
+Physical Hardware Layer:
+- CPU: Physical processor cores
+- RAM: Physical memory modules
+- Storage: Hard drives, SSDs
+- Network: Physical network interfaces
+- Purpose: Provides the foundation for all virtualization`,
+                'hypervisor': `
+Hypervisor Layer (Type 1 - Bare Metal):
+- Runs directly on physical hardware
+- Manages and allocates physical resources
+- Creates isolated virtual environments
+- Examples: Proxmox VE, VMware vSphere, Xen
+- Provides better performance than Type 2`,
+                'vm': `
+Virtual Machine Layer:
+- Guest Operating System (Windows, Linux, etc.)
+- Virtual CPU cores allocated from physical CPU
+- Virtual RAM allocated from physical memory
+- Virtual disk files stored on physical storage
+- Virtual network interfaces connected to physical network
+- Each VM is completely isolated from others`
+            };
+            
+            output.textContent = layerInfo[layer];
+        }
+
+        // Proxmox Interface Demo
+        function showProxmoxInterface(section) {
+            const output = document.getElementById('proxmox-interface-output');
+            const interfaceInfo = {
+                'dashboard': `
+Proxmox Dashboard:
+- System overview and resource usage
+- CPU, memory, and storage utilization graphs
+- Network traffic monitoring
+- Recent tasks and logs
+- Quick access to common functions
+- Cluster status (if configured)`,
+                'nodes': `
+Nodes Section:
+- List of all Proxmox nodes in cluster
+- Individual node resource usage
+- Node-specific configuration options
+- Shell access to each node
+- Update management
+- Service status monitoring`,
+                'storage': `
+Storage Management:
+- Local storage (local, local-lvm)
+- Network storage (NFS, iSCSI, SMB/CIFS)
+- Distributed storage (Ceph)
+- Storage usage and available space
+- Backup destination configuration
+- ISO image storage`,
+                'datacenter': `
+Datacenter Configuration:
+- Cluster management
+- User and permission management
+- Authentication realms (PAM, LDAP, AD)
+- Backup scheduling
+- Firewall rules
+- HA (High Availability) configuration`
+            };
+            
+            output.textContent = interfaceInfo[section];
+        }
+
+        // VM Configuration Demo
+        function showVMConfig(configType) {
+            const output = document.getElementById('vm-config-output');
+            const configInfo = {
+                'general': `
+General Settings:
+- Node: Proxmox node where VM will be created
+- VM ID: Unique identifier (100-999999999)
+- Name: Descriptive name for easy identification
+- Resource Pool: Optional grouping for management
+- Start at boot: Auto-start VM when node boots
+- Start/Shutdown order: Control boot sequence`,
+                'os': `
+Operating System:
+- Use CD/DVD disc image file (ISO): Select installation media
+- Storage: Where ISO is stored
+- Guest OS: Linux, Microsoft Windows, or Other
+- Type: Specific OS version for optimization
+- Version: Detailed OS version for best compatibility
+- Impact: Affects virtual hardware presentation`,
+                'system': `
+System Settings:
+- Graphic card: Default/SPICE/VNC/none
+- SCSI Controller: VirtIO SCSI (best) or LSI 53C895A
+- Qemu Agent: Enable for better VM integration
+- BIOS: SeaBIOS (traditional) or OVMF (UEFI)
+- Machine: i440fx (older) or q35 (modern chipset)
+- Add EFI Disk: Required for UEFI boot`,
+                'disks': `
+Hard Disk Configuration:
+- Bus/Device: VirtIO Block (fastest), SATA, SCSI, IDE
+- Storage: Local or network storage location
+- Disk size (GiB): Space allocation for VM
+- Format: Raw (performance) or qcow2 (features)
+- Cache: None/Write back/Write through
+- SSD emulation: Enable for SSD-optimized guest OS`,
+                'cpu': `
+CPU Settings:
+- Sockets: Number of CPU sockets (affects licensing)
+- Cores: CPU cores per socket
+- Type: host (best performance) or specific CPU model
+- Enable NUMA: For better memory performance
+- CPU units: Relative CPU time allocation (1024=100%)
+- CPU limit: Maximum CPU usage percentage`,
+                'memory': `
+Memory Configuration:
+- Memory (MiB): Total RAM allocated to VM
+- Minimum memory (MiB): Guaranteed RAM minimum
+- Ballooning Device: Dynamic memory adjustment
+- Shares: Memory priority vs other VMs
+- Advanced: Huge pages for performance
+- NUMA topology: Memory locality optimization`,
+                'network': `
+Network Settings:
+- Bridge: Virtual network bridge (vmbr0)
+- VLAN Tag: VLAN ID for network segmentation
+- Model: VirtIO (best), Intel E1000, RTL8139
+- MAC address: Auto-generated or custom
+- Rate limit: Bandwidth limiting (MB/s)
+- Firewall: Enable VM-level firewall rules`
+            };
+            
+            output.textContent = configInfo[configType];
+        }
+
+        // Performance Monitoring Demo
+        function showMonitoring(metric) {
+            const output = document.getElementById('monitoring-output');
+            const monitoringInfo = {
+                'cpu': `
+CPU Performance Monitoring:
+- CPU Usage %: Current processor utilization
+- CPU Ready Time: Time waiting for CPU resources
+- Load Average: System load over time periods
+- Context Switches: Process switching frequency
+- Interrupt Rate: Hardware interrupt frequency
+- Tools: top, htop, sar, iostat`,
+                'memory': `
+Memory Performance Monitoring:
+- Memory Usage: RAM utilization percentage
+- Available Memory: Free RAM for allocation
+- Swap Usage: Virtual memory utilization
+- Page Faults: Memory access violations
+- Cache Hit Ratio: Memory cache efficiency
+- Tools: free, vmstat, sar, /proc/meminfo`,
+                'disk': `
+Disk I/O Performance:
+- Read/Write IOPS: Input/output operations per second
+- Throughput: Data transfer rate (MB/s)
+- Queue Depth: Pending I/O operations
+- Response Time: Average I/O completion time
+- Utilization: Disk busy percentage
+- Tools: iostat, iotop, fio for testing`,
+                'network': `
+Network Performance Monitoring:
+- Bandwidth Usage: Data transfer rate (Mbps)
+- Packet Rate: Packets per second
+- Error Rate: Network transmission errors
+- Latency: Round-trip time measurements
+- Connection Count: Active network connections
+- Tools: iftop, netstat, ss, ping, iperf`
+            };
+            
+            output.textContent = monitoringInfo[metric];
+        }
+
+        // Troubleshooting Demo
+        function showTroubleshooting(issueType) {
+            const output = document.getElementById('troubleshooting-output');
+            const troubleshootingInfo = {
+                'performance': `
+Performance Issue Troubleshooting:
+1. Check resource allocation (CPU, RAM, disk)
+2. Monitor host system resource usage
+3. Verify VM is using VirtIO drivers
+4. Check for CPU steal time in guest
+5. Review storage performance (IOPS, latency)
+6. Examine network bottlenecks
+7. Update guest OS and drivers
+8. Consider VM placement and resource balancing`,
+                'network': `
+Network Problem Troubleshooting:
+1. Verify VM network adapter is connected
+2. Check bridge configuration on host
+3. Test connectivity with ping/traceroute
+4. Examine firewall rules (host and guest)
+5. Verify VLAN configuration if used
+6. Check MAC address conflicts
+7. Test with different network model (e1000 vs VirtIO)
+8. Review network adapter driver in guest`,
+                'storage': `
+Storage Issue Troubleshooting:
+1. Check disk space availability
+2. Verify storage permissions and mounting
+3. Test disk performance with tools like fio
+4. Examine storage backend (NFS, iSCSI, local)
+5. Check for disk errors in system logs
+6. Verify VM disk format compatibility
+7. Test with different storage controllers
+8. Monitor I/O wait times and queue depth`,
+                'boot': `
+Boot Problem Troubleshooting:
+1. Verify boot order in VM configuration
+2. Check if installation media is properly mounted
+3. Examine BIOS/UEFI settings compatibility
+4. Verify CPU virtualization features enabled
+5. Check for sufficient allocated memory
+6. Review VM system configuration
+7. Test with different machine types (i440fx vs q35)
+8. Examine Proxmox and guest system logs`
+            };
+            
+            output.textContent = troubleshootingInfo[issueType];
+        }
+
+        // Quiz functionality
+        function checkQuiz(quizName, correctAnswer, explanation) {
+            const selectedOption = document.querySelector(`input[name="${quizName}"]:checked`);
+            const feedback = document.getElementById(`${quizName}-feedback`);
+            
+            if (!selectedOption) {
+                alert('Please select an answer before submitting.');
+                return;
+            }
+            
+            const isCorrect = selectedOption.value === correctAnswer;
+            feedback.style.display = 'block';
+            feedback.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+            feedback.textContent = isCorrect ? explanation : 'Incorrect. Please review the material and try again.';
+            
+            // Add to score tracking
+            window.quizScores = window.quizScores || {};
+            window.quizScores[quizName] = isCorrect;
+        }
+
+        // Mobile navigation toggle
+        function toggleMobileNav() {
+            const nav = document.querySelector('nav');
+            const toggle = document.querySelector('.nav-toggle');
+            const isOpen = nav.classList.contains('active');
+            
+            nav.classList.toggle('active');
+            toggle.setAttribute('aria-expanded', !isOpen);
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation setup
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('href').substring(1);
+                    navigateToSection(sectionId);
+                });
+            });
+
+            // Mobile navigation
+            const navToggle = document.querySelector('.nav-toggle');
+            if (navToggle) {
+                navToggle.addEventListener('click', toggleMobileNav);
+            }
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const nav = document.querySelector('nav');
+                    if (nav.classList.contains('active')) {
+                        toggleMobileNav();
+                    }
+                }
+            });
+
+            // Initialize progress tracking
+            window.learningProgress = {};
+            window.quizScores = {};
+            
+            // Set focus management for sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.setAttribute('tabindex', '-1');
+            });
+
+            // Announce section changes for screen readers
+            const announcer = document.createElement('div');
+            announcer.className = 'sr-only';
+            announcer.setAttribute('aria-live', 'polite');
+            announcer.setAttribute('aria-atomic', 'true');
+            document.body.appendChild(announcer);
+            
+            window.announceSection = function(sectionName) {
+                announcer.textContent = `Now viewing ${sectionName} section`;
+            };
+        });
+
+        // Accessibility: Update section announcements
+        const originalNavigateToSection = navigateToSection;
+        navigateToSection = function(sectionId) {
+            originalNavigateToSection(sectionId);
+            
+            const sectionNames = {
+                'home': 'Home',
+                'fundamentals': 'Virtual Machine Fundamentals',
+                'proxmox': 'Proxmox VE Deep Dive',
+                'hands-on': 'Hands-On VM Creation',
+                'advanced': 'Advanced Topics'
+            };
+            
+            if (window.announceSection) {
+                window.announceSection(sectionNames[sectionId] || sectionId);
+            }
+        };
+
+        // Performance optimization: Debounce resize events
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                // Handle responsive adjustments if needed
+                const nav = document.querySelector('nav');
+                if (window.innerWidth > 768 && nav.classList.contains('active')) {
+                    nav.classList.remove('active');
+                    document.querySelector('.nav-toggle').setAttribute('aria-expanded', 'false');
+                }
+            }, 250);
+        });
+
+        // Smooth scrolling for internal links
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                const targetId = e.target.getAttribute('href').substring(1);
+                navigateToSection(targetId);
+            }
+        });
+    </script>
+</body>
+</html>
+                    
