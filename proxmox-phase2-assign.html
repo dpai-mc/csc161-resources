@@ -545,7 +545,6 @@
         <h1>Proxmox VE Lab Assignment</h1>
         <div class="subtitle">Phase II: VM Creation & Network Segmentation</div>
         <div class="course-info">
-            <p><strong>Course:</strong> IT Infrastructure & Virtualization</p>
             <p><strong>Due Date:</strong> <span id="due-date">End of Current Session</span></p>
             <p><strong>Estimated Time:</strong> 60-90 minutes</p>
             <p><strong>Points:</strong> 100 points</p>
@@ -879,7 +878,6 @@
                 <strong>⏰ Important Deadlines</strong>
                 <ul>
                     <li><strong>Lab Completion:</strong> Must finish during your scheduled lab session</li>
-                    <li><strong>Submission Deadline:</strong> <span id="submission-deadline">24 hours after lab session</span></li>
                     <li><strong>Late Policy:</strong> 10% deduction per day late</li>
                     <li><strong>Technical Issues:</strong> Contact instructor immediately if you encounter problems</li>
                 </ul>
@@ -938,7 +936,7 @@
     </main>
 
     <footer style="text-align: center; padding: 2rem; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 2rem;">
-        <p>&copy; 2025 IT Infrastructure & Virtualization Course | Proxmox VE Lab Series</p>
+        <p>&copy; 2025 Proxmox VE Lab Series</p>
         <p style="font-size: 0.9rem; margin-top: 0.5rem;">For technical support, contact your instructor or lab administrator</p>
     </footer>
 
@@ -1008,10 +1006,8 @@
         function initializeDates() {
             const now = new Date();
             const dueDate = new Date(now.getTime() + (2 * 60 * 60 * 1000)); // 2 hours from now
-            const submissionDate = new Date(now.getTime() + (26 * 60 * 60 * 1000)); // 26 hours from now
             
             document.getElementById('due-date').textContent = dueDate.toLocaleString();
-            document.getElementById('submission-deadline').textContent = submissionDate.toLocaleString();
         }
 
         // Keyboard shortcuts
