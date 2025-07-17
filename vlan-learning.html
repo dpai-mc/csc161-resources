@@ -1,0 +1,2586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive VLAN Learning Platform - Master Virtual Local Area Networks</title>
+    <meta name="description" content="Comprehensive interactive learning platform for college students to master VLAN concepts, from basic networking to advanced segmentation techniques">
+    
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Light theme colors */
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #e5e7eb;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 8px;
+            --border-radius-lg: 12px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+        }
+
+        /* Skip Link for Screen Readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            z-index: 1000;
+            font-weight: 600;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-primary);
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: "🌐";
+            font-size: 1.5rem;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+        }
+
+        .nav-toggle:hover, .nav-toggle:focus {
+            background: var(--bg-secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            display: block;
+        }
+
+        nav a:hover, nav a:focus {
+            color: var(--primary-color);
+            background: var(--bg-secondary);
+        }
+
+        nav a.active {
+            color: var(--primary-color);
+            background: var(--bg-secondary);
+            font-weight: 600;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: var(--bg-secondary);
+            height: 4px;
+            width: 100%;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            border-radius: var(--border-radius-lg);
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover, .cta-button:focus {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Learning Path */
+        .learning-path {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .path-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .path-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .path-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .path-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .difficulty-badge {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .difficulty-badge.beginner {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .difficulty-badge.intermediate {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .difficulty-badge.advanced {
+            background: #fecaca;
+            color: #991b1b;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .content-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .content-card h3 {
+            color: var(--text-primary);
+            margin: 2rem 0 1rem 0;
+            font-size: 1.5rem;
+        }
+
+        .content-card h4 {
+            color: var(--text-primary);
+            margin: 1.5rem 0 0.75rem 0;
+            font-size: 1.25rem;
+        }
+
+        .content-card p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .content-card ul, .content-card ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .content-card li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* Interactive Elements */
+        .interactive-demo {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .interactive-demo h4 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .demo-button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .demo-button:hover, .demo-button:focus {
+            background: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .demo-button.active {
+            background: var(--secondary-color);
+        }
+
+        .demo-output {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            min-height: 150px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Visual Diagrams */
+        .diagram-container {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .network-diagram {
+            display: inline-block;
+            margin: 1rem auto;
+        }
+
+        .device {
+            display: inline-block;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 0.5rem;
+            text-align: center;
+            min-width: 80px;
+            transition: var(--transition);
+        }
+
+        .device.switch {
+            background: #e0f2fe;
+            border-color: #0277bd;
+        }
+
+        .device.computer {
+            background: #e8f5e8;
+            border-color: #388e3c;
+        }
+
+        .device.vlan-10 {
+            background: #fff3e0;
+            border-color: #f57c00;
+        }
+
+        .device.vlan-20 {
+            background: #f3e5f5;
+            border-color: #7b1fa2;
+        }
+
+        .device:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow);
+        }
+
+        .connection-line {
+            height: 2px;
+            background: var(--text-secondary);
+            margin: 1rem auto;
+            position: relative;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary-color);
+            background: var(--bg-secondary);
+        }
+
+        .quiz-option input[type="radio"] {
+            margin: 0;
+            width: 20px;
+            height: 20px;
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            display: none;
+            font-weight: 500;
+        }
+
+        .quiz-feedback.correct {
+            background: #dcfce7;
+            color: #166534;
+            border: 2px solid #bbf7d0;
+        }
+
+        .quiz-feedback.incorrect {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 2px solid #fecaca;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+        }
+
+        .code-block .comment {
+            color: #9ca3af;
+        }
+
+        .code-block .keyword {
+            color: #60a5fa;
+        }
+
+        .code-block .string {
+            color: #34d399;
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            border-left: 4px solid var(--primary-color);
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .highlight-box.warning {
+            border-left-color: var(--warning-color);
+            background: #fffbeb;
+        }
+
+        .highlight-box.success {
+            border-left-color: var(--success-color);
+            background: #ecfdf5;
+        }
+
+        .highlight-box.info {
+            border-left-color: var(--accent-color);
+            background: #eff6ff;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            gap: 1rem;
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            transition: var(--transition);
+            border: 2px solid var(--border-color);
+        }
+
+        .nav-button:hover, .nav-button:focus {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .nav-button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Accessibility Features */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* High Contrast Support */
+        @media (prefers-contrast: high) {
+            :root {
+                --primary-color: #000080;
+                --text-primary: #000000;
+                --text-secondary: #000000;
+                --border-color: #000000;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 1rem;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--bg-primary);
+                border-top: 1px solid var(--border-color);
+                display: none;
+                box-shadow: var(--shadow);
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+                padding: 1rem;
+                gap: 0;
+            }
+
+            nav a {
+                padding: 1rem;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+
+            .learning-path {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-controls {
+                flex-direction: column;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .diagram-container {
+                padding: 1rem;
+            }
+
+            .device {
+                margin: 0.25rem;
+                padding: 0.75rem;
+                min-width: 60px;
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        *:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        button:focus, a:focus, input:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            .nav-toggle, nav, .demo-controls, .interactive-demo {
+                display: none;
+            }
+            
+            .content-section {
+                display: block !important;
+            }
+            
+            body {
+                font-size: 12pt;
+                line-height: 1.4;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header role="banner">
+        <div class="header-content">
+            <div class="logo">VLAN Learning Platform</div>
+            <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                ☰
+            </button>
+            <nav role="navigation" aria-label="Main navigation">
+                <ul>
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#basics" class="nav-link">Networking Basics</a></li>
+                    <li><a href="#vlan-intro" class="nav-link">VLAN Introduction</a></li>
+                    <li><a href="#vlan-operation" class="nav-link">VLAN Operation</a></li>
+                    <li><a href="#trunking" class="nav-link">Trunking & Tagging</a></li>
+                    <li><a href="#advanced" class="nav-link">Advanced Concepts</a></li>
+                    <li><a href="#practice" class="nav-link">Practice & Review</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        <!-- Home Section -->
+        <section id="home" class="content-section active">
+            <div class="hero">
+                <h1>Master Virtual Local Area Networks</h1>
+                <p>A comprehensive, interactive journey from basic networking concepts to advanced VLAN implementation and security</p>
+                <button class="cta-button" onclick="navigateToSection('basics')">
+                    🚀 Start Learning Journey
+                </button>
+            </div>
+
+            <div class="learning-path">
+                <div class="path-card">
+                    <h3>🌟 Networking Fundamentals</h3>
+                    <div class="difficulty-badge beginner">Beginner</div>
+                    <p>Start with essential networking concepts including broadcast domains, collision domains, and network segmentation principles that form the foundation for understanding VLANs.</p>
+                    <button class="cta-button" onclick="navigateToSection('basics')">Start Here</button>
+                </div>
+
+                <div class="path-card">
+                    <h3>🔗 VLAN Concepts</h3>
+                    <div class="difficulty-badge beginner">Beginner</div>
+                    <p>Discover what VLANs are, why they're essential for modern networks, and how they solve real-world networking challenges in enterprise environments.</p>
+                    <button class="cta-button" onclick="navigateToSection('vlan-intro')">Explore VLANs</button>
+                </div>
+
+                <div class="path-card">
+                    <h3>⚙️ VLAN Operations</h3>
+                    <div class="difficulty-badge intermediate">Intermediate</div>
+                    <p>Learn how VLANs operate at Layer 2, understand VLAN types, and explore how they create logical network segments within physical infrastructure.</p>
+                    <button class="cta-button" onclick="navigateToSection('vlan-operation')">Learn Operations</button>
+                </div>
+
+                <div class="path-card">
+                    <h3>🏷️ Trunking & Tagging</h3>
+                    <div class="difficulty-badge intermediate">Intermediate</div>
+                    <p>Master 802.1Q tagging, trunk ports, access ports, and how VLAN traffic flows across switched networks using industry-standard protocols.</p>
+                    <button class="cta-button" onclick="navigateToSection('trunking')">Master Trunking</button>
+                </div>
+
+                <div class="path-card">
+                    <h3>🔒 Advanced Security</h3>
+                    <div class="difficulty-badge advanced">Advanced</div>
+                    <p>Explore advanced VLAN security concepts, inter-VLAN routing, VLAN design best practices, and troubleshooting complex scenarios.</p>
+                    <button class="cta-button" onclick="navigateToSection('advanced')">Advanced Topics</button>
+                </div>
+
+                <div class="path-card">
+                    <h3>🎯 Practice & Review</h3>
+                    <div class="difficulty-badge advanced">Advanced</div>
+                    <p>Test your knowledge with comprehensive scenarios, troubleshooting exercises, and prepare for real-world VLAN implementation in Proxmox VE.</p>
+                    <button class="cta-button" onclick="navigateToSection('practice')">Practice Now</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Networking Basics Section -->
+        <section id="basics" class="content-section">
+            <div class="content-card">
+                <h2>🌟 Networking Fundamentals</h2>
+                
+                <h3>Understanding Physical vs. Logical Networks</h3>
+                <p>Before diving into VLANs, it's crucial to understand the distinction between physical and logical networks. A <strong>physical network</strong> consists of the actual hardware components: cables, switches, routers, and network interfaces. A <strong>logical network</strong>, however, is how we organize and segment these physical resources to create functional, secure, and efficient communication paths.</p>
+
+                <div class="highlight-box info">
+                    <strong>Key Concept:</strong> VLANs create logical networks that operate independently on the same physical infrastructure, much like how different radio stations can broadcast on different frequencies using the same airwaves.
+                </div>
+
+                <h3>Collision Domains vs. Broadcast Domains</h3>
+                <p>Understanding these fundamental concepts is essential for grasping how VLANs improve network performance and security.</p>
+
+                <h4>Collision Domains</h4>
+                <p>A <strong>collision domain</strong> is a network segment where data collisions can occur when two devices attempt to transmit simultaneously. In early networking with hubs, all connected devices shared a single collision domain, leading to frequent data collisions and poor performance.</p>
+
+                <div class="interactive-demo">
+                    <h4>Interactive: Collision Domain Simulation</h4>
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="showCollisionDemo('hub')">Hub Network (Shared)</button>
+                        <button class="demo-button" onclick="showCollisionDemo('switch')">Switched Network</button>
+                        <button class="demo-button" onclick="showCollisionDemo('comparison')">Performance Comparison</button>
+                    </div>
+                    <div class="demo-output" id="collision-demo-output">Select a network type to see how collision domains work</div>
+                </div>
+
+                <h4>Broadcast Domains</h4>
+                <p>A <strong>broadcast domain</strong> is a network segment where broadcast traffic (sent to all devices) can reach every device in that segment. When a device sends a broadcast message, it reaches all other devices within the same broadcast domain but is blocked by routers from reaching other broadcast domains.</p>
+
+                <div class="diagram-container">
+                    <h4>Broadcast Domain Visualization</h4>
+                    <div class="network-diagram" id="broadcast-diagram">
+                        <div class="device computer">PC-A</div>
+                        <div class="connection-line" style="width: 100px;"></div>
+                        <div class="device switch">Switch</div>
+                        <div class="connection-line" style="width: 100px;"></div>
+                        <div class="device computer">PC-B</div>
+                        <br><br>
+                        <div class="device computer">PC-C</div>
+                        <div class="connection-line" style="width: 100px;"></div>
+                        <div class="device switch">Router</div>
+                        <div class="connection-line" style="width: 100px;"></div>
+                        <div class="device computer">PC-D</div>
+                    </div>
+                    <p><em>In this example, PC-A and PC-B are in the same broadcast domain, while PC-C and PC-D are in separate broadcast domains due to the router.</em></p>
+                </div>
+
+                <h3>Network Segmentation Challenges</h3>
+                <p>Traditional network segmentation using physical devices presents several challenges:</p>
+                <ul>
+                    <li><strong>Physical Limitations:</strong> Users must be physically located near devices in their network segment</li>
+                    <li><strong>Scalability Issues:</strong> Adding new segments requires additional physical infrastructure</li>
+                    <li><strong>Management Complexity:</strong> Each physical segment needs separate configuration and maintenance</li>
+                    <li><strong>Cost:</strong> Multiple switches and routers increase equipment and maintenance costs</li>
+                    <li><strong>Flexibility:</strong> Moving users between segments requires physical cable changes</li>
+                </ul>
+
+                <div class="highlight-box warning">
+                    <strong>Real-World Scenario:</strong> Imagine a company where the Sales team is split between two floors. With traditional segmentation, sales employees on different floors couldn't easily share resources or communicate efficiently without complex routing configurations.
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">What happens when two devices in the same collision domain transmit data simultaneously?</div>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="collision-quiz" value="collision">
+                            A data collision occurs and both transmissions are corrupted
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="collision-quiz" value="queue">
+                            One transmission is queued while the other completes
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="collision-quiz" value="merge">
+                            The data is automatically merged into a single transmission
+                        </label>
+                    </div>
+                    <button class="demo-button" onclick="checkQuiz('collision-quiz', 'collision', 'Correct! When two devices transmit simultaneously in the same collision domain, their electrical signals interfere with each other, corrupting both transmissions. This is why modern networks use switches to create separate collision domains for each port.')">Submit Answer</button>
+                    <div class="quiz-feedback" id="collision-quiz-feedback"></div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="#home" class="nav-button">⬅️ Back to Home</a>
+                <a href="#vlan-intro" class="nav-button">Next: VLAN Introduction ➡️</a>
+            </div>
+        </section>
+
+        <!-- VLAN Introduction Section -->
+        <section id="vlan-intro" class="content-section">
+            <div class="content-card">
+                <h2>🔗 Introduction to Virtual Local Area Networks</h2>
+                
+                <h3>What is a VLAN?</h3>
+                <p>A <strong>Virtual Local Area Network (VLAN)</strong> is a logical grouping of network devices that behave as if they're connected to the same physical network segment, regardless of their actual physical location. VLANs operate at Layer 2 (Data Link Layer) of the OSI model and create separate broadcast domains within a single physical switch or across multiple switches.</p>
+
+                <div class="highlight-box success">
+                    <strong>Think of it this way:</strong> VLANs are like having multiple invisible networks running on the same physical cables, similar to how a single highway can have multiple lanes for different types of traffic.
+                </div>
+
+                <h3>The VLAN Revolution: Solving Physical Network Problems</h3>
+                <p>VLANs revolutionize network design by addressing the fundamental limitations of purely physical network segmentation:</p>
+
+                <div class="interactive-demo">
+                    <h4>Interactive: Before and After VLANs</h4>
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="showVLANComparison('before')">Before VLANs</button>
+                        <button class="demo-button" onclick="showVLANComparison('after')">After VLANs</button>
+                        <button class="demo-button" onclick="showVLANComparison('benefits')">Key Benefits</button>
+                    </div>
+                    <div class="demo-output" id="vlan-comparison-output">Click to explore how VLANs transform network design</div>
+                </div>
+
+                <h3>How VLANs Mimic Physical Networks</h3>
+                <p>VLANs create the illusion of separate physical networks while using shared infrastructure. Here's how they accomplish this:</p>
+
+                <h4>Logical Segmentation</h4>
+                <ul>
+                    <li><strong>Broadcast Isolation:</strong> Each VLAN is its own broadcast domain</li>
+                    <li><strong>Traffic Separation:</strong> Devices in different VLANs cannot communicate directly</li>
+                    <li><strong>Independent Operation:</strong> Each VLAN operates as if it's a separate physical network</li>
+                    <li><strong>Flexible Membership:</strong> Devices can be grouped logically rather than physically</li>
+                </ul>
+
+                <div class="diagram-container">
+                    <h4>VLAN Logical Segmentation Example</h4>
+                    <div class="network-diagram">
+                        <div style="margin-bottom: 20px;">
+                            <strong>Physical Reality:</strong>
+                        </div>
+                        <div class="device computer">PC-Sales1</div>
+                        <div class="device computer">PC-Engineering1</div>
+                        <div class="device computer">PC-Sales2</div>
+                        <div class="device computer">PC-Engineering2</div>
+                        <br>
+                        <div class="connection-line" style="width: 400px;"></div>
+                        <br>
+                        <div class="device switch">Single Physical Switch</div>
+                        <br><br>
+                        <div style="margin-top: 20px;">
+                            <strong>Logical VLANs:</strong>
+                        </div>
+                        <div style="display: inline-block; margin: 10px; padding: 10px; border: 2px dashed #f57c00; border-radius: 8px;">
+                            <div class="device vlan-10">VLAN 10: Sales</div>
+                            <div class="device computer">PC-Sales1</div>
+                            <div class="device computer">PC-Sales2</div>
+                        </div>
+                        <div style="display: inline-block; margin: 10px; padding: 10px; border: 2px dashed #7b1fa2; border-radius: 8px;">
+                            <div class="device vlan-20">VLAN 20: Engineering</div>
+                            <div class="device computer">PC-Engineering1</div>
+                            <div class="device computer">PC-Engineering2</div>
+                        </div>
+                    </div>
+                    <p><em>One physical switch creates two logical networks. Sales devices can only communicate with other Sales devices, and Engineering devices only with other Engineering devices.</em></p>
+                </div>
+
+                <h3>VLAN Advantages Over Physical Segmentation</h3>
+
+                <h4>1. Enhanced Security</h4>
+                <p>VLANs provide security through isolation. Sensitive departments like Finance or HR can be placed in separate VLANs, preventing unauthorized access to their network traffic.</p>
+
+                <h4>2. Improved Performance</h4>
+                <p>By reducing broadcast domains, VLANs minimize unnecessary network traffic. Broadcasts are contained within each VLAN, reducing congestion and improving overall network performance.</p>
+
+                <h4>3. Simplified Management</h4>
+                <p>Network administrators can manage devices based on function rather than physical location. Moving a user to a different VLAN requires only configuration changes, not physical cable modifications.</p>
+
+                <h4>4. Cost Efficiency</h4>
+                <p>VLANs maximize the use of existing infrastructure. One physical switch can support multiple logical networks, reducing hardware requirements and associated costs.</p>
+
+                <h4>5. Flexibility and Scalability</h4>
+                <p>VLANs easily adapt to organizational changes. New departments, temporary project teams, or geographic expansions can be accommodated through configuration rather than infrastructure changes.</p>
+
+                <div class="highlight-box info">
+                    <strong>Real-World Example:</strong> A university can create separate VLANs for Students, Faculty, Administration, and Guests, all using the same physical network infrastructure. Each group gets isolated network access appropriate to their needs and security requirements.
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">What is the primary advantage of using VLANs over physical network segmentation?</div>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="vlan-advantage" value="speed">
+                            VLANs provide faster data transmission speeds
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="vlan-advantage" value="logical">
+                            VLANs allow logical grouping of devices regardless of physical location
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="vlan-advantage" value="wireless">
+                            VLANs enable wireless connectivity
+                        </label>
+                    </div>
+                    <button class="demo-button" onclick="checkQuiz('vlan-advantage', 'logical', 'Correct! The primary advantage of VLANs is the ability to logically group devices based on function, department, or security requirements rather than physical location, providing flexibility and efficiency in network design.')">Submit Answer</button>
+                    <div class="quiz-feedback" id="vlan-advantage-feedback"></div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="#basics" class="nav-button">⬅️ Previous: Networking Basics</a>
+                <a href="#vlan-operation" class="nav-button">Next: VLAN Operation ➡️</a>
+            </div>
+        </section>
+
+        <!-- VLAN Operation Section -->
+        <section id="vlan-operation" class="content-section">
+            <div class="content-card">
+                <h2>⚙️ How VLANs Operate</h2>
+                
+                <h3>VLAN Identification and Membership</h3>
+                <p>Every VLAN is identified by a unique <strong>VLAN ID</strong> (VID), a 12-bit number that ranges from 1 to 4094. Devices become members of a VLAN through various methods, and this membership determines their network communication scope.</p>
+
+                <div class="code-block">
+<span class="comment"># VLAN ID Range and Reservations</span>
+VLAN 0:     <span class="keyword">Reserved</span> (Priority tags only)
+VLAN 1:     <span class="string">Default VLAN</span> (All ports initially)
+VLAN 2-4094: <span class="keyword">Available for use</span>
+VLAN 4095:  <span class="keyword">Reserved</span> (Implementation use)
+                </div>
+
+                <h3>Types of VLAN Membership</h3>
+
+                <h4>1. Static VLANs (Port-Based)</h4>
+                <p>The most common type where switch ports are manually assigned to specific VLANs. Any device connected to that port automatically becomes a member of the assigned VLAN.</p>
+
+                <div class="interactive-demo">
+                    <h4>Interactive: Static VLAN Configuration</h4>
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="showStaticVLAN('assignment')">Port Assignments</button>
+                        <button class="demo-button" onclick="showStaticVLAN('communication')">Communication Test</button>
+                        <button class="demo-button" onclick="showStaticVLAN('isolation')">VLAN Isolation</button>
+                    </div>
+                    <div class="demo-output" id="static-vlan-output">Explore how static VLANs work in practice</div>
+                </div>
+
+                <h4>2. Dynamic VLANs</h4>
+                <p>Automatic VLAN assignment based on device characteristics such as MAC address, user authentication, or device type. This provides flexibility but requires additional infrastructure and configuration.</p>
+
+                <h4>3. Voice VLANs</h4>
+                <p>Specialized VLANs designed for Voice over IP (VoIP) traffic, ensuring quality of service for voice communications by prioritizing voice packets over data traffic.</p>
+
+                <h3>VLAN Operations at Layer 2</h3>
+                <p>VLANs operate at the Data Link Layer (Layer 2) of the OSI model, working with MAC addresses and Ethernet frames. Understanding this operation is crucial for effective VLAN design and troubleshooting.</p>
+
+                <h4>Frame Processing in VLANs</h4>
+                <ol>
+                    <li><strong>Frame Reception:</strong> Switch receives frame on an access port</li>
+                    <li><strong>VLAN Association:</strong> Frame is associated with the port's VLAN</li>
+                    <li><strong>MAC Learning:</strong> Source MAC address is learned for the VLAN</li>
+                    <li><strong>Forwarding Decision:</strong> Frame is forwarded only within the same VLAN</li>
+                    <li><strong>Broadcast Handling:</strong> Broadcasts are contained within the VLAN boundary</li>
+                </ol>
+
+                <div class="diagram-container">
+                    <h4>VLAN Frame Processing Flow</h4>
+                    <div class="network-diagram">
+                        <div class="device computer">PC sends frame</div>
+                        <div class="connection-line" style="width: 100px;"></div>
+                        <div class="device switch">Switch Port<br/>(VLAN 10)</div>
+                        <div class="connection-line" style="width: 100px;"></div>
+                        <div class="device switch">Switch Core<br/>(VLAN Table)</div>
+                        <div class="connection-line" style="width: 100px;"></div>
+                        <div class="device switch">Output Ports<br/>(VLAN 10 only)</div>
+                        <div class="connection-line" style="width: 100px;"></div>
+                        <div class="device computer">VLAN 10 devices</div>
+                    </div>
+                    <p><em>Frames are processed and forwarded only to devices within the same VLAN</em></p>
+                </div>
+
+                <h3>VLAN Database and Management</h3>
+                <p>Switches maintain a VLAN database that stores configuration information about each VLAN, including:</p>
+                <ul>
+                    <li><strong>VLAN ID:</strong> Unique identifier for each VLAN</li>
+                    <li><strong>VLAN Name:</strong> Descriptive name for management purposes</li>
+                    <li><strong>Port Assignments:</strong> Which ports belong to each VLAN</li>
+                    <li><strong>VLAN State:</strong> Active, suspended, or other states</li>
+                    <li><strong>MAC Address Table:</strong> Learned MAC addresses per VLAN</li>
+                </ul>
+
+                <div class="interactive-demo">
+                    <h4>Interactive: VLAN Database Explorer</h4>
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="showVLANDatabase('table')">VLAN Table</button>
+                        <button class="demo-button" onclick="showVLANDatabase('mac')">MAC Address Table</button>
+                        <button class="demo-button" onclick="showVLANDatabase('ports')">Port Assignments</button>
+                    </div>
+                    <div class="demo-output" id="vlan-database-output">Explore switch VLAN database contents</div>
+                </div>
+
+                <h3>Broadcast Domain Creation</h3>
+                <p>One of the most important functions of VLANs is creating separate broadcast domains. Each VLAN forms its own broadcast domain, which means:</p>
+
+                <div class="highlight-box warning">
+                    <strong>Critical Concept:</strong> Broadcast traffic (like ARP requests, DHCP discoveries, or network announcements) sent within one VLAN will NEVER reach devices in other VLANs, even if they're connected to the same physical switch.
+                </div>
+
+                <h4>Broadcast Behavior in VLANs</h4>
+                <ul>
+                    <li><strong>Contained Broadcasts:</strong> Broadcasts stay within VLAN boundaries</li>
+                    <li><strong>Reduced Network Congestion:</strong> Smaller broadcast domains mean less unnecessary traffic</li>
+                    <li><strong>Improved Security:</strong> Broadcast-based attacks are contained within VLANs</li>
+                    <li><strong>Better Performance:</strong> Devices only process relevant broadcasts</li>
+                </ul>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">At which OSI layer do VLANs primarily operate?</div>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="osi-layer" value="layer1">
+                            Layer 1 (Physical)
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="osi-layer" value="layer2">
+                            Layer 2 (Data Link)
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="osi-layer" value="layer3">
+                            Layer 3 (Network)
+                        </label>
+                    </div>
+                    <button class="demo-button" onclick="checkQuiz('osi-layer', 'layer2', 'Correct! VLANs operate at Layer 2 (Data Link Layer), working with MAC addresses and Ethernet frames to create logical network segments within the same physical infrastructure.')">Submit Answer</button>
+                    <div class="quiz-feedback" id="osi-layer-feedback"></div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="#vlan-intro" class="nav-button">⬅️ Previous: VLAN Introduction</a>
+                <a href="#trunking" class="nav-button">Next: Trunking & Tagging ➡️</a>
+            </div>
+        </section>
+
+        <!-- Trunking and Tagging Section -->
+        <section id="trunking" class="content-section">
+            <div class="content-card">
+                <h2>🏷️ VLAN Trunking and 802.1Q Tagging</h2>
+                
+                <h3>The Challenge: Multiple VLANs, Multiple Switches</h3>
+                <p>When VLANs need to span across multiple switches, we face a fundamental challenge: how can multiple VLAN traffic streams share a single physical link while maintaining separation? The answer is <strong>VLAN trunking</strong>.</p>
+
+                <div class="highlight-box info">
+                    <strong>Analogy:</strong> Think of trunking like a multi-lane highway where each VLAN gets its own lane. Cars (data packets) from different VLANs travel in their designated lanes, never mixing with other traffic.
+                </div>
+
+                <h3>Access Ports vs. Trunk Ports</h3>
+                <p>Understanding the difference between these two port types is fundamental to VLAN operations:</p>
+
+                <h4>Access Ports (Untagged Ports)</h4>
+                <ul>
+                    <li><strong>Purpose:</strong> Connect end devices (computers, printers, phones) to the network</li>
+                    <li><strong>VLAN Membership:</strong> Belong to exactly one VLAN</li>
+                    <li><strong>Frame Handling:</strong> Frames are untagged (normal Ethernet frames)</li>
+                    <li><strong>Device Awareness:</strong> Connected devices are unaware of VLANs</li>
+                </ul>
+
+                <h4>Trunk Ports (Tagged Ports)</h4>
+                <ul>
+                    <li><strong>Purpose:</strong> Connect switches to switches or switches to routers</li>
+                    <li><strong>VLAN Membership:</strong> Carry traffic for multiple VLANs</li>
+                    <li><strong>Frame Handling:</strong> Frames are tagged with VLAN information</li>
+                    <li><strong>Protocol:</strong> Use 802.1Q standard for VLAN identification</li>
+                </ul>
+
+                <div class="interactive-demo">
+                    <h4>Interactive: Access vs. Trunk Port Simulation</h4>
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="showPortTypes('access')">Access Port Behavior</button>
+                        <button class="demo-button" onclick="showPortTypes('trunk')">Trunk Port Behavior</button>
+                        <button class="demo-button" onclick="showPortTypes('comparison')">Side-by-Side Comparison</button>
+                    </div>
+                    <div class="demo-output" id="port-types-output">Explore how different port types handle VLAN traffic</div>
+                </div>
+
+                <h3>IEEE 802.1Q Standard</h3>
+                <p>The 802.1Q standard defines how VLAN information is embedded into Ethernet frames. This industry-standard protocol ensures interoperability between different vendor equipment.</p>
+
+                <h4>802.1Q Frame Format</h4>
+                <p>The 802.1Q tag is inserted into the Ethernet frame header, adding 4 bytes of VLAN information:</p>
+
+                <div class="code-block">
+<span class="comment"># Standard Ethernet Frame</span>
+|<span class="keyword">Dest MAC</span>|<span class="keyword">Src MAC</span>|<span class="string">EtherType</span>|<span class="keyword">Data</span>|<span class="keyword">FCS</span>|
+
+<span class="comment"># 802.1Q Tagged Frame</span>
+|<span class="keyword">Dest MAC</span>|<span class="keyword">Src MAC</span>|<span class="string">802.1Q Tag</span>|<span class="string">EtherType</span>|<span class="keyword">Data</span>|<span class="keyword">FCS</span>|
+
+<span class="comment"># 802.1Q Tag Structure (4 bytes)</span>
+|<span class="keyword">TPID</span>|<span class="string">PCP</span>|<span class="string">DEI</span>|<span class="keyword">VLAN ID</span>|
+| 16  | 3  | 1 |   12    | bits
+                </div>
+
+                <h4>802.1Q Tag Fields Explained</h4>
+                <ul>
+                    <li><strong>TPID (Tag Protocol Identifier):</strong> Always 0x8100, identifies this as an 802.1Q frame</li>
+                    <li><strong>PCP (Priority Code Point):</strong> 3-bit field for Quality of Service priority (0-7)</li>
+                    <li><strong>DEI (Drop Eligible Indicator):</strong> 1-bit field indicating if frame can be dropped during congestion</li>
+                    <li><strong>VLAN ID:</strong> 12-bit field identifying the VLAN (1-4094)</li>
+                </ul>
+
+                <h3>Trunk Operation Process</h3>
+                <p>Understanding how frames are processed on trunk links is crucial for network design and troubleshooting:</p>
+
+                <div class="diagram-container">
+                    <h4>Trunk Frame Processing</h4>
+                    <div class="network-diagram">
+                        <div style="text-align: left; margin: 20px;">
+                            <strong>Step 1:</strong> Device sends untagged frame<br/>
+                            <div class="device computer">PC (VLAN 10)</div>
+                            <div class="connection-line" style="width: 50px;"></div>
+                            <div style="display: inline-block; background: #e8f5e8; padding: 5px; border-radius: 4px;">Untagged Frame</div>
+                            <br/><br/>
+                            
+                            <strong>Step 2:</strong> Access port adds VLAN tag<br/>
+                            <div class="device switch">Switch A</div>
+                            <div class="connection-line" style="width: 50px;"></div>
+                            <div style="display: inline-block; background: #fff3e0; padding: 5px; border-radius: 4px;">Tagged Frame (VLAN 10)</div>
+                            <br/><br/>
+                            
+                            <strong>Step 3:</strong> Trunk carries tagged frame<br/>
+                            <div class="device switch">Switch B</div>
+                            <div class="connection-line" style="width: 50px;"></div>
+                            <div style="display: inline-block; background: #e8f5e8; padding: 5px; border-radius: 4px;">Untagged Frame</div>
+                            <div class="connection-line" style="width: 50px;"></div>
+                            <div class="device computer">PC (VLAN 10)</div>
+                            <br/><br/>
+                            
+                            <strong>Step 4:</strong> Access port removes tag before delivery
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Native VLAN Concept</h3>
+                <p>The <strong>Native VLAN</strong> is a special VLAN on trunk ports that handles untagged traffic. This concept addresses backward compatibility and specific network design needs.</p>
+
+                <div class="highlight-box warning">
+                    <strong>Important:</strong> Native VLAN traffic is NOT tagged when sent over trunk links. This can create security vulnerabilities if not properly managed.
+                </div>
+
+                <h4>Native VLAN Characteristics</h4>
+                <ul>
+                    <li><strong>Default Assignment:</strong> Usually VLAN 1, but can be changed</li>
+                    <li><strong>Untagged Traffic:</strong> Frames are sent without 802.1Q tags</li>
+                    <li><strong>Backward Compatibility:</strong> Supports devices that don't understand VLAN tags</li>
+                    <li><strong>Security Consideration:</strong> Should be different from management and user VLANs</li>
+                </ul>
+
+                <div class="interactive-demo">
+                    <h4>Interactive: Native VLAN Demonstration</h4>
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="showNativeVLAN('normal')">Normal VLAN Traffic</button>
+                        <button class="demo-button" onclick="showNativeVLAN('native')">Native VLAN Traffic</button>
+                        <button class="demo-button" onclick="showNativeVLAN('security')">Security Implications</button>
+                    </div>
+                    <div class="demo-output" id="native-vlan-output">Explore native VLAN behavior and security considerations</div>
+                </div>
+
+                <h3>VLAN Trunking Protocol (VTP) Overview</h3>
+                <p>While not part of 802.1Q, VTP is a Cisco proprietary protocol that simplifies VLAN management across multiple switches by synchronizing VLAN databases.</p>
+
+                <h4>VTP Modes</h4>
+                <ul>
+                    <li><strong>Server Mode:</strong> Can create, modify, and delete VLANs; advertises changes</li>
+                    <li><strong>Client Mode:</strong> Receives VLAN information but cannot make changes</li>
+                    <li><strong>Transparent Mode:</strong> Forwards VTP advertisements but maintains independent VLAN database</li>
+                </ul>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">What information is added to an Ethernet frame when it traverses a trunk port using 802.1Q?</div>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="frame-tag" value="ip">
+                            IP address information
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="frame-tag" value="vlan">
+                            4-byte VLAN tag with VLAN ID and priority information
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="frame-tag" value="mac">
+                            Additional MAC address
+                        </label>
+                    </div>
+                    <button class="demo-button" onclick="checkQuiz('frame-tag', 'vlan', 'Correct! 802.1Q adds a 4-byte tag containing the VLAN ID, priority information, and other control fields to identify which VLAN the frame belongs to as it travels across trunk links.')">Submit Answer</button>
+                    <div class="quiz-feedback" id="frame-tag-feedback"></div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="#vlan-operation" class="nav-button">⬅️ Previous: VLAN Operation</a>
+                <a href="#advanced" class="nav-button">Next: Advanced Concepts ➡️</a>
+            </div>
+        </section>
+
+        <!-- Advanced Concepts Section -->
+        <section id="advanced" class="content-section">
+            <div class="content-card">
+                <h2>🔒 Advanced VLAN Concepts and Security</h2>
+                
+                <h3>Inter-VLAN Routing</h3>
+                <p>By design, devices in different VLANs cannot communicate directly. To enable communication between VLANs, we need <strong>Inter-VLAN routing</strong>, which operates at Layer 3 (Network Layer).</p>
+
+                <h4>Methods of Inter-VLAN Routing</h4>
+                
+                <h5>1. Router-on-a-Stick</h5>
+                <p>A single physical router interface is configured with multiple logical subinterfaces, each belonging to a different VLAN.</p>
+
+                <div class="code-block">
+<span class="comment"># Router Subinterface Configuration Example</span>
+interface <span class="keyword">GigabitEthernet0/0</span>
+ no shutdown
+
+interface <span class="keyword">GigabitEthernet0/0.10</span>
+ <span class="string">encapsulation dot1Q 10</span>
+ ip address <span class="keyword">192.168.10.1 255.255.255.0</span>
+
+interface <span class="keyword">GigabitEthernet0/0.20</span>
+ <span class="string">encapsulation dot1Q 20</span>
+ ip address <span class="keyword">192.168.20.1 255.255.255.0</span>
+                </div>
+
+                <h5>2. Layer 3 Switch (SVI)</h5>
+                <p>Modern switches can perform routing functions using Switch Virtual Interfaces (SVIs), eliminating the need for external routers.</p>
+
+                <h5>3. Dedicated Router Interfaces</h5>
+                <p>Separate physical router interfaces for each VLAN, though this is less common due to port limitations and cost.</p>
+
+                <div class="interactive-demo">
+                    <h4>Interactive: Inter-VLAN Routing Scenarios</h4>
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="showInterVLAN('router-stick')">Router-on-a-Stick</button>
+                        <button class="demo-button" onclick="showInterVLAN('layer3-switch')">Layer 3 Switch</button>
+                        <button class="demo-button" onclick="showInterVLAN('comparison')">Method Comparison</button>
+                    </div>
+                    <div class="demo-output" id="inter-vlan-output">Explore different inter-VLAN routing approaches</div>
+                </div>
+
+                <h3>VLAN Security Considerations</h3>
+                <p>While VLANs provide segmentation benefits, they also introduce specific security considerations that must be addressed in network design.</p>
+
+                <h4>VLAN Hopping Attacks</h4>
+                <p>VLAN hopping is a method of attacking a network by sending packets to a VLAN that the attacker should not have access to. There are two main types:</p>
+
+                <h5>Switch Spoofing</h5>
+                <ul>
+                    <li>Attacker configures device to mimic a switch</li>
+                    <li>Sends Dynamic Trunking Protocol (DTP) frames to negotiate trunking</li>
+                    <li>Once trunking is established, attacker gains access to all VLANs</li>
+                    <li><strong>Prevention:</strong> Disable DTP and manually configure access ports</li>
+                </ul>
+
+                <h5>Double Tagging</h5>
+                <ul>
+                    <li>Attacker sends frames with two 802.1Q tags</li>
+                    <li>First switch removes outer tag, forwards to native VLAN</li>
+                    <li>Second switch processes inner tag, potentially accessing wrong VLAN</li>
+                    <li><strong>Prevention:</strong> Use dedicated native VLAN with no access ports</li>
+                </ul>
+
+                <div class="highlight-box warning">
+                    <strong>Security Best Practice:</strong> Never use VLAN 1 as the native VLAN, and ensure the native VLAN has no access ports assigned to prevent double-tagging attacks.
+                </div>
+
+                <h4>VLAN Security Best Practices</h4>
+                <ol>
+                    <li><strong>Change Default VLAN:</strong> Move all access ports off VLAN 1</li>
+                    <li><strong>Dedicated Native VLAN:</strong> Use unused VLAN as native on trunks</li>
+                    <li><strong>Disable Unused Ports:</strong> Shutdown and assign to dummy VLAN</li>
+                    <li><strong>Port Security:</strong> Limit MAC addresses per port</li>
+                    <li><strong>VLAN Access Control:</strong> Implement proper access lists</li>
+                    <li><strong>Management VLAN:</strong> Separate VLAN for switch management</li>
+                </ol>
+
+                <h3>VLAN Design Best Practices</h3>
+
+                <h4>Naming Conventions</h4>
+                <p>Consistent VLAN naming improves management and troubleshooting:</p>
+                <div class="code-block">
+<span class="comment"># Example VLAN Naming Convention</span>
+VLAN <span class="keyword">10</span>: <span class="string">SALES_DATA</span>
+VLAN <span class="keyword">20</span>: <span class="string">ENGINEERING_DATA</span>
+VLAN <span class="keyword">30</span>: <span class="string">FINANCE_DATA</span>
+VLAN <span class="keyword">100</span>: <span class="string">VOICE_SALES</span>
+VLAN <span class="keyword">110</span>: <span class="string">VOICE_ENGINEERING</span>
+VLAN <span class="keyword">200</span>: <span class="string">GUEST_WIRELESS</span>
+VLAN <span class="keyword">999</span>: <span class="string">NATIVE_UNUSED</span>
+                </div>
+
+                <h4>VLAN Sizing and Scalability</h4>
+                <ul>
+                    <li><strong>Broadcast Traffic:</strong> Keep VLANs appropriately sized to minimize broadcast overhead</li>
+                    <li><strong>Growth Planning:</strong> Leave room for expansion in VLAN numbering scheme</li>
+                    <li><strong>Geographic Distribution:</strong> Consider WAN implications when extending VLANs</li>
+                    <li><strong>Application Requirements:</strong> Group devices with similar traffic patterns</li>
+                </ul>
+
+                <h3>VLAN Troubleshooting</h3>
+
+                <h4>Common VLAN Issues</h4>
+                <div class="interactive-demo">
+                    <h4>Interactive: VLAN Troubleshooting Scenarios</h4>
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="showTroubleshooting('connectivity')">Connectivity Issues</button>
+                        <button class="demo-button" onclick="showTroubleshooting('performance')">Performance Problems</button>
+                        <button class="demo-button" onclick="showTroubleshooting('security')">Security Breaches</button>
+                        <button class="demo-button" onclick="showTroubleshooting('configuration')">Configuration Errors</button>
+                    </div>
+                    <div class="demo-output" id="troubleshooting-output">Select a scenario to explore common VLAN problems and solutions</div>
+                </div>
+
+                <h4>Troubleshooting Tools and Commands</h4>
+                <div class="code-block">
+<span class="comment"># Essential VLAN Troubleshooting Commands</span>
+<span class="keyword">show vlan brief</span>                <span class="comment"># Display VLAN database</span>
+<span class="keyword">show interfaces trunk</span>          <span class="comment"># Show trunk port status</span>
+<span class="keyword">show mac address-table</span>         <span class="comment"># Display MAC address learning</span>
+<span class="keyword">show spanning-tree vlan</span> <span class="string">10</span>     <span class="comment"># STP status per VLAN</span>
+<span class="keyword">show interfaces</span> <span class="string">gi0/1</span> <span class="keyword">switchport</span> <span class="comment"># Port configuration details</span>
+                </div>
+
+                <h3>VLAN Integration with Modern Technologies</h3>
+
+                <h4>Software-Defined Networking (SDN)</h4>
+                <p>VLANs integrate with SDN controllers to provide programmable network segmentation and dynamic policy enforcement.</p>
+
+                <h4>Network Virtualization</h4>
+                <p>VLANs form the foundation for more advanced virtualization technologies like VXLAN and NVGRE, extending layer 2 segments across layer 3 networks.</p>
+
+                <h4>Cloud Integration</h4>
+                <p>Modern cloud platforms use VLAN concepts in virtual networks, providing isolation and segmentation in virtualized environments like Proxmox VE.</p>
+
+                <div class="highlight-box success">
+                    <strong>Proxmox VE Connection:</strong> In Proxmox VE, VLANs are implemented through Linux bridges with VLAN awareness, allowing virtual machines to be assigned to specific VLANs for network isolation and security.
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">What is the most effective way to prevent VLAN hopping attacks?</div>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="vlan-security" value="encryption">
+                            Enable encryption on all VLAN traffic
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="vlan-security" value="disable-dtp">
+                            Disable DTP and use a dedicated unused native VLAN
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="vlan-security" value="change-passwords">
+                            Change default passwords on all switches
+                        </label>
+                    </div>
+                    <button class="demo-button" onclick="checkQuiz('vlan-security', 'disable-dtp', 'Correct! Disabling Dynamic Trunking Protocol (DTP) prevents switch spoofing attacks, and using a dedicated unused native VLAN prevents double-tagging attacks, which are the two primary VLAN hopping methods.')">Submit Answer</button>
+                    <div class="quiz-feedback" id="vlan-security-feedback"></div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="#trunking" class="nav-button">⬅️ Previous: Trunking & Tagging</a>
+                <a href="#practice" class="nav-button">Next: Practice & Review ➡️</a>
+            </div>
+        </section>
+
+        <!-- Practice and Review Section -->
+        <section id="practice" class="content-section">
+            <div class="content-card">
+                <h2>🎯 Practice Scenarios and Review</h2>
+                
+                <h3>Comprehensive VLAN Design Scenario</h3>
+                <p>You are the network administrator for TechCorp, a growing technology company with 200 employees across three departments. Design a VLAN implementation that meets the following requirements:</p>
+
+                <div class="highlight-box info">
+                    <strong>Company Requirements:</strong>
+                    <ul>
+                        <li>Sales Department: 80 users requiring access to CRM systems</li>
+                        <li>Engineering Department: 60 users with high-bandwidth needs</li>
+                        <li>Administration: 30 users handling sensitive financial data</li>
+                        <li>Guest Network: Visitors need internet access only</li>
+                        <li>Voice Communications: VoIP phones throughout the building</li>
+                        <li>Server Farm: Critical servers requiring maximum security</li>
+                    </ul>
+                </div>
+
+                <div class="interactive-demo">
+                    <h4>Interactive: VLAN Design Challenge</h4>
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="showDesignChallenge('planning')">VLAN Planning</button>
+                        <button class="demo-button" onclick="showDesignChallenge('assignment')">ID Assignment</button>
+                        <button class="demo-button" onclick="showDesignChallenge('security')">Security Design</button>
+                        <button class="demo-button" onclick="showDesignChallenge('solution')">Recommended Solution</button>
+                    </div>
+                    <div class="demo-output" id="design-challenge-output">Work through the VLAN design process step by step</div>
+                </div>
+
+                <h3>Troubleshooting Scenarios</h3>
+
+                <h4>Scenario 1: Connectivity Problems</h4>
+                <p><strong>Problem:</strong> Users in VLAN 20 (Engineering) cannot reach the file server in VLAN 30 (Servers), but internet access works fine.</p>
+
+                <div class="interactive-demo">
+                    <h4>Interactive: Troubleshooting Walkthrough</h4>
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="showTroubleshootingScenario('symptoms')">Analyze Symptoms</button>
+                        <button class="demo-button" onclick="showTroubleshootingScenario('investigation')">Investigation Steps</button>
+                        <button class="demo-button" onclick="showTroubleshootingScenario('diagnosis')">Diagnosis</button>
+                        <button class="demo-button" onclick="showTroubleshootingScenario('resolution')">Resolution</button>
+                    </div>
+                    <div class="demo-output" id="troubleshooting-scenario-output">Follow systematic troubleshooting methodology</div>
+                </div>
+
+                <h3>Knowledge Assessment</h3>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">A frame is received on a trunk port without any VLAN tag. Which VLAN will it be assigned to?</div>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="native-vlan-quiz" value="vlan1">
+                            VLAN 1 (default VLAN)
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="native-vlan-quiz" value="native">
+                            The configured native VLAN for that trunk port
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="native-vlan-quiz" value="dropped">
+                            The frame will be dropped
+                        </label>
+                    </div>
+                    <button class="demo-button" onclick="checkQuiz('native-vlan-quiz', 'native', 'Correct! Untagged frames received on a trunk port are assigned to the native VLAN configured for that specific trunk port, which may or may not be VLAN 1.')">Submit Answer</button>
+                    <div class="quiz-feedback" id="native-vlan-quiz-feedback"></div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">Which of the following best describes the primary security benefit of VLANs?</div>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="security-benefit" value="encryption">
+                            VLANs automatically encrypt all network traffic
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="security-benefit" value="isolation">
+                            VLANs provide network segmentation and traffic isolation
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="security-benefit" value="authentication">
+                            VLANs require user authentication for network access
+                        </label>
+                    </div>
+                    <button class="demo-button" onclick="checkQuiz('security-benefit', 'isolation', 'Correct! The primary security benefit of VLANs is network segmentation and traffic isolation, preventing unauthorized access between different network segments and containing potential security breaches.')">Submit Answer</button>
+                    <div class="quiz-feedback" id="security-benefit-feedback"></div>
+                </div>
+
+                <h3>Real-World Implementation Considerations</h3>
+
+                <h4>VLAN Implementation in Proxmox VE</h4>
+                <p>When implementing VLANs in virtualization platforms like Proxmox VE, consider these key points:</p>
+
+                <ul>
+                    <li><strong>Bridge Configuration:</strong> Create VLAN-aware bridges to support multiple VLANs</li>
+                    <li><strong>VM Network Assignment:</strong> Assign VMs to specific VLANs based on their role and security requirements</li>
+                    <li><strong>Physical Network Integration:</strong> Ensure physical network infrastructure supports the VLAN design</li>
+                    <li><strong>Performance Considerations:</strong> Monitor VLAN traffic patterns and adjust as needed</li>
+                    <li><strong>Security Policies:</strong> Implement appropriate firewall rules between VLANs</li>
+                </ul>
+
+                <div class="highlight-box success">
+                    <strong>Proxmox VE VLAN Configuration:</strong>
+                    <br/>1. Enable VLAN awareness on network bridges
+                    <br/>2. Configure VM network interfaces with appropriate VLAN tags
+                    <br/>3. Ensure physical switch ports support required VLANs
+                    <br/>4. Test connectivity and isolation between VLANs
+                </div>
+
+                <h3>Industry Certifications and Further Learning</h3>
+                <p>Master these VLAN concepts to prepare for industry certifications and real-world implementations:</p>
+
+                <h4>Relevant Certifications</h4>
+                <ul>
+                    <li><strong>CompTIA Network+:</strong> Fundamental networking concepts including VLANs</li>
+                    <li><strong>Cisco CCNA:</strong> Comprehensive VLAN configuration and troubleshooting</li>
+                    <li><strong>Juniper JNCIA:</strong> Juniper-specific VLAN implementations</li>
+                    <li><strong>VMware VCP:</strong> Network virtualization including VLAN concepts</li>
+                </ul>
+
+                <h4>Recommended Next Steps</h4>
+                <ol>
+                    <li><strong>Hands-on Practice:</strong> Implement VLANs in Proxmox VE lab environment</li>
+                    <li><strong>Advanced Topics:</strong> Study VXLAN, NVGRE, and SDN concepts</li>
+                    <li><strong>Security Focus:</strong> Explore network access control and microsegmentation</li>
+                    <li><strong>Automation:</strong> Learn Infrastructure as Code for VLAN management</li>
+                </ol>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">In a Proxmox VE environment, what must be configured to allow VMs in different VLANs to communicate?</div>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="proxmox-vlan" value="bridge">
+                            Additional network bridges for each VLAN
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="proxmox-vlan" value="routing">
+                            Inter-VLAN routing (Layer 3 functionality)
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="proxmox-vlan" value="sharing">
+                            Shared storage between the VMs
+                        </label>
+                    </div>
+                    <button class="demo-button" onclick="checkQuiz('proxmox-vlan', 'routing', 'Correct! VMs in different VLANs cannot communicate directly as they are in separate broadcast domains. Inter-VLAN routing (Layer 3 functionality) must be configured, either through a router, Layer 3 switch, or software-based routing solution.')">Submit Answer</button>
+                    <div class="quiz-feedback" id="proxmox-vlan-feedback"></div>
+                </div>
+
+                <div style="margin-top: 3rem; text-align: center; padding: 2rem; background: var(--bg-secondary); border-radius: var(--border-radius-lg); border: 2px solid var(--border-color);">
+                    <h3>🎓 Congratulations!</h3>
+                    <p>You've completed the comprehensive VLAN learning journey. You now understand how VLANs create logical networks within physical infrastructure, provide security through segmentation, and form the foundation of modern network design.</p>
+                    <p><strong>You're ready to implement VLANs in Proxmox VE and other enterprise environments!</strong></p>
+                    <button class="cta-button" onclick="navigateToSection('home')">🏠 Return to Home</button>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="#advanced" class="nav-button">⬅️ Previous: Advanced Concepts</a>
+                <a href="#home" class="nav-button">🏠 Return to Home</a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Navigation and Progress Tracking
+        let currentSection = 'home';
+        const sections = ['home', 'basics', 'vlan-intro', 'vlan-operation', 'trunking', 'advanced', 'practice'];
+        
+        function navigateToSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show target section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                currentSection = sectionId;
+                
+                // Update navigation
+                updateNavigation(sectionId);
+                
+                // Update progress
+                updateProgress();
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+                
+                // Focus management for accessibility
+                targetSection.focus();
+                
+                // Announce section change for screen readers
+                announceSection(sectionId);
+            }
+        }
+
+        function updateNavigation(activeSection) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + activeSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        function updateProgress() {
+            const sectionIndex = sections.indexOf(currentSection);
+            const progress = ((sectionIndex + 1) / sections.length) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+        }
+
+        function announceSection(sectionId) {
+            const sectionNames = {
+                'home': 'Home',
+                'basics': 'Networking Fundamentals',
+                'vlan-intro': 'VLAN Introduction',
+                'vlan-operation': 'VLAN Operation',
+                'trunking': 'Trunking and Tagging',
+                'advanced': 'Advanced Concepts',
+                'practice': 'Practice and Review'
+            };
+            
+            // Create or update announcer for screen readers
+            let announcer = document.getElementById('section-announcer');
+            if (!announcer) {
+                announcer = document.createElement('div');
+                announcer.id = 'section-announcer';
+                announcer.className = 'sr-only';
+                announcer.setAttribute('aria-live', 'polite');
+                announcer.setAttribute('aria-atomic', 'true');
+                document.body.appendChild(announcer);
+            }
+            announcer.textContent = `Now viewing ${sectionNames[sectionId]} section`;
+        }
+
+        // Interactive Demo Functions
+        function showCollisionDemo(type) {
+            const output = document.getElementById('collision-demo-output');
+            const demos = {
+                'hub': `Hub Network (Single Collision Domain):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🖥️ PC-A ──┐
+          ├── [HUB] ── All devices share bandwidth
+🖥️ PC-B ──┘    
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ Problem: When PC-A and PC-B transmit simultaneously:
+   • Data collision occurs
+   • Both transmissions corrupted
+   • Must retransmit after random delay
+   • Performance degrades with more devices`,
+
+                'switch': `Switched Network (Separate Collision Domains):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🖥️ PC-A ──── [Port 1]
+                    ├── [SWITCH]
+🖥️ PC-B ──── [Port 2]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Solution: Each port is separate collision domain:
+   • PC-A and PC-B can transmit simultaneously
+   • No collisions between different ports
+   • Full bandwidth available per port
+   • Scales well with additional devices`,
+
+                'comparison': `Performance Comparison:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Hub Network:
+• Shared bandwidth (e.g., 10 Mbps total)
+• Collision probability increases with devices
+• Half-duplex operation only
+• Performance degrades significantly
+
+Switch Network:
+• Dedicated bandwidth per port
+• No collisions between ports
+• Full-duplex operation possible
+• Linear performance scaling`
+            };
+            output.textContent = demos[type] || 'Demo not found';
+        }
+
+        function showVLANComparison(type) {
+            const output = document.getElementById('vlan-comparison-output');
+            const comparisons = {
+                'before': `Before VLANs - Physical Segmentation Problems:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Floor 3: [Switch-Sales] ── 💼 Sales Team
+         192.168.1.0/24
+
+Floor 2: [Switch-Eng] ──── 🔧 Engineering Team  
+         192.168.2.0/24
+
+Floor 1: [Switch-Admin] ── 👔 Administration
+         192.168.3.0/24
+
+❌ Problems:
+• Users tied to physical location
+• Expensive infrastructure per department
+• Difficult to reorganize teams
+• Complex inter-department communication
+• Hard to add new locations`,
+
+                'after': `After VLANs - Logical Segmentation Solution:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Floor 3: [VLAN-Aware Switch] ── 💼🔧👔 Mixed Users
+         ┌── VLAN 10: Sales
+         ├── VLAN 20: Engineering  
+         └── VLAN 30: Administration
+
+Floor 2: [VLAN-Aware Switch] ── 💼🔧👔 Mixed Users
+         ┌── VLAN 10: Sales
+         ├── VLAN 20: Engineering
+         └── VLAN 30: Administration
+
+✅ Benefits:
+• Users grouped by function, not location
+• Shared infrastructure reduces costs
+• Easy team reorganization
+• Flexible communication policies`,
+
+                'benefits': `Key VLAN Benefits Summary:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🛡️ SECURITY:
+• Traffic isolation between departments
+• Broadcast domain separation
+• Easier access control implementation
+
+⚡ PERFORMANCE:
+• Reduced broadcast traffic
+• Better bandwidth utilization
+• Optimized traffic patterns
+
+💰 COST EFFICIENCY:
+• Shared physical infrastructure
+• Reduced hardware requirements
+• Lower maintenance costs
+
+🔧 MANAGEMENT:
+• Logical device grouping
+• Simplified adds/moves/changes
+• Centralized policy control`
+            };
+            output.textContent = comparisons[type] || 'Comparison not found';
+        }
+
+        function showStaticVLAN(type) {
+            const output = document.getElementById('static-vlan-output');
+            const demos = {
+                'assignment': `Static VLAN Port Assignments:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Switch Configuration:
+Port 1-8:   VLAN 10 (Sales)
+Port 9-16:  VLAN 20 (Engineering)
+Port 17-20: VLAN 30 (Servers)
+Port 21-24: VLAN 99 (Management)
+
+Example:
+🖥️ Sales PC ──── Port 5 (VLAN 10)
+🖥️ Eng PC  ──── Port 12 (VLAN 20)
+🖨️ Printer ──── Port 18 (VLAN 30)
+
+Any device connected to Port 5 automatically
+becomes a member of VLAN 10.`,
+
+                'communication': `VLAN Communication Test:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Scenario: Sales PC (VLAN 10) sends data
+
+✅ CAN COMMUNICATE WITH:
+• Other Sales PCs (VLAN 10)
+• Sales printer (VLAN 10)  
+• Sales server (VLAN 10)
+
+❌ CANNOT COMMUNICATE WITH:
+• Engineering PCs (VLAN 20)
+• Server in VLAN 30 (without routing)
+• Management devices (VLAN 99)
+
+Note: Each VLAN is its own broadcast domain!`,
+
+                'isolation': `VLAN Isolation Demonstration:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Broadcast Test:
+1. PC-A (VLAN 10) sends ARP broadcast
+2. Switch receives broadcast on Port 5
+3. Switch identifies frame belongs to VLAN 10
+4. Broadcast forwarded ONLY to VLAN 10 ports
+5. VLAN 20 and 30 devices never see the broadcast
+
+Security Result:
+• VLAN 20 traffic invisible to VLAN 10
+• Network sniffing limited to same VLAN
+• Broadcast storms contained per VLAN`
+            };
+            output.textContent = demos[type] || 'Demo not found';
+        }
+
+        function showVLANDatabase(type) {
+            const output = document.getElementById('vlan-database-output');
+            const databases = {
+                'table': `VLAN Database (show vlan brief):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VLAN Name             Status    Ports
+---- ----------------- --------- ---------------------
+1    default          active    Gi0/21, Gi0/22, Gi0/23
+10   SALES_DATA       active    Gi0/1, Gi0/2, Gi0/3, Gi0/4
+20   ENGINEERING_DATA active    Gi0/5, Gi0/6, Gi0/7, Gi0/8
+30   SERVERS          active    Gi0/9, Gi0/10
+99   MANAGEMENT       active    Gi0/24
+999  NATIVE_UNUSED    active
+
+Total: 6 VLANs configured`,
+
+                'mac': `MAC Address Table per VLAN:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VLAN 10 (SALES_DATA):
+Mac Address       Type    Ports
+---------         ------- -----
+0050.7966.1234   DYNAMIC  Gi0/1
+0050.7966.1235   DYNAMIC  Gi0/2
+0050.7966.1236   DYNAMIC  Gi0/3
+
+VLAN 20 (ENGINEERING_DATA):
+Mac Address       Type    Ports  
+---------         ------- -----
+0050.7966.2234   DYNAMIC  Gi0/5
+0050.7966.2235   DYNAMIC  Gi0/6
+
+Note: MAC addresses learned separately per VLAN`,
+
+                'ports': `Port Configuration Details:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Interface Gi0/1:
+  Switchport: Enabled
+  Mode: Access
+  Access VLAN: 10 (SALES_DATA)
+  Trunking VLANs: None
+  Voice VLAN: None
+
+Interface Gi0/24:
+  Switchport: Enabled
+  Mode: Trunk
+  Encapsulation: 802.1Q
+  Native VLAN: 999 (NATIVE_UNUSED)
+  Allowed VLANs: 10,20,30,99
+  
+Trunk Port Summary:
+• Carries multiple VLANs
+• Uses 802.1Q tagging
+• Connects network infrastructure
+• Requires matching configuration on both ends`
+            };
+            output.textContent = databases[type] || 'Database view not found';
+        }
+
+        function showPortTypes(type) {
+            const output = document.getElementById('port-types-output');
+            const portTypes = {
+                'access': `Access Port Behavior:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🖥️ PC sends frame ──────► [Access Port - VLAN 10]
+   (No VLAN tag)
+
+Switch Processing:
+1. Receives untagged frame on access port
+2. Associates frame with port's VLAN (10)
+3. Adds frame to VLAN 10 MAC table
+4. Forwards within VLAN 10 only
+
+Characteristics:
+• Single VLAN membership
+• End device unaware of VLANs
+• Frames always untagged
+• Simple configuration`,
+
+                'trunk': `Trunk Port Behavior:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Switch A] ═══════════► [Switch B]
+            Trunk Link
+            
+Frame Processing:
+1. Frame from VLAN 10 device received
+2. Switch A adds 802.1Q tag (VLAN 10)
+3. Tagged frame sent over trunk
+4. Switch B reads tag, removes it
+5. Forwards to VLAN 10 ports only
+
+Characteristics:
+• Multiple VLAN support
+• 802.1Q tagging protocol
+• Inter-switch connectivity
+• Complex configuration`,
+
+                'comparison': `Access vs. Trunk Comparison:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ACCESS PORTS:
+✓ Connect end devices
+✓ Single VLAN membership
+✓ No VLAN awareness required
+✓ Untagged traffic only
+✓ Simple configuration
+
+TRUNK PORTS:
+✓ Connect network infrastructure
+✓ Multiple VLAN support
+✓ 802.1Q VLAN awareness required  
+✓ Tagged traffic (except native)
+✓ Complex configuration
+
+Use Case:
+Access: PC, printer, phone, server
+Trunk: Switch-to-switch, switch-to-router`
+            };
+            output.textContent = portTypes[type] || 'Port type not found';
+        }
+
+        function showNativeVLAN(type) {
+            const output = document.getElementById('native-vlan-output');
+            const nativeVLAN = {
+                'normal': `Normal VLAN Traffic (Tagged):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[VLAN 10 Device] ──► [Switch A] ═══► [Switch B] ──► [VLAN 10 Device]
+                     Add 802.1Q      Remove Tag
+                     Tag (VLAN 10)   
+
+Frame Flow:
+1. Device sends untagged frame
+2. Switch A receives on access port (VLAN 10)
+3. Switch A adds 802.1Q tag: VLAN ID = 10
+4. Tagged frame travels over trunk
+5. Switch B receives tagged frame
+6. Switch B removes tag, forwards to VLAN 10 ports
+
+Result: Frame properly delivered to VLAN 10`,
+
+                'native': `Native VLAN Traffic (Untagged):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[VLAN 999 Device] ──► [Switch A] ═══► [Switch B] ──► [VLAN 999 Device]
+                      No Tag Added   Native VLAN 999
+
+Frame Flow:
+1. Device sends untagged frame  
+2. Switch A receives on access port (VLAN 999)
+3. VLAN 999 = Native VLAN, NO tag added
+4. Untagged frame travels over trunk
+5. Switch B receives untagged frame
+6. Assigns to native VLAN (999)
+
+Result: Native VLAN traffic not tagged on trunk`,
+
+                'security': `Native VLAN Security Implications:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚨 SECURITY RISKS:
+
+Double Tagging Attack:
+1. Attacker crafts frame with two tags
+2. First tag = Native VLAN (outer)
+3. Second tag = Target VLAN (inner)  
+4. First switch removes outer tag
+5. Frame appears to be native VLAN traffic
+6. Second switch processes inner tag
+7. Frame delivered to target VLAN
+
+🛡️ PREVENTION:
+• Use dedicated unused VLAN as native
+• No access ports on native VLAN
+• Monitor for unusual traffic patterns
+• Consider 802.1Q tunneling for isolation`
+            };
+            output.textContent = nativeVLAN[type] || 'Native VLAN demo not found';
+        }
+
+        function showInterVLAN(type) {
+            const output = document.getElementById('inter-vlan-output');
+            const interVLAN = {
+                'router-stick': `Router-on-a-Stick Configuration:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+                [Router]
+                Gi0/0.10 (192.168.10.1/24)
+                Gi0/0.20 (192.168.20.1/24)
+                    │
+                    │ Trunk Link
+                    │
+               [Switch]
+            ┌─────┼─────┐
+      VLAN 10    VLAN 20
+   192.168.10.0  192.168.20.0
+
+Process:
+1. VLAN 10 PC wants to reach VLAN 20 server
+2. Frame sent to default gateway (192.168.10.1)
+3. Switch tags frame, sends to router subinterface
+4. Router routes between subinterfaces
+5. Return traffic follows reverse path`,
+
+                'layer3-switch': `Layer 3 Switch (SVI) Method:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+        [Layer 3 Switch]
+        SVI VLAN 10: 192.168.10.1/24
+        SVI VLAN 20: 192.168.20.1/24
+        IP Routing: Enabled
+            ┌─────┼─────┐
+      VLAN 10    VLAN 20
+   192.168.10.0  192.168.20.0
+
+Advantages:
+• Faster routing (hardware-based)
+• No external router required
+• Lower latency
+• Better scalability
+• Integrated solution
+
+Configuration:
+interface vlan 10
+ ip address 192.168.10.1 255.255.255.0
+interface vlan 20  
+ ip address 192.168.20.1 255.255.255.0
+ip routing`,
+
+                'comparison': `Inter-VLAN Routing Methods Comparison:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ROUTER-ON-A-STICK:
+✓ Uses existing router
+✓ Clear separation of functions
+✗ Single point of failure
+✗ Trunk link bottleneck
+✗ Higher latency
+
+LAYER 3 SWITCH (SVI):
+✓ Hardware-based routing
+✓ Lower latency
+✓ Better performance
+✓ Integrated solution
+✗ More expensive switches
+✗ Complex configuration
+
+DEDICATED INTERFACES:
+✓ Maximum performance
+✓ Clear segmentation
+✗ Port consumption
+✗ Higher costs
+✗ Less scalable
+
+Recommendation: Layer 3 switch for most enterprise deployments`
+            };
+            output.textContent = interVLAN[type] || 'Inter-VLAN method not found';
+        }
+
+        function showTroubleshooting(type) {
+            const output = document.getElementById('troubleshooting-output');
+            const troubleshooting = {
+                'connectivity': `VLAN Connectivity Troubleshooting:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Common Issues:
+1. VLAN Mismatch
+   • Port assigned to wrong VLAN
+   • Check: show interfaces switchport
+
+2. Trunk Configuration
+   • VLAN not allowed on trunk
+   • Check: show interfaces trunk
+
+3. Native VLAN Mismatch
+   • Different native VLANs on trunk ends
+   • Verify both sides match
+
+4. Inter-VLAN Routing
+   • Missing default gateway
+   • Routing not enabled
+   • Check Layer 3 configuration
+
+Systematic Approach:
+✓ Verify physical connectivity
+✓ Check VLAN assignments
+✓ Validate trunk configuration
+✓ Test Layer 3 routing`,
+
+                'performance': `VLAN Performance Issues:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Performance Problems:
+
+1. Broadcast Storms
+   • Too many devices in one VLAN
+   • Solution: Segment into smaller VLANs
+
+2. Trunk Overutilization  
+   • Multiple VLANs sharing single link
+   • Solution: Link aggregation/EtherChannel
+
+3. Spanning Tree Issues
+   • Suboptimal paths per VLAN
+   • Solution: PVST+ optimization
+
+4. Layer 3 Bottlenecks
+   • Router-on-stick performance limits
+   • Solution: Layer 3 switching
+
+Monitoring Tools:
+• show interfaces statistics
+• show spanning-tree vlan
+• Network monitoring systems`,
+
+                'security': `VLAN Security Breaches:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Security Incidents:
+
+1. VLAN Hopping Detected
+   • Disable DTP globally
+   • Set unused ports to dummy VLAN
+   • Use dedicated native VLAN
+
+2. Unauthorized VLAN Access
+   • Implement 802.1X authentication
+   • Use port security features
+   • Monitor MAC address tables
+
+3. Broadcast-based Attacks
+   • Limit broadcast rates
+   • Implement storm control
+   • Monitor unusual traffic patterns
+
+4. Management VLAN Exposure
+   • Isolate management traffic
+   • Use dedicated management VLAN
+   • Restrict management access
+
+Prevention Strategy:
+🛡️ Defense in depth approach
+🛡️ Regular security audits
+🛡️ Network segmentation
+🛡️ Access control policies`,
+
+                'configuration': `VLAN Configuration Errors:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Common Mistakes:
+
+1. Inconsistent VLAN Database
+   • Different VLAN configs across switches
+   • Solution: Use VTP or consistent manual config
+
+2. Wrong Port Modes
+   • Access port configured as trunk
+   • Solution: Verify switchport mode
+
+3. Missing VLANs on Trunks
+   • VLAN exists but not allowed on trunk
+   • Solution: Add to allowed VLAN list
+
+4. Native VLAN Mismatches
+   • CDP warnings about mismatches
+   • Solution: Standardize native VLAN
+
+Best Practices:
+📋 Document all VLAN assignments
+📋 Use consistent naming conventions
+📋 Regular configuration backups
+📋 Change control processes
+📋 Verification testing after changes`
+            };
+            output.textContent = troubleshooting[type] || 'Troubleshooting info not found';
+        }
+
+        function showDesignChallenge(type) {
+            const output = document.getElementById('design-challenge-output');
+            const design = {
+                'planning': `VLAN Design Planning Process:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Step 1: Requirements Analysis
+• Identify user groups and their needs
+• Determine security requirements
+• Assess traffic patterns
+• Plan for growth
+
+Step 2: Segmentation Strategy  
+• Group users by function/department
+• Separate voice and data traffic
+• Isolate servers and management
+• Create guest network isolation
+
+Step 3: IP Addressing Plan
+• Allocate subnets per VLAN
+• Plan for inter-VLAN routing
+• Consider DHCP scope design
+• Document IP ranges
+
+Step 4: Security Considerations
+• Identify sensitive data flows
+• Plan access control requirements
+• Design inter-VLAN communication rules
+• Consider compliance requirements`,
+
+                'assignment': `Recommended VLAN ID Assignment:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VLAN 10: SALES_DATA (192.168.10.0/24)
+• 80 sales users
+• Access to CRM systems
+• Standard security level
+
+VLAN 20: ENGINEERING_DATA (192.168.20.0/24)  
+• 60 engineering users
+• High bandwidth requirements
+• Development resources access
+
+VLAN 30: ADMIN_DATA (192.168.30.0/24)
+• 30 administration users
+• High security requirements
+• Financial system access
+
+VLAN 40: SERVERS (192.168.40.0/24)
+• Critical business servers
+• Restricted access
+• High availability requirements
+
+VLAN 50: VOICE (192.168.50.0/24)
+• VoIP phones company-wide
+• QoS prioritization
+• Separate from data traffic
+
+VLAN 60: GUEST (192.168.60.0/24)
+• Visitor internet access
+• Isolated from internal resources
+• Captive portal authentication
+
+VLAN 99: MANAGEMENT (192.168.99.0/24)
+• Switch/router management
+• Secure administrative access
+• Limited scope
+
+VLAN 999: NATIVE_UNUSED
+• Trunk native VLAN
+• No access ports assigned
+• Security hardening`,
+
+                'security': `Security Design Implementation:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Access Control Matrix:
+                Sales  Eng  Admin Server Voice Guest
+Sales           ✓      ✗    ✗     Limited ✓    ✗
+Engineering     ✗      ✓    ✗     Limited ✓    ✗  
+Administration  ✗      ✗    ✓     Full    ✓    ✗
+Servers         Limited Limited Full ✓     ✗    ✗
+Voice           ✓      ✓    ✓     ✗       ✓    ✓
+Guest           ✗      ✗    ✗     ✗       ✗    Internet
+
+Security Measures:
+🔒 Inter-VLAN ACLs to control traffic
+🔒 Port security to prevent MAC flooding
+🔒 DHCP snooping for rogue DHCP protection
+🔒 Dynamic ARP inspection for ARP spoofing prevention
+🔒 802.1X authentication for user access control
+🔒 Network monitoring for anomaly detection`,
+
+                'solution': `Complete VLAN Solution Architecture:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Physical Infrastructure:
+• Core Layer 3 switch with routing capability
+• Access switches with VLAN support
+• Trunk links between switches
+• Redundant uplinks for availability
+
+Logical Architecture:
+                [Internet Router]
+                        │
+                 [Firewall/UTM]
+                        │
+                [Core L3 Switch]
+               Inter-VLAN Routing
+                    │
+          ┌─────────┼─────────┐
+    [Access SW1] [Access SW2] [Access SW3]
+      │      │     │      │     │      │
+   Sales  Voice  Eng   Admin  Srv   Guest
+
+Key Features:
+✓ Scalable design for growth
+✓ Redundancy for high availability  
+✓ Security through segmentation
+✓ QoS for voice traffic
+✓ Guest network isolation
+✓ Centralized management
+
+Implementation Steps:
+1. Configure VLANs on all switches
+2. Set up trunk links with proper VLANs
+3. Configure Layer 3 SVIs for routing
+4. Implement security policies
+5. Test connectivity and isolation
+6. Deploy monitoring and management tools`
+            };
+            output.textContent = design[type] || 'Design info not found';
+        }
+
+        function showTroubleshootingScenario(type) {
+            const output = document.getElementById('troubleshooting-scenario-output');
+            const scenario = {
+                'symptoms': `Troubleshooting Scenario Analysis:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Reported Problem:
+"Engineering users (VLAN 20) cannot access file server in VLAN 30"
+
+Symptom Analysis:
+✓ Internet access works (Layer 3 connectivity exists)
+✓ Intra-VLAN communication works (Layer 2 OK)
+✗ Inter-VLAN communication fails (Layer 3 issue?)
+
+Initial Observations:
+• VLAN isolation is working correctly
+• Layer 2 switching functional
+• Problem likely in Layer 3 routing
+• Need to verify inter-VLAN routing configuration
+
+Testing Performed:
+• ping 8.8.8.8 ✓ (Internet works)
+• ping Engineering PC ✓ (Same VLAN works)  
+• ping Server VLAN 30 ✗ (Cross-VLAN fails)`,
+
+                'investigation': `Systematic Investigation Steps:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Step 1: Verify VLAN Configuration
+Commands: show vlan brief, show interfaces switchport
+Result: VLANs 20 and 30 properly configured ✓
+
+Step 2: Check Trunk Links  
+Commands: show interfaces trunk
+Result: Both VLANs allowed on trunks ✓
+
+Step 3: Verify Layer 3 Interfaces
+Commands: show ip interface brief
+Finding: SVI for VLAN 30 is DOWN! ❌
+
+Step 4: Check SVI Configuration
+Commands: show running-config interface vlan 30
+Finding: Interface shutdown command present ❌
+
+Step 5: Verify Routing Table
+Commands: show ip route
+Finding: No route to 192.168.30.0/24 network ❌
+
+Root Cause Identified:
+VLAN 30 SVI administratively shutdown`,
+
+                'diagnosis': `Problem Diagnosis:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Root Cause Analysis:
+The VLAN 30 Switch Virtual Interface (SVI) is 
+administratively shutdown, preventing inter-VLAN
+routing to the server network.
+
+Technical Details:
+• VLAN 30 SVI configured but shutdown
+• No Layer 3 interface available for routing
+• Routing table missing VLAN 30 network
+• Traffic to 192.168.30.0/24 dropped
+
+Impact Assessment:
+• All inter-VLAN communication to servers affected
+• VLAN 30 devices cannot reach other VLANs
+• Server access completely blocked
+• Business operations disrupted
+
+Why Internet Still Works:
+• Default route via different interface
+• Core routing infrastructure unaffected
+• Only inter-VLAN routing impacted`,
+
+                'resolution': `Problem Resolution:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Fix Implementation:
+1. Access Layer 3 switch configuration mode
+2. Enable VLAN 30 SVI interface
+3. Verify routing table updates
+4. Test connectivity
+
+Commands Executed:
+config terminal
+interface vlan 30
+no shutdown
+exit
+show ip route
+ping 192.168.30.10
+
+Verification Results:
+✓ VLAN 30 SVI now UP/UP
+✓ Route to 192.168.30.0/24 in table  
+✓ Inter-VLAN communication restored
+✓ Engineering can access servers
+
+Follow-up Actions:
+• Document the incident
+• Review change management process
+• Check for other shutdown interfaces
+• Implement monitoring for SVI status
+• Update network documentation
+
+Prevention Measures:
+• Configuration backup procedures
+• Change control processes
+• Network monitoring alerts
+• Regular configuration audits`
+            };
+            output.textContent = scenario[type] || 'Scenario info not found';
+        }
+
+        // Quiz functionality
+        function checkQuiz(quizName, correctAnswer, explanation) {
+            const selectedOption = document.querySelector(`input[name="${quizName}"]:checked`);
+            const feedback = document.getElementById(`${quizName}-feedback`);
+            
+            if (!selectedOption) {
+                alert('Please select an answer before submitting.');
+                return;
+            }
+            
+            const isCorrect = selectedOption.value === correctAnswer;
+            feedback.style.display = 'block';
+            feedback.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+            feedback.textContent = isCorrect ? explanation : 'Incorrect. Please review the material and try again.';
+            
+            // Track quiz performance
+            if (!window.quizScores) window.quizScores = {};
+            window.quizScores[quizName] = isCorrect;
+        }
+
+        // Mobile navigation toggle
+        function toggleMobileNav() {
+            const nav = document.querySelector('nav');
+            const toggle = document.querySelector('.nav-toggle');
+            const isOpen = nav.classList.contains('active');
+            
+            nav.classList.toggle('active');
+            toggle.setAttribute('aria-expanded', !isOpen);
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation setup
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('href').substring(1);
+                    navigateToSection(sectionId);
+                });
+            });
+
+            // Mobile navigation
+            const navToggle = document.querySelector('.nav-toggle');
+            if (navToggle) {
+                navToggle.addEventListener('click', toggleMobileNav);
+            }
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const nav = document.querySelector('nav');
+                    if (nav.classList.contains('active')) {
+                        toggleMobileNav();
+                    }
+                }
+            });
+
+            // Initialize progress and focus management
+            updateProgress();
+            
+            // Set focus management for sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.setAttribute('tabindex', '-1');
+            });
+
+            // Initialize quiz tracking
+            window.quizScores = {};
+
+            // Handle responsive design
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(function() {
+                    const nav = document.querySelector('nav');
+                    if (window.innerWidth > 768 && nav.classList.contains('active')) {
+                        nav.classList.remove('active');
+                        document.querySelector('.nav-toggle').setAttribute('aria-expanded', 'false');
+                    }
+                }, 250);
+            });
+        });
+    </script>
+</body>
+</html>
+  
