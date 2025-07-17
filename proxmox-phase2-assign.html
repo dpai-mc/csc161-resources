@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxmox VE Lab Assignment - Phase II: VM Creation & Network Segmentation</title>
+    <meta name="description" content="Lab assignment for learning virtual machine creation and VLAN implementation in Proxmox VE with AI tutor guidance">
+    
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #e5e7eb;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 8px;
+            --border-radius-lg: 12px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* Skip Link for Screen Readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            z-index: 1000;
+            font-weight: 600;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .course-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+        }
+
+        .course-info p {
+            margin: 0.25rem 0;
+            font-size: 0.95rem;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .content-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .content-card h3 {
+            color: var(--text-primary);
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.25rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+
+        .content-card h4 {
+            color: var(--text-primary);
+            margin: 1rem 0 0.5rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .content-card p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .content-card ul, .content-card ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .content-card li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            border-left: 4px solid var(--primary-color);
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .highlight-box.warning {
+            border-left-color: var(--warning-color);
+            background: #fffbeb;
+        }
+
+        .highlight-box.success {
+            border-left-color: var(--success-color);
+            background: #ecfdf5;
+        }
+
+        .highlight-box.info {
+            border-left-color: var(--accent-color);
+            background: #eff6ff;
+        }
+
+        .highlight-box.error {
+            border-left-color: var(--error-color);
+            background: #fef2f2;
+        }
+
+        .highlight-box strong {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        /* Buttons */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+
+        .cta-button:hover, .cta-button:focus {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cta-button.secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .cta-button.secondary:hover, .cta-button.secondary:focus {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Tables */
+        .assignment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-primary);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .assignment-table th,
+        .assignment-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .assignment-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .assignment-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .assignment-table tr:nth-child(even) {
+            background: var(--bg-secondary);
+        }
+
+        /* Task Lists */
+        .task-list {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .task-list h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .task-number {
+            background: var(--primary-color);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-content h5 {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .task-content p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* Deliverables Section */
+        .deliverable-item {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .deliverable-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .deliverable-icon {
+            background: var(--accent-color);
+            color: white;
+            width: 3rem;
+            height: 3rem;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .deliverable-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Grading Rubric */
+        .rubric-section {
+            margin: 1.5rem 0;
+        }
+
+        .rubric-criteria {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .rubric-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .rubric-levels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1px;
+            background: var(--border-color);
+        }
+
+        .rubric-level {
+            background: var(--bg-primary);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .rubric-level-header {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .rubric-points {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Interactive Elements */
+        .timer-display {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .timer-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .timer-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Progress Indicator */
+        .progress-container {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .progress-label {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .progress-bar-container {
+            background: var(--bg-tertiary);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            header {
+                padding: 1.5rem;
+            }
+
+            header h1 {
+                font-size: 1.75rem;
+            }
+
+            header .subtitle {
+                font-size: 1rem;
+            }
+
+            .content-card {
+                padding: 1.5rem;
+            }
+
+            .content-card h2 {
+                font-size: 1.5rem;
+            }
+
+            .task-item {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .deliverable-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .rubric-levels {
+                grid-template-columns: 1fr;
+            }
+
+            .timer-value {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Accessibility Features */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* High Contrast Support */
+        @media (prefers-contrast: high) {
+            :root {
+                --primary-color: #000080;
+                --text-primary: #000000;
+                --text-secondary: #000000;
+                --border-color: #000000;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        *:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                max-width: none;
+                margin: 0;
+                padding: 1rem;
+                font-size: 12pt;
+                line-height: 1.4;
+                color: black;
+            }
+            
+            .cta-button, .timer-display {
+                display: none;
+            }
+            
+            .content-card {
+                border: 1px solid #000;
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header role="banner">
+        <h1>Proxmox VE Lab Assignment</h1>
+        <div class="subtitle">Phase II: VM Creation & Network Segmentation</div>
+        <div class="course-info">
+            <p><strong>Course:</strong> IT Infrastructure & Virtualization</p>
+            <p><strong>Due Date:</strong> <span id="due-date">End of Current Session</span></p>
+            <p><strong>Estimated Time:</strong> 60-90 minutes</p>
+            <p><strong>Points:</strong> 100 points</p>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+        <!-- Assignment Overview -->
+        <section class="content-card">
+            <h2>📋 Assignment Overview</h2>
+            
+            <p>In this hands-on lab assignment, you will work with <strong>Bianca</strong>, your AI virtualization tutor, to implement enterprise-grade network segmentation using Virtual Local Area Networks (VLANs) in Proxmox VE. You'll create your first virtual machine and configure VLAN-aware networking to simulate real-world business network requirements.</p>
+
+            <div class="highlight-box info">
+                <strong>🎯 Learning Objectives</strong>
+                <p>By completing this assignment, you will:</p>
+                <ul>
+                    <li>Understand enterprise network segmentation principles</li>
+                    <li>Create and configure VLAN-aware bridges in Proxmox VE</li>
+                    <li>Deploy virtual machines with specific VLAN assignments</li>
+                    <li>Implement security best practices for departmental isolation</li>
+                    <li>Document network architecture decisions</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box warning">
+                <strong>⚠️ Prerequisites</strong>
+                <p>Before starting this assignment, ensure you have:</p>
+                <ul>
+                    <li>Successfully completed Phase I (Proxmox VE Setup & Configuration)</li>
+                    <li>A valid handoff summary from your previous session</li>
+                    <li>Access to your Proxmox VE lab environment</li>
+                    <li>Basic understanding of networking concepts</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- AI Tutor Access -->
+        <section class="content-card">
+            <h2>🤖 AI Tutor: Bianca Rodriguez</h2>
+            
+            <p>For this assignment, you'll be guided by <strong>Bianca Rodriguez</strong>, a specialized AI tutor with 6+ years of enterprise virtualization experience. Bianca will provide step-by-step guidance, real-world context, and troubleshooting support throughout your lab session.</p>
+
+            <div class="deliverable-item">
+                <div class="deliverable-header">
+                    <div class="deliverable-icon">🔗</div>
+                    <div>
+                        <div class="deliverable-title">Access Your AI Tutor</div>
+                        <p>Click the link below to start your guided lab session with Bianca.</p>
+                    </div>
+                </div>
+                <a href="https://www.playlab.ai/project/cmc01ofa201l5jd0u18a13c40" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="cta-button"
+                   aria-label="Open AI Tutor in new tab">
+                    🚀 Launch AI Tutor Session
+                </a>
+            </div>
+
+            <div class="highlight-box success">
+                <strong>💡 Tutor Features</strong>
+                <ul>
+                    <li><strong>Bilingual Support:</strong> Bianca naturally incorporates Spanish phrases</li>
+                    <li><strong>Enterprise Context:</strong> All tasks connected to real business scenarios</li>
+                    <li><strong>Step-by-Step Guidance:</strong> Detailed instructions with explanations</li>
+                    <li><strong>Troubleshooting Help:</strong> Support when you encounter issues</li>
+                    <li><strong>Security Focus:</strong> Emphasis on best practices and compliance</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Assignment Tasks -->
+        <section class="content-card">
+            <h2>📝 Assignment Tasks</h2>
+            
+            <p>Work through the following tasks with your AI tutor. Each task builds upon the previous one to create a complete enterprise network segmentation solution.</p>
+
+            <div class="task-list">
+                <h4>Phase II Tasks Overview</h4>
+                
+                <div class="task-item">
+                    <div class="task-number">1</div>
+                    <div class="task-content">
+                        <h5>Network Architecture Planning</h5>
+                        <p>Work with Bianca to understand enterprise VLAN strategies and plan network segmentation for the Finance department's compliance requirements.</p>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-number">2</div>
+                    <div class="task-content">
+                        <h5>VLAN-Aware Bridge Creation</h5>
+                        <p>Create a new Linux bridge (vmbr1) with VLAN awareness to enable network segmentation within your Proxmox VE environment.</p>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-number">3</div>
+                    <div class="task-content">
+                        <h5>Operating System Resource Management</h5>
+                        <p>Download and manage ISO images for standardized OS deployment, focusing on minimal installations for security best practices.</p>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-number">4</div>
+                    <div class="task-content">
+                        <h5>Finance Department VM Deployment</h5>
+                        <p>Create and configure a virtual machine specifically for the Finance department with appropriate resource allocation and VLAN 10 assignment.</p>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-number">5</div>
+                    <div class="task-content">
+                        <h5>Secure OS Installation & Configuration</h5>
+                        <p>Complete the Xubuntu installation with security-focused configuration and verify network connectivity within the assigned VLAN.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box info">
+                <strong>🔍 Business Scenario</strong>
+                <p>You are the IT administrator for TechCorp, implementing secure network infrastructure for the Finance department. This department handles sensitive financial data and requires isolated network access for compliance with financial regulations.</p>
+            </div>
+        </section>
+
+        <!-- Deliverables -->
+        <section class="content-card">
+            <h2>📤 Assignment Deliverables</h2>
+            
+            <p>Submit the following deliverables to demonstrate your successful completion of the lab assignment:</p>
+
+            <div class="deliverable-item">
+                <div class="deliverable-header">
+                    <div class="deliverable-icon">📷</div>
+                    <div>
+                        <div class="deliverable-title">Screenshot 1: VLAN Bridge Configuration</div>
+                        <p>Capture the Proxmox VE network configuration showing your newly created vmbr1 bridge with VLAN awareness enabled.</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <strong>Requirements:</strong>
+                    <ul>
+                        <li>Must show bridge name (vmbr1) and VLAN-aware setting</li>
+                        <li>Include bridge ports and configuration details</li>
+                        <li>Timestamp visible in Proxmox interface</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="deliverable-item">
+                <div class="deliverable-header">
+                    <div class="deliverable-icon">🖥️</div>
+                    <div>
+                        <div class="deliverable-title">Screenshot 2: Finance VM with VLAN Assignment</div>
+                        <p>Show the Finance department VM configuration with network interface assigned to VLAN 10 and the VM in running state.</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <strong>Requirements:</strong>
+                    <ul>
+                        <li>VM hardware configuration visible with VLAN tag 10</li>
+                        <li>Network interface connected to vmbr1 bridge</li>
+                        <li>VM status showing as "running"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="deliverable-item">
+                <div class="deliverable-header">
+                    <div class="deliverable-icon">💭</div>
+                    <div>
+                        <div class="deliverable-title">Reflection Question 1: VLAN Security Benefits</div>
+                        <p>Explain how VLANs improve security in enterprise networks and why the Finance department requires network isolation.</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <strong>Expected Response Length:</strong> 150-200 words
+                    <br><strong>Key Points to Address:</strong> Network segmentation, broadcast domain isolation, access control, compliance requirements
+                </div>
+            </div>
+
+            <div class="deliverable-item">
+                <div class="deliverable-header">
+                    <div class="deliverable-icon">🔧</div>
+                    <div>
+                        <div class="deliverable-title">Reflection Question 2: Implementation Challenges</div>
+                        <p>Describe the most challenging aspect of this lab and how you overcame it with Bianca's guidance. What would you do differently in a production environment?</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <strong>Expected Response Length:</strong> 150-200 words
+                    <br><strong>Key Points to Address:</strong> Technical challenges, problem-solving approach, production considerations, lessons learned
+                </div>
+            </div>
+
+            <div class="deliverable-item">
+                <div class="deliverable-header">
+                    <div class="deliverable-icon">📋</div>
+                    <div>
+                        <div class="deliverable-title">Handoff Summary for Phase III</div>
+                        <p>Provide the complete handoff summary generated by Bianca at the end of your session for the next phase instructor.</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <strong>Requirements:</strong>
+                    <ul>
+                        <li>Complete handoff summary copied exactly as provided by Bianca</li>
+                        <li>Must include all sections: environment details, network configuration, VMs deployed, storage utilization, completed objectives</li>
+                        <li>Include verification commands for next session</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grading Rubric -->
+        <section class="content-card">
+            <h2>📊 Grading Rubric</h2>
+            
+            <p>Your assignment will be evaluated based on the following criteria. Total points: <strong>100 points</strong></p>
+
+            <div class="rubric-section">
+                <div class="rubric-criteria">
+                    <div class="rubric-header">Technical Implementation (40 points)</div>
+                    <div class="rubric-levels">
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Excellent</div>
+                            <div class="rubric-points">36-40 pts</div>
+                            <p>All tasks completed correctly with proper VLAN configuration and VM deployment</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Good</div>
+                            <div class="rubric-points">32-35 pts</div>
+                            <p>Most tasks completed with minor configuration issues</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Satisfactory</div>
+                            <div class="rubric-points">14-15 pts</div>
+                            <p>Basic responses with minimal understanding shown</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Needs Improvement</div>
+                            <div class="rubric-points">0-13 pts</div>
+                            <p>Incomplete or inadequate responses</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rubric-criteria">
+                    <div class="rubric-header">Handoff Summary Completeness (15 points)</div>
+                    <div class="rubric-levels">
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Excellent</div>
+                            <div class="rubric-points">14-15 pts</div>
+                            <p>Complete, accurate handoff summary with all required sections</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Good</div>
+                            <div class="rubric-points">12-13 pts</div>
+                            <p>Mostly complete handoff summary with minor omissions</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Satisfactory</div>
+                            <div class="rubric-points">10-11 pts</div>
+                            <p>Basic handoff summary but missing key details</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Needs Improvement</div>
+                            <div class="rubric-points">0-9 pts</div>
+                            <p>Incomplete or missing handoff summary</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box success">
+                <strong>🎯 Success Tips</strong>
+                <ul>
+                    <li>Follow Bianca's guidance carefully and ask questions when unclear</li>
+                    <li>Take screenshots immediately after completing each major task</li>
+                    <li>Document any challenges you encounter for your reflection responses</li>
+                    <li>Ensure your handoff summary is complete before ending the session</li>
+                    <li>Test your VM connectivity before considering the assignment complete</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Submission Instructions -->
+        <section class="content-card">
+            <h2>📨 Submission Instructions</h2>
+            
+            <div class="task-list">
+                <h4>How to Submit Your Assignment</h4>
+                
+                <div class="task-item">
+                    <div class="task-number">1</div>
+                    <div class="task-content">
+                        <h5>Prepare Your Screenshots</h5>
+                        <p>Save your screenshots in common formats (PNG, JPG) with descriptive filenames (e.g., "vlan-bridge-config.png", "finance-vm-running.png").</p>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-number">2</div>
+                    <div class="task-content">
+                        <h5>Write Your Reflection Responses</h5>
+                        <p>Compose thoughtful, well-structured responses to both reflection questions in a document or text file.</p>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-number">3</div>
+                    <div class="task-content">
+                        <h5>Copy Your Handoff Summary</h5>
+                        <p>Ensure you have the complete handoff summary from Bianca exactly as provided, including all sections and verification commands.</p>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-number">4</div>
+                    <div class="task-content">
+                        <h5>Submit via Course Platform</h5>
+                        <p>Upload all deliverables to the designated assignment submission area in your course management system before the due date.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box warning">
+                <strong>⏰ Important Deadlines</strong>
+                <ul>
+                    <li><strong>Lab Completion:</strong> Must finish during your scheduled lab session</li>
+                    <li><strong>Submission Deadline:</strong> <span id="submission-deadline">24 hours after lab session</span></li>
+                    <li><strong>Late Policy:</strong> 10% deduction per day late</li>
+                    <li><strong>Technical Issues:</strong> Contact instructor immediately if you encounter problems</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Additional Resources -->
+        <section class="content-card">
+            <h2>📚 Additional Resources</h2>
+            
+            <div class="highlight-box info">
+                <strong>📖 Reference Materials</strong>
+                <ul>
+                    <li><strong>Proxmox VE Documentation:</strong> Official documentation for advanced configuration</li>
+                    <li><strong>VLAN Standards:</strong> IEEE 802.1Q standard specifications</li>
+                    <li><strong>Enterprise Networking:</strong> Best practices for business network design</li>
+                    <li><strong>Linux Networking:</strong> Command-line tools for network troubleshooting</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box success">
+                <strong>🆘 Getting Help</strong>
+                <ul>
+                    <li><strong>Primary Support:</strong> Your AI tutor Bianca provides real-time guidance</li>
+                    <li><strong>Technical Issues:</strong> Contact your lab instructor for Proxmox problems</li>
+                    <li><strong>Assignment Questions:</strong> Use course discussion forum or office hours</li>
+                    <li><strong>Emergency Support:</strong> Email instructor for urgent technical problems</li>
+                </ul>
+            </div>
+
+            <button class="cta-button secondary" onclick="window.print()" aria-label="Print this assignment">
+                🖨️ Print Assignment
+            </button>
+            
+            <button class="cta-button secondary" onclick="toggleTimer()" id="timer-toggle" aria-label="Start assignment timer">
+                ⏱️ Start Timer
+            </button>
+        </section>
+
+        <!-- Timer Display -->
+        <div class="timer-display" id="timer-display" style="display: none;">
+            <div class="timer-label">Assignment Time Elapsed</div>
+            <div class="timer-value" id="timer-value">00:00:00</div>
+        </div>
+
+        <!-- Progress Tracker -->
+        <div class="progress-container">
+            <div class="progress-label">Assignment Progress</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div style="text-align: center; margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+                <span id="progress-text">Ready to begin - Launch your AI tutor to start</span>
+            </div>
+        </div>
+    </main>
+
+    <footer style="text-align: center; padding: 2rem; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 2rem;">
+        <p>&copy; 2025 IT Infrastructure & Virtualization Course | Proxmox VE Lab Series</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem;">For technical support, contact your instructor or lab administrator</p>
+    </footer>
+
+    <script>
+        // Timer functionality
+        let timerInterval;
+        let startTime;
+        let isTimerRunning = false;
+
+        function toggleTimer() {
+            const timerDisplay = document.getElementById('timer-display');
+            const timerToggle = document.getElementById('timer-toggle');
+            const timerValue = document.getElementById('timer-value');
+
+            if (!isTimerRunning) {
+                // Start timer
+                startTime = Date.now();
+                isTimerRunning = true;
+                timerDisplay.style.display = 'block';
+                timerToggle.textContent = '⏸️ Pause Timer';
+                timerToggle.setAttribute('aria-label', 'Pause assignment timer');
+                
+                timerInterval = setInterval(updateTimer, 1000);
+                updateProgress(10, 'Timer started - Working on assignment');
+            } else {
+                // Pause timer
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+                timerToggle.textContent = '▶️ Resume Timer';
+                timerToggle.setAttribute('aria-label', 'Resume assignment timer');
+                updateProgress(15, 'Timer paused');
+            }
+        }
+
+        function updateTimer() {
+            if (!startTime) return;
+            
+            const elapsed = Date.now() - startTime;
+            const hours = Math.floor(elapsed / 3600000);
+            const minutes = Math.floor((elapsed % 3600000) / 60000);
+            const seconds = Math.floor((elapsed % 60000) / 1000);
+            
+            const timeString = 
+                String(hours).padStart(2, '0') + ':' +
+                String(minutes).padStart(2, '0') + ':' +
+                String(seconds).padStart(2, '0');
+            
+            document.getElementById('timer-value').textContent = timeString;
+
+            // Update progress based on time spent
+            const progressPercent = Math.min(90, (elapsed / (90 * 60 * 1000)) * 100); // 90 minutes max
+            updateProgress(progressPercent, `Working for ${Math.floor(minutes)} minutes`);
+        }
+
+        // Progress tracking
+        function updateProgress(percent, message) {
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            
+            progressBar.style.width = percent + '%';
+            if (message) {
+                progressText.textContent = message;
+            }
+        }
+
+        // Initialize dates
+        function initializeDates() {
+            const now = new Date();
+            const dueDate = new Date(now.getTime() + (2 * 60 * 60 * 1000)); // 2 hours from now
+            const submissionDate = new Date(now.getTime() + (26 * 60 * 60 * 1000)); // 26 hours from now
+            
+            document.getElementById('due-date').textContent = dueDate.toLocaleString();
+            document.getElementById('submission-deadline').textContent = submissionDate.toLocaleString();
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+T to toggle timer
+            if (e.ctrlKey && e.key === 't') {
+                e.preventDefault();
+                toggleTimer();
+            }
+            
+            // Ctrl+P to print
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                window.print();
+            }
+        });
+
+        // Track external link clicks
+        function trackTutorLaunch() {
+            updateProgress(25, 'AI Tutor session launched - Begin working with Bianca');
+            
+            // Store launch time for later reference
+            localStorage.setItem('tutorLaunchTime', Date.now().toString());
+            
+            // Optional: Set a reminder to check back
+            setTimeout(() => {
+                if (document.visibilityState === 'visible') {
+                    updateProgress(50, 'Continue working with your AI tutor');
+                }
+            }, 30 * 60 * 1000); // 30 minutes
+        }
+
+        // Add click tracking to tutor link
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDates();
+            
+            const tutorLink = document.querySelector('a[href*="playlab.ai"]');
+            if (tutorLink) {
+                tutorLink.addEventListener('click', trackTutorLaunch);
+            }
+
+            // Check if returning from tutor session
+            const lastLaunch = localStorage.getItem('tutorLaunchTime');
+            if (lastLaunch) {
+                const timeSinceLaunch = Date.now() - parseInt(lastLaunch);
+                if (timeSinceLaunch < 4 * 60 * 60 * 1000) { // Within 4 hours
+                    updateProgress(60, 'Welcome back! Complete your deliverables');
+                }
+            }
+
+            // Accessibility improvements
+            document.querySelectorAll('button, a').forEach(element => {
+                element.addEventListener('focus', function() {
+                    this.style.transform = 'scale(1.02)';
+                });
+                
+                element.addEventListener('blur', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            // Auto-save timer state
+            window.addEventListener('beforeunload', function() {
+                if (isTimerRunning) {
+                    localStorage.setItem('assignmentStartTime', startTime.toString());
+                    localStorage.setItem('assignmentTimerRunning', 'true');
+                }
+            });
+
+            // Restore timer if page was refreshed
+            const savedStartTime = localStorage.getItem('assignmentStartTime');
+            const wasTimerRunning = localStorage.getItem('assignmentTimerRunning');
+            
+            if (savedStartTime && wasTimerRunning === 'true') {
+                startTime = parseInt(savedStartTime);
+                toggleTimer(); // This will start the timer
+            }
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+        });
+
+        // Performance optimization for mobile
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                // Adjust layout for mobile if needed
+                const isMobile = window.innerWidth < 600;
+                document.body.style.fontSize = isMobile ? '14px' : '16px';
+            }, 250);
+        });
+
+        // Console helpers for debugging
+        console.log('🎯 Proxmox VE Lab Assignment loaded successfully!');
+        console.log('Keyboard shortcuts:');
+        console.log('- Ctrl+T: Toggle timer');
+        console.log('- Ctrl+P: Print assignment');
+    </script>
+</body>
+</html>
+                            <div class="rubric-points">28-31 pts</div>
+                            <p>Basic tasks completed but some configuration errors</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Needs Improvement</div>
+                            <div class="rubric-points">0-27 pts</div>
+                            <p>Significant issues with implementation or incomplete tasks</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rubric-criteria">
+                    <div class="rubric-header">Documentation Quality (25 points)</div>
+                    <div class="rubric-levels">
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Excellent</div>
+                            <div class="rubric-points">23-25 pts</div>
+                            <p>Clear, detailed screenshots with all required elements visible</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Good</div>
+                            <div class="rubric-points">20-22 pts</div>
+                            <p>Good screenshots with most required elements visible</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Satisfactory</div>
+                            <div class="rubric-points">18-19 pts</div>
+                            <p>Adequate screenshots but missing some details</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Needs Improvement</div>
+                            <div class="rubric-points">0-17 pts</div>
+                            <p>Poor quality or incomplete screenshots</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rubric-criteria">
+                    <div class="rubric-header">Reflection & Analysis (20 points)</div>
+                    <div class="rubric-levels">
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Excellent</div>
+                            <div class="rubric-points">18-20 pts</div>
+                            <p>Thoughtful, detailed responses demonstrating deep understanding</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Good</div>
+                            <div class="rubric-points">16-17 pts</div>
+                            <p>Good responses with adequate understanding</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Satisfactory</div>
+                            <div class="rubric-points">14-15 pts</div>
+                            <p>Basic responses with minimal understanding shown</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Needs Improvement</div>
+                            <div class="rubric-points">0-13 pts</div>
+                            <p>Incomplete or inadequate responses</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rubric-criteria">
+                    <div class="rubric-header">Handoff Summary Completeness (15 points)</div>
+                    <div class="rubric-levels">
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Excellent</div>
+                            <div class="rubric-points">14-15 pts</div>
+                            <p>Complete, accurate handoff summary with all required sections</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Good</div>
+                            <div class="rubric-points">12-13 pts</div>
+                            <p>Mostly complete handoff summary with minor omissions</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Satisfactory</div>
+                            <div class="rubric-points">10-11 pts</div>
+                            <p>Basic handoff summary but missing key details</p>
+                        </div>
+                        <div class="rubric-level">
+                            <div class="rubric-level-header">Needs Improvement</div>
+                            <div class="rubric-points">0-9 pts</div>
+                            <p>Incomplete or missing handoff summary</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box success">
+                <strong>🎯 Success Tips</strong>
+                <ul>
+                    <li>Follow Bianca's guidance carefully and ask questions when unclear</li>
+                    <li>Take screenshots immediately after completing each major task</li>
+                    <li>Document any challenges you encounter for your reflection responses</li>
+                    <li>Ensure your handoff summary is complete before ending the session</li>
+                    <li>Test your VM connectivity before considering the assignment complete</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Submission Instructions -->
+        <section class="content-card">
+            <h2>📨 Submission Instructions</h2>
+            
+            <div class="task-list">
+                <h4>How to Submit Your Assignment</h4>
+                
+                <div class="task-item">
+                    <div class="task-number">1</div>
+                    <div class="task-content">
+                        <h5>Prepare Your Screenshots</h5>
+                        <p>Save your screenshots in common formats (PNG, JPG) with descriptive filenames (e.g., "vlan-bridge-config.png", "finance-vm-running.png").</p>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-number">2</div>
+                    <div class="task-content">
+                        <h5>Write Your Reflection Responses</h5>
+                        <p>Compose thoughtful, well-structured responses to both reflection questions in a document or text file.</p>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-number">3</div>
+                    <div class="task-content">
+                        <h5>Copy Your Handoff Summary</h5>
+                        <p>Ensure you have the complete handoff summary from Bianca exactly as provided, including all sections and verification commands.</p>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-number">4</div>
+                    <div class="task-content">
+                        <h5>Submit via Course Platform</h5>
+                        <p>Upload all deliverables to the designated assignment submission area in your course management system before the due date.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box warning">
+                <strong>⏰ Important Deadlines</strong>
+                <ul>
+                    <li><strong>Lab Completion:</strong> Must finish during your scheduled lab session</li>
+                    <li><strong>Submission Deadline:</strong> <span id="submission-deadline">24 hours after lab session</span></li>
+                    <li><strong>Late Policy:</strong> 10% deduction per day late</li>
+                    <li><strong>Technical Issues:</strong> Contact instructor immediately if you encounter problems</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Additional Resources -->
+        <section class="content-card">
+            <h2>📚 Additional Resources</h2>
+            
+            <div class="highlight-box info">
+                <strong>📖 Reference Materials</strong>
+                <ul>
+                    <li><strong>Proxmox VE Documentation:</strong> Official documentation for advanced configuration</li>
+                    <li><strong>VLAN Standards:</strong> IEEE 802.1Q standard specifications</li>
+                    <li><strong>Enterprise Networking:</strong> Best practices for business network design</li>
+                    <li><strong>Linux Networking:</strong> Command-line tools for network troubleshooting</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box success">
+                <strong>🆘 Getting Help</strong>
+                <ul>
+                    <li><strong>Primary Support:</strong> Your AI tutor Bianca provides real-time guidance</li>
+                    <li><strong>Technical Issues:</strong> Contact your lab instructor for Proxmox problems</li>
+                    <li><strong>Assignment Questions:</strong> Use course discussion forum or office hours</li>
+                    <li><strong>Emergency Support:</strong> Email instructor for urgent technical problems</li>
+                </ul>
+            </div>
+
+            <button class="cta-button secondary" onclick="window.print()" aria-label="Print this assignment">
+                🖨️ Print Assignment
+            </button>
+            
+            <button class="cta-button secondary" onclick="toggleTimer()" id="timer-toggle" aria-label="Start assignment timer">
+                ⏱️ Start Timer
+            </button>
+        </section>
+
+        <!-- Timer Display -->
+        <div class="timer-display" id="timer-display" style="display: none;">
+            <div class="timer-label">Assignment Time Elapsed</div>
+            <div class="timer-value" id="timer-value">00:00:00</div>
+        </div>
+
+        <!-- Progress Tracker -->
+        <div class="progress-container">
+            <div class="progress-label">Assignment Progress</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div style="text-align: center; margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+                <span id="progress-text">Ready to begin - Launch your AI tutor to start</span>
+            </div>
+        </div>
+    </main>
+
+    <footer style="text-align: center; padding: 2rem; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 2rem;">
+        <p>&copy; 2025 IT Infrastructure & Virtualization Course | Proxmox VE Lab Series</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem;">For technical support, contact your instructor or lab administrator</p>
+    </footer>
+
+    <script>
+        // Timer functionality
+        let timerInterval;
+        let startTime;
+        let isTimerRunning = false;
+
+        function toggleTimer() {
+            const timerDisplay = document.getElementById('timer-display');
+            const timerToggle = document.getElementById('timer-toggle');
+            const timerValue = document.getElementById('timer-value');
+
+            if (!isTimerRunning) {
+                // Start timer
+                startTime = Date.now();
+                isTimerRunning = true;
+                timerDisplay.style.display = 'block';
+                timerToggle.textContent = '⏸️ Pause Timer';
+                timerToggle.setAttribute('aria-label', 'Pause assignment timer');
+                
+                timerInterval = setInterval(updateTimer, 1000);
+                updateProgress(10, 'Timer started - Working on assignment');
+            } else {
+                // Pause timer
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+                timerToggle.textContent = '▶️ Resume Timer';
+                timerToggle.setAttribute('aria-label', 'Resume assignment timer');
+                updateProgress(15, 'Timer paused');
+            }
+        }
+
+        function updateTimer() {
+            if (!startTime) return;
+            
+            const elapsed = Date.now() - startTime;
+            const hours = Math.floor(elapsed / 3600000);
+            const minutes = Math.floor((elapsed % 3600000) / 60000);
+            const seconds = Math.floor((elapsed % 60000) / 1000);
+            
+            const timeString = 
+                String(hours).padStart(2, '0') + ':' +
+                String(minutes).padStart(2, '0') + ':' +
+                String(seconds).padStart(2, '0');
+            
+            document.getElementById('timer-value').textContent = timeString;
+
+            // Update progress based on time spent
+            const progressPercent = Math.min(90, (elapsed / (90 * 60 * 1000)) * 100); // 90 minutes max
+            updateProgress(progressPercent, `Working for ${Math.floor(minutes)} minutes`);
+        }
+
+        // Progress tracking
+        function updateProgress(percent, message) {
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            
+            progressBar.style.width = percent + '%';
+            if (message) {
+                progressText.textContent = message;
+            }
+        }
+
+        // Initialize dates
+        function initializeDates() {
+            const now = new Date();
+            const dueDate = new Date(now.getTime() + (2 * 60 * 60 * 1000)); // 2 hours from now
+            const submissionDate = new Date(now.getTime() + (26 * 60 * 60 * 1000)); // 26 hours from now
+            
+            document.getElementById('due-date').textContent = dueDate.toLocaleString();
+            document.getElementById('submission-deadline').textContent = submissionDate.toLocaleString();
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+T to toggle timer
+            if (e.ctrlKey && e.key === 't') {
+                e.preventDefault();
+                toggleTimer();
+            }
+            
+            // Ctrl+P to print
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                window.print();
+            }
+        });
+
+        // Track external link clicks
+        function trackTutorLaunch() {
+            updateProgress(25, 'AI Tutor session launched - Begin working with Bianca');
+            
+            // Store launch time for later reference
+            localStorage.setItem('tutorLaunchTime', Date.now().toString());
+            
+            // Optional: Set a reminder to check back
+            setTimeout(() => {
+                if (document.visibilityState === 'visible') {
+                    updateProgress(50, 'Continue working with your AI tutor');
+                }
+            }, 30 * 60 * 1000); // 30 minutes
+        }
+
+        // Add click tracking to tutor link
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDates();
+            
+            const tutorLink = document.querySelector('a[href*="playlab.ai"]');
+            if (tutorLink) {
+                tutorLink.addEventListener('click', trackTutorLaunch);
+            }
+
+            // Check if returning from tutor session
+            const lastLaunch = localStorage.getItem('tutorLaunchTime');
+            if (lastLaunch) {
+                const timeSinceLaunch = Date.now() - parseInt(lastLaunch);
+                if (timeSinceLaunch < 4 * 60 * 60 * 1000) { // Within 4 hours
+                    updateProgress(60, 'Welcome back! Complete your deliverables');
+                }
+            }
+
+            // Accessibility improvements
+            document.querySelectorAll('button, a').forEach(element => {
+                element.addEventListener('focus', function() {
+                    this.style.transform = 'scale(1.02)';
+                });
+                
+                element.addEventListener('blur', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            // Auto-save timer state
+            window.addEventListener('beforeunload', function() {
+                if (isTimerRunning) {
+                    localStorage.setItem('assignmentStartTime', startTime.toString());
+                    localStorage.setItem('assignmentTimerRunning', 'true');
+                }
+            });
+
+            // Restore timer if page was refreshed
+            const savedStartTime = localStorage.getItem('assignmentStartTime');
+            const wasTimerRunning = localStorage.getItem('assignmentTimerRunning');
+            
+            if (savedStartTime && wasTimerRunning === 'true') {
+                startTime = parseInt(savedStartTime);
+                toggleTimer(); // This will start the timer
+            }
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+        });
+
+        // Performance optimization for mobile
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                // Adjust layout for mobile if needed
+                const isMobile = window.innerWidth < 600;
+                document.body.style.fontSize = isMobile ? '14px' : '16px';
+            }, 250);
+        });
+
+        // Console helpers for debugging
+        console.log('🎯 Proxmox VE Lab Assignment loaded successfully!');
+        console.log('Keyboard shortcuts:');
+        console.log('- Ctrl+T: Toggle timer');
+        console.log('- Ctrl+P: Print assignment');
+    </script>
+</body>
+</html>
+                
