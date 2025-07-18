@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxmox Phase III: Container Management & VLAN Expansion</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-tertiary: #f3f4f6;
+            --border-color: #e5e7eb;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .chatbot-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            align-self: flex-start;
+        }
+
+        .chatbot-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .chatbot-button::before {
+            content: "🤖";
+            font-size: 1.2rem;
+        }
+
+        main {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .objective-item {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .objective-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .steps-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .steps-list li {
+            counter-increment: step-counter;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .steps-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--primary-color);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .deliverables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .deliverable-item {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .deliverable-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .deliverable-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .rubric-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: var(--bg-primary);
+        }
+
+        .rubric-table th,
+        .rubric-table td {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        .rubric-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .score-excellent { background-color: #dcfce7; }
+        .score-good { background-color: #fef3c7; }
+        .score-needs-improvement { background-color: #fee2e2; }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #eff6ff;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .alert-warning {
+            background: #fffbeb;
+            border-color: var(--warning-color);
+            color: var(--warning-color);
+        }
+
+        .alert-success {
+            background: #ecfdf5;
+            border-color: var(--success-color);
+            color: var(--success-color);
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .checklist li::before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .checklist li.completed::before {
+            content: "☑";
+            color: var(--success-color);
+        }
+
+        .reflection-questions {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .reflection-questions h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .reflection-questions ol {
+            padding-left: 1.5rem;
+        }
+
+        .reflection-questions li {
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .progress-tracker {
+            position: sticky;
+            top: 2rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 0.25rem;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 0 0.5rem;
+            }
+
+            .objectives-grid,
+            .deliverables-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rubric-table {
+                font-size: 0.9rem;
+            }
+
+            .rubric-table th,
+            .rubric-table td {
+                padding: 0.5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            main {
+                grid-template-columns: 1fr 300px;
+                gap: 2rem;
+            }
+
+            .main-content {
+                grid-column: 1;
+            }
+
+            .sidebar {
+                grid-column: 2;
+            }
+        }
+
+        /* Focus indicators for accessibility */
+        button:focus,
+        a:focus,
+        input:focus,
+        textarea:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --border-color: #000000;
+                --text-secondary: #000000;
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Proxmox Phase III Assignment</h1>
+                <p class="subtitle">Container Management & VLAN Expansion with Casey Littlefeather</p>
+                <a href="https://www.playlab.ai/project/cmbzplcd80917m40u5500kvyk" 
+                   class="chatbot-button" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   aria-label="Open Casey Littlefeather chatbot tutor in new tab">
+                    Access Your AI Tutor: Casey
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <div class="main-content">
+                <section class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span>🎯</span>
+                            Assignment Overview
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <p>In this phase, you'll work with Casey Littlefeather, your AI systems architect tutor, to expand your Proxmox infrastructure by implementing container technology and creating network segmentation for a new Marketing department.</p>
+                        
+                        <div class="alert alert-info">
+                            <strong>🤖 AI Tutor Integration:</strong> Casey will guide you through each step, provide technical explanations, and help troubleshoot issues. Think of Casey as your personal mentor available 24/7.
+                        </div>
+
+                        <div class="objectives-grid">
+                            <div class="objective-item">
+                                <h4>🏗️ Infrastructure Expansion</h4>
+                                <p>Add Marketing department network segment using VLAN 20 while maintaining security isolation from Finance (VLAN 10).</p>
+                            </div>
+                            <div class="objective-item">
+                                <h4>📦 Container Technology</h4>
+                                <p>Deploy and manage Linux containers (LXC) alongside traditional VMs to understand efficiency trade-offs.</p>
+                            </div>
+                            <div class="objective-item">
+                                <h4>🔒 Network Security</h4>
+                                <p>Verify inter-VLAN isolation while ensuring intra-VLAN connectivity for departmental collaboration.</p>
+                            </div>
+                            <div class="objective-item">
+                                <h4>🎓 Technical Understanding</h4>
+                                <p>Develop practical knowledge of when to choose containers vs. VMs for different business requirements.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span>📋</span>
+                            Step-by-Step Instructions
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="alert alert-warning">
+                            <strong>⚠️ Important:</strong> Before starting, ensure you have your Phase II handoff summary ready. Casey will need this to understand your current environment.
+                        </div>
+
+                        <ol class="steps-list">
+                            <li>
+                                <div class="step-title">Initialize Session with Casey</div>
+                                <p>Open the chatbot and introduce yourself. Share your Phase II handoff summary when Casey requests it. Casey will verify your current environment and explain the business scenario for this phase.</p>
+                            </li>
+                            <li>
+                                <div class="step-title">Create VLAN 20 for Marketing</div>
+                                <p>Work with Casey to configure VLAN 20 on your existing vmbr1 bridge. Learn why no new bridge creation is needed and understand VLAN tagging concepts.</p>
+                            </li>
+                            <li>
+                                <div class="step-title">Deploy a Linux Container</div>
+                                <p>Create an Ubuntu 22.04 container assigned to VLAN 20. Casey will guide you through the Proxmox container creation process and explain the efficiency benefits.</p>
+                            </li>
+                            <li>
+                                <div class="step-title">Create Marketing Department VM</div>
+                                <p>Deploy an Xubuntu VM for the Marketing department, also on VLAN 20. Compare deployment time and resource usage with the container.</p>
+                            </li>
+                            <li>
+                                <div class="step-title">Test Network Isolation</div>
+                                <p>Verify that Finance (VLAN 10) and Marketing (VLAN 20) are properly isolated while Marketing VM and container can communicate.</p>
+                            </li>
+                            <li>
+                                <div class="step-title">Generate Phase III Handoff Summary</div>
+                                <p>Work with Casey to document your expanded infrastructure state for the next phase, including all VMs, containers, and network configurations.</p>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span>📤</span>
+                            Required Deliverables
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="deliverables-grid">
+                            <div class="deliverable-item">
+                                <span class="deliverable-icon">📸</span>
+                                <h4 class="deliverable-title">Screenshot 1</h4>
+                                <p>Proxmox summary page showing both the Marketing VM and container running on VLAN 20</p>
+                            </div>
+                            <div class="deliverable-item">
+                                <span class="deliverable-icon">📸</span>
+                                <h4 class="deliverable-title">Screenshot 2</h4>
+                                <p>Terminal/console output showing successful ping between Marketing VM and container, plus failed ping from Finance to Marketing</p>
+                            </div>
+                            <div class="deliverable-item">
+                                <span class="deliverable-icon">📄</span>
+                                <h4 class="deliverable-title">Phase III Handoff Summary</h4>
+                                <p>Complete markdown-formatted summary generated with Casey showing all infrastructure components</p>
+                            </div>
+                            <div class="deliverable-item">
+                                <span class="deliverable-icon">💭</span>
+                                <h4 class="deliverable-title">Reflection Responses</h4>
+                                <p>Written answers to two reflection questions (150-300 words each)</p>
+                            </div>
+                        </div>
+
+                        <div class="reflection-questions">
+                            <h4>Reflection Questions</h4>
+                            <ol>
+                                <li>Based on your experience with both containers and VMs in this lab, explain a real-world business scenario where you would choose containers over VMs, and justify your decision using specific technical and business considerations.</li>
+                                <li>How does VLAN segmentation contribute to organizational security and network management? Describe potential challenges an IT administrator might face when implementing VLANs in a growing company.</li>
+                            </ol>
+                        </div>
+
+                        <div class="alert alert-success">
+                            <strong>💡 Pro Tip:</strong> Casey can help you understand complex concepts and troubleshoot issues. Don't hesitate to ask follow-up questions or request clarification on any technical details.
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span>📊</span>
+                            Grading Rubric
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <div style="overflow-x: auto;">
+                            <table class="rubric-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%;">Component</th>
+                                        <th style="width: 20%;">Excellent (90-100%)</th>
+                                        <th style="width: 20%;">Good (80-89%)</th>
+                                        <th style="width: 20%;">Satisfactory (70-79%)</th>
+                                        <th style="width: 20%;">Needs Improvement (60-69%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Technical Implementation (40%)</strong></td>
+                                        <td class="score-excellent">All components deployed correctly. Container and VM both functional on VLAN 20. Perfect network isolation demonstrated.</td>
+                                        <td class="score-good">Most components working. Minor configuration issues that don't affect core functionality.</td>
+                                        <td class="score-good">Basic implementation complete but some networking issues or suboptimal configurations.</td>
+                                        <td class="score-needs-improvement">Significant technical problems. Missing components or major misconfigurations.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Screenshots (20%)</strong></td>
+                                        <td class="score-excellent">Clear, well-labeled screenshots showing all required elements. Evidence of successful testing included.</td>
+                                        <td class="score-good">Screenshots present and show most required elements with minor omissions.</td>
+                                        <td class="score-good">Screenshots provided but lack clarity or miss some required elements.</td>
+                                        <td class="score-needs-improvement">Poor quality screenshots or missing critical elements.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Handoff Summary (20%)</strong></td>
+                                        <td class="score-excellent">Complete, accurate documentation in proper format. All new components reflected. Ready for next phase.</td>
+                                        <td class="score-good">Mostly complete documentation with minor omissions or formatting issues.</td>
+                                        <td class="score-good">Basic documentation present but lacks detail or contains minor inaccuracies.</td>
+                                        <td class="score-needs-improvement">Incomplete or significantly inaccurate documentation.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Reflection Quality (20%)</strong></td>
+                                        <td class="score-excellent">Thoughtful analysis demonstrating deep understanding. Clear connections between concepts and real-world applications.</td>
+                                        <td class="score-good">Good understanding shown with some analysis and real-world connections.</td>
+                                        <td class="score-good">Basic understanding demonstrated but limited analysis or superficial responses.</td>
+                                        <td class="score-needs-improvement">Minimal understanding shown. Responses lack depth or contain misconceptions.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <strong>📝 Submission Guidelines:</strong> Submit all deliverables through your course management system. Ensure screenshots are high resolution and readable. Reflection responses should be in your own words and demonstrate engagement with the material.
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="sidebar">
+                <div class="progress-tracker">
+                    <h3>Progress Tracker</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p id="progressText">0% Complete</p>
+                    
+                    <h4 style="margin-top: 1.5rem; margin-bottom: 1rem;">Task Checklist</h4>
+                    <ul class="checklist" id="taskChecklist">
+                        <li data-task="1">Session initialized with Casey</li>
+                        <li data-task="2">VLAN 20 configured</li>
+                        <li data-task="3">Container deployed</li>
+                        <li data-task="4">Marketing VM created</li>
+                        <li data-task="5">Network isolation tested</li>
+                        <li data-task="6">Screenshots captured</li>
+                        <li data-task="7">Handoff summary generated</li>
+                        <li data-task="8">Reflections written</li>
+                    </ul>
+
+                    <div class="alert alert-info" style="margin-top: 1rem; font-size: 0.9rem;">
+                        <strong>💡 Remember:</strong> Casey is available 24/7 to help. Use the chatbot link whenever you need guidance or have questions.
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Progress tracking functionality
+        const tasks = document.querySelectorAll('#taskChecklist li');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        let completedTasks = 0;
+
+        // Load saved progress from localStorage
+        function loadProgress() {
+            const savedProgress = localStorage.getItem('proxmoxPhase3Progress');
+            if (savedProgress) {
+                const completedTaskIds = JSON.parse(savedProgress);
+                completedTaskIds.forEach(taskId => {
+                    const task = document.querySelector(`[data-task="${taskId}"]`);
+                    if (task) {
+                        task.classList.add('completed');
+                        completedTasks++;
+                    }
+                });
+                updateProgress();
+            }
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            const completedTaskIds = Array.from(document.querySelectorAll('#taskChecklist li.completed'))
+                .map(task => task.getAttribute('data-task'));
+            localStorage.setItem('proxmoxPhase3Progress', JSON.stringify(completedTaskIds));
+        }
+
+        // Update progress bar and text
+        function updateProgress() {
+            const progressPercentage = (completedTasks / tasks.length) * 100;
+            progressFill.style.width = progressPercentage + '%';
+            progressText.textContent = Math.round(progressPercentage) + '% Complete';
+            
+            if (progressPercentage === 100) {
+                progressText.textContent += ' 🎉';
+                showCompletionMessage();
+            }
+        }
+
+        // Show completion message
+        function showCompletionMessage() {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success';
+            alertDiv.innerHTML = '<strong>🎉 Congratulations!</strong> You\'ve completed all tasks. Don\'t forget to submit your deliverables!';
+            alertDiv.style.marginTop = '1rem';
+            document.querySelector('.progress-tracker').appendChild(alertDiv);
+        }
+
+        // Add click handlers to checklist items
+        tasks.forEach(task => {
+            task.addEventListener('click', function() {
+                if (this.classList.contains('completed')) {
+                    this.classList.remove('completed');
+                    completedTasks--;
+                } else {
+                    this.classList.add('completed');
+                    completedTasks++;
+                }
+                updateProgress();
+                saveProgress();
+            });
+
+            // Add keyboard support for accessibility
+            task.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+
+            // Make tasks focusable for keyboard navigation
+            task.setAttribute('tabindex', '0');
+            task.style.cursor = 'pointer';
+        });
+
+        // Smooth scrolling for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize progress tracking
+        loadProgress();
+
+        // Add focus management for accessibility
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ensure all interactive elements are keyboard accessible
+            const interactiveElements = document.querySelectorAll('button, a, input, textarea, [tabindex]');
+            interactiveElements.forEach(element => {
+                if (!element.hasAttribute('tabindex') && element.tagName !== 'A' && element.tagName !== 'BUTTON') {
+                    element.setAttribute('tabindex', '0');
+                }
+            });
+        });
+
+        // Add warning before page unload if progress exists
+        window.addEventListener('beforeunload', function(e) {
+            if (completedTasks > 0 && completedTasks < tasks.length) {
+                e.preventDefault();
+                e.returnValue = 'You have unsaved progress. Are you sure you want to leave?';
+                return e.returnValue;
+            }
+        });
+    </script>
+</body>
+</html>
