@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Platform: Containers, VMs & VLANs</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --info-color: #0891b2;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-light: #9ca3af;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-tertiary: #f3f4f6;
+            --border-color: #e5e7eb;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --border-radius: 0.5rem;
+            --border-radius-lg: 0.75rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .header-description {
+            font-size: 1rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Navigation Styles */
+        .nav-tabs {
+            display: flex;
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-tab:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-tab.active {
+            background: var(--bg-primary);
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        /* Content Styles */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        /* Alert Styles */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+            border-left: 4px solid;
+            position: relative;
+        }
+
+        .alert-info {
+            background: #eff6ff;
+            border-color: var(--info-color);
+            color: #0c4a6e;
+        }
+
+        .alert-success {
+            background: #ecfdf5;
+            border-color: var(--success-color);
+            color: #064e3b;
+        }
+
+        .alert-warning {
+            background: #fffbeb;
+            border-color: var(--warning-color);
+            color: #92400e;
+        }
+
+        .alert-danger {
+            background: #fef2f2;
+            border-color: var(--danger-color);
+            color: #991b1b;
+        }
+
+        /* Comparison Table Styles */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-primary);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        .comparison-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .feature {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .comparison-table .containers {
+            background: #ecfdf5;
+            color: #064e3b;
+        }
+
+        .comparison-table .vms {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* Use Case Styles */
+        .use-cases {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .use-case {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .use-case h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .use-case .scenario {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Interactive Examples */
+        .interactive-example {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .interactive-example h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .network-diagram {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            min-height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vlan-box {
+            background: linear-gradient(135deg, #e0f2fe, #b3e5fc);
+            border: 2px solid var(--info-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 0.5rem;
+            display: inline-block;
+            min-width: 150px;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .vlan-box:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .vlan-box.finance {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-color: var(--warning-color);
+        }
+
+        .vlan-box.marketing {
+            background: linear-gradient(135deg, #ecfdf5, #bbf7d0);
+            border-color: var(--success-color);
+        }
+
+        .vlan-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .vlan-id {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Progress Tracker */
+        .progress-tracker {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 0.25rem;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .learning-checklist {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .learning-checklist li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .learning-checklist li::before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .learning-checklist li.completed::before {
+            content: "☑";
+            color: var(--success-color);
+        }
+
+        .learning-checklist li.completed {
+            color: var(--text-secondary);
+            text-decoration: line-through;
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .quiz-options {
+            list-style: none;
+        }
+
+        .quiz-options li {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-options li:hover {
+            border-color: var(--primary-color);
+            background: #eff6ff;
+        }
+
+        .quiz-options li.selected {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .quiz-options li.correct {
+            background: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+        }
+
+        .quiz-options li.incorrect {
+            background: var(--danger-color);
+            color: white;
+            border-color: var(--danger-color);
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+            }
+
+            .use-cases {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.5rem;
+            }
+
+            .vlan-box {
+                min-width: 120px;
+                margin: 0.25rem;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-contrast: high) {
+            :root {
+                --border-color: #000000;
+                --text-secondary: #000000;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus indicators */
+        button:focus,
+        a:focus,
+        .nav-tab:focus,
+        .quiz-options li:focus,
+        .learning-checklist li:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            .nav-tabs,
+            .progress-tracker,
+            .interactive-example {
+                display: none;
+            }
+            
+            .content-section {
+                display: block !important;
+            }
+            
+            .card {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Learning Platform</h1>
+            <p class="subtitle">Containers, Virtual Machines & VLANs</p>
+            <p class="header-description">Master the fundamentals of virtualization and network segmentation to prepare for enterprise infrastructure management</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Progress Tracker -->
+        <div class="progress-tracker">
+            <div class="progress-header">
+                <h3>Learning Progress</h3>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <ul class="learning-checklist" id="learningChecklist">
+                <li data-topic="containers">Understanding Containers</li>
+                <li data-topic="vms">Understanding Virtual Machines</li>
+                <li data-topic="comparison">Containers vs VMs Comparison</li>
+                <li data-topic="vlans">Understanding VLANs</li>
+                <li data-topic="implementation">VLAN Implementation</li>
+                <li data-topic="quiz">Complete Knowledge Check</li>
+            </ul>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-tab="containers" tabindex="0">
+                📦 Containers
+            </button>
+            <button class="nav-tab" data-tab="vms" tabindex="0">
+                🖥️ Virtual Machines
+            </button>
+            <button class="nav-tab" data-tab="comparison" tabindex="0">
+                ⚖️ Comparison
+            </button>
+            <button class="nav-tab" data-tab="vlans" tabindex="0">
+                🌐 VLANs
+            </button>
+            <button class="nav-tab" data-tab="quiz" tabindex="0">
+                🧠 Knowledge Check
+            </button>
+        </div>
+
+        <!-- Containers Section -->
+        <div id="containers" class="content-section active">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>📦</span>
+                        What are Containers?
+                    </h2>
+                </div>
+                <div class="card-content">
+                    <p>Containers are lightweight software packages that contain all the dependencies required to execute the contained software application. The key differentiator between containers and virtual machines is that containers only virtualize software layers above the operating system level.</p>
+
+                    <div class="alert alert-info">
+                        <strong>🏠 Think of it this way:</strong> Containers are like apartments in a building—they share the building's core infrastructure (operating system) but are still secure, individual units. Much more resource-efficient than separate houses (VMs).
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--primary-color);">Key Characteristics</h3>
+                    <ul style="margin-left: 1.5rem; line-height: 1.8;">
+                        <li><strong>Lightweight:</strong> Containers are only megabytes in size and take just seconds to start, versus gigabytes and minutes for a VM</li>
+                        <li><strong>Shared OS Kernel:</strong> Each container shares the host OS kernel and, usually, the binaries and libraries, too</li>
+                        <li><strong>Fast Deployment:</strong> Containers can be spun up almost instantly</li>
+                        <li><strong>Portable:</strong> Container technology involves building self-sufficient software packages that perform consistently, regardless of the machines they run on</li>
+                    </ul>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--primary-color);">How Containers Work</h3>
+                    <p>Containers create isolated environments in a physical server by virtualizing the host operating system and running packaged applications on top of it. Instead of virtualizing the hardware like virtual machines, containers virtualize the OS.</p>
+
+                    <div class="interactive-example">
+                        <h4>🔍 Container Architecture Visualization</h4>
+                        <div class="network-diagram">
+                            <div style="text-align: center; padding: 1rem;">
+                                <div style="background: #f3f4f6; border: 2px solid #374151; border-radius: 8px; padding: 1rem; margin: 0.5rem;">
+                                    <strong>Physical Hardware</strong>
+                                </div>
+                                <div style="background: #ddd6fe; border: 2px solid #7c3aed; border-radius: 8px; padding: 1rem; margin: 0.5rem;">
+                                    <strong>Host Operating System</strong>
+                                </div>
+                                <div style="background: #bfdbfe; border: 2px solid #2563eb; border-radius: 8px; padding: 1rem; margin: 0.5rem;">
+                                    <strong>Container Runtime (Docker)</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+                                    <div style="background: #bbf7d0; border: 2px solid #059669; border-radius: 8px; padding: 0.8rem; margin: 0.25rem; flex: 1; min-width: 120px;">
+                                        <strong>Container 1</strong><br>
+                                        <small>Web App</small>
+                                    </div>
+                                    <div style="background: #fde68a; border: 2px solid #d97706; border-radius: 8px; padding: 0.8rem; margin: 0.25rem; flex: 1; min-width: 120px;">
+                                        <strong>Container 2</strong><br>
+                                        <small>Database</small>
+                                    </div>
+                                    <div style="background: #fecaca; border: 2px solid #dc2626; border-radius: 8px; padding: 0.8rem; margin: 0.25rem; flex: 1; min-width: 120px;">
+                                        <strong>Container 3</strong><br>
+                                        <small>API Service</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>💼</span>
+                        When to Use Containers
+                    </h2>
+                </div>
+                <div class="card-content">
+                    <div class="use-cases">
+                        <div class="use-case">
+                            <h4>🚀 Microservices Architecture</h4>
+                            <p class="scenario">Building modern, distributed applications</p>
+                            <p>Containers are particularly useful in developing, deploying, and testing modern distributed apps and microservices that can operate in isolated execution environments on same host machines.</p>
+                        </div>
+                        <div class="use-case">
+                            <h4>🔄 DevOps & CI/CD</h4>
+                            <p class="scenario">Streamlining development workflows</p>
+                            <p>Containers make it easy for developers to move code from development to testing to production. They are designed to package applications that run successfully across different systems.</p>
+                        </div>
+                        <div class="use-case">
+                            <h4>☁️ Cloud-Native Applications</h4>
+                            <p class="scenario">Building scalable, cloud-first solutions</p>
+                            <p>Since containers are platform-agnostic, they can be deployed across different environments, such as on-premises servers and cloud platforms, making them suited for cloud-native applications.</p>
+                        </div>
+                        <div class="use-case">
+                            <h4>📈 Auto-Scaling Applications</h4>
+                            <p class="scenario">Applications that need to scale quickly</p>
+                            <p>Containers can be rapidly deployed and destroyed based on demand, making them ideal for applications with variable workloads.</p>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <strong>💡 Best Practice:</strong> Use containers when you need lightweight, portable applications that can scale quickly and share the same operating system efficiently.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Virtual Machines Section -->
+        <div id="vms" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>🖥️</span>
+                        What are Virtual Machines?
+                    </h2>
+                </div>
+                <div class="card-content">
+                    <p>A virtual machine (VM) is best described as a software program that emulates the functionality of a physical hardware or computing system. It runs on top of an emulating software, called the hypervisor, which replicates the functionality of the underlying physical hardware resources with a software environment.</p>
+
+                    <div class="alert alert-info">
+                        <strong>🏠 Think of it this way:</strong> VMs are like separate houses—each with its own foundation, plumbing, and electrical system. They are fully isolated but use more land and resources.
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--primary-color);">Key Characteristics</h3>
+                    <ul style="margin-left: 1.5rem; line-height: 1.8;">
+                        <li><strong>Complete Isolation:</strong> Virtual machines run in isolation as a fully standalone system. This means that virtual machines are immune to any exploits or interference from other virtual machines on a shared host.</li>
+                        <li><strong>Full OS:</strong> VMs run a complete operating system–including its own kernel</li>
+                        <li><strong>Hardware Emulation:</strong> Virtual machines are heavy software packages that provide complete emulation of low level hardware devices like CPU, Disk and Networking devices.</li>
+                        <li><strong>Resource Intensive:</strong> VMs tend to be bulky and be many gigabytes in size because each VM contains its own guest operating system, kernel, binaries, libraries, and its application.</li>
+                    </ul>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--primary-color);">How Virtual Machines Work</h3>
+                    <p>Virtual machines run on top of the hypervisor software, which imitates the physical infrastructure and divides the resources into multiple virtual machines. The hypervisor is also referred to as the host machine or a virtual machine monitor.</p>
+
+                    <div class="interactive-example">
+                        <h4>🔍 Virtual Machine Architecture Visualization</h4>
+                        <div class="network-diagram">
+                            <div style="text-align: center; padding: 1rem;">
+                                <div style="background: #f3f4f6; border: 2px solid #374151; border-radius: 8px; padding: 1rem; margin: 0.5rem;">
+                                    <strong>Physical Hardware</strong>
+                                </div>
+                                <div style="background: #ddd6fe; border: 2px solid #7c3aed; border-radius: 8px; padding: 1rem; margin: 0.5rem;">
+                                    <strong>Hypervisor (VMware, Proxmox, etc.)</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+                                    <div style="border: 2px solid #059669; border-radius: 8px; padding: 0.5rem; margin: 0.25rem; flex: 1; min-width: 140px;">
+                                        <div style="background: #bbf7d0; border-radius: 4px; padding: 0.5rem; margin-bottom: 0.5rem;">
+                                            <strong>Guest OS 1</strong><br><small>Ubuntu</small>
+                                        </div>
+                                        </div>
+                                        <div style="background: #fef3c7; border-radius: 4px; padding: 0.5rem;">
+                                            <small>Database</small>
+                                        </div>
+                                    </div>
+                                    <div style="border: 2px solid #dc2626; border-radius: 8px; padding: 0.5rem; margin: 0.25rem; flex: 1; min-width: 140px;">
+                                        <div style="background: #fecaca; border-radius: 4px; padding: 0.5rem; margin-bottom: 0.5rem;">
+                                            <strong>Guest OS 3</strong><br><small>CentOS</small>
+                                        </div>
+                                        <div style="background: #e5e7eb; border-radius: 4px; padding: 0.5rem; margin-bottom: 0.5rem;">
+                                            <small>Virtual Hardware</small>
+                                        </div>
+                                        <div style="background: #fef3c7; border-radius: 4px; padding: 0.5rem;">
+                                            <small>File Server</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>🎯</span>
+                        When to Use Virtual Machines
+                    </h2>
+                </div>
+                <div class="card-content">
+                    <div class="use-cases">
+                        <div class="use-case">
+                            <h4>🛡️ Strong Isolation Requirements</h4>
+                            <p class="scenario">Applications requiring maximum security separation</p>
+                            <p>VMs provide complete isolation at the hardware level, making them ideal for security-critical applications or when running untrusted software.</p>
+                        </div>
+                        <div class="use-case">
+                            <h4>🖥️ Multiple Operating Systems</h4>
+                            <p class="scenario">Running different OS on same hardware</p>
+                            <p>If you have specific hardware requirements for your project, or you are developing on one hardware platform and need to target another like Windows vs Linux, you will need to use a virtual machine.</p>
+                        </div>
+                        <div class="use-case">
+                            <h4>🏛️ Legacy Applications</h4>
+                            <p class="scenario">Running older applications that require specific OS versions</p>
+                            <p>VMs are ideal for running legacy applications that require older or outdated operating systems. Since VMs can have their own OS environments, teams can continue using their older applications.</p>
+                        </div>
+                        <div class="use-case">
+                            <h4>🧪 Testing & Development</h4>
+                            <p class="scenario">Creating isolated test environments</p>
+                            <p>VMs are beneficial in situations where the application's dependencies are specific and might conflict with the host system. They enable efficient testing and development environments.</p>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Trade-offs:</strong> VMs provide stronger isolation but use more resources. Each VM requires its own OS, which means higher memory and storage usage compared to containers.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Section -->
+        <div id="comparison" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>⚖️</span>
+                        Containers vs Virtual Machines
+                    </h2>
+                </div>
+                <div class="card-content">
+                    <p>Both containers and virtual machines are deployment technologies that make your applications independent from your IT infrastructure resources. However, they take different approaches to achieve virtualization.</p>
+
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th class="feature">Feature</th>
+                                <th class="containers">Containers</th>
+                                <th class="vms">Virtual Machines</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="feature">Virtualization Level</td>
+                                <td>Operating System level</td>
+                                <td>Hardware level</td>
+                            </tr>
+                            <tr>
+                                <td class="feature">Resource Usage</td>
+                                <td>Lightweight (MBs, shared OS)</td>
+                                <td>Heavy (GBs, full OS per VM)</td>
+                            </tr>
+                            <tr>
+                                <td class="feature">Startup Time</td>
+                                <td>Seconds</td>
+                                <td>Minutes</td>
+                            </tr>
+                            <tr>
+                                <td class="feature">Isolation Level</td>
+                                <td>Process-level isolation</td>
+                                <td>Complete hardware isolation</td>
+                            </tr>
+                            <tr>
+                                <td class="feature">Operating System</td>
+                                <td>Shares host OS kernel</td>
+                                <td>Each VM has its own OS</td>
+                            </tr>
+                            <tr>
+                                <td class="feature">Portability</td>
+                                <td>Highly portable across platforms</td>
+                                <td>Less portable, platform dependent</td>
+                            </tr>
+                            <tr>
+                                <td class="feature">Security</td>
+                                <td>Good, but shared kernel</td>
+                                <td>Excellent, complete isolation</td>
+                            </tr>
+                            <tr>
+                                <td class="feature">Management</td>
+                                <td>Single OS to maintain</td>
+                                <td>Multiple OS to maintain</td>
+                            </tr>
+                            <tr>
+                                <td class="feature">Best Use Case</td>
+                                <td>Microservices, cloud-native apps</td>
+                                <td>Legacy apps, different OS requirements</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="alert alert-info">
+                        <strong>🤝 Can They Work Together?</strong> It is entirely possible to use containers and virtual machines in unison. Many deployments of containers use VMs as the host operating system rather than running directly on the hardware, especially when running containers in the cloud.
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--primary-color);">Decision Framework</h3>
+                    <div class="use-cases">
+                        <div class="use-case">
+                            <h4>Choose Containers When:</h4>
+                            <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+                                <li>Building cloud-native, scalable applications</li>
+                                <li>Using microservices architecture</li>
+                                <li>Need rapid deployment and scaling</li>
+                                <li>Want to maximize resource efficiency</li>
+                                <li>All applications run on the same OS</li>
+                            </ul>
+                        </div>
+                        <div class="use-case">
+                            <h4>Choose VMs When:</h4>
+                            <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+                                <li>Need strong security isolation</li>
+                                <li>Running different operating systems</li>
+                                <li>Working with legacy applications</li>
+                                <li>Require full control over the OS</li>
+                                <li>Applications have conflicting dependencies</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VLANs Section -->
+        <div id="vlans" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>🌐</span>
+                        What are VLANs?
+                    </h2>
+                </div>
+                <div class="card-content">
+                    <p>A Virtual Local Area Network (VLAN) is a logical overlay network that groups together a subset of devices that share a physical LAN, isolating the traffic for each group. VLANs partition a single switched network into a set of overlaid virtual networks that can meet different functional and security requirements.</p>
+
+                    <div class="alert alert-info">
+                        <strong>🏢 Think of it this way:</strong> VLANs are like having separate secure floors in an office building. Each department (Finance, Marketing) gets its own floor with keycard access, even though they're all in the same physical building (network switch).
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--primary-color);">Key Benefits of VLANs</h3>
+                    <ul style="margin-left: 1.5rem; line-height: 1.8;">
+                        <li><strong>Enhanced Security:</strong> VLANs provide a powerful means of isolating sensitive data and securing network segments by logically segregating devices into separate VLANs</li>
+                        <li><strong>Improved Performance:</strong> VLANs help streamline network administration by reducing broadcast domains, resulting in more efficient network traffic management</li>
+                        <li><strong>Cost Efficiency:</strong> Rather than requiring separate physical network infrastructures for different departments, VLANs allow multiple virtual networks to coexist on the same physical infrastructure</li>
+                        <li><strong>Flexibility:</strong> VLANs are highly adaptable and easily scalable. Network architects can create new VLANs or reconfigure existing ones without significant changes to physical infrastructure</li>
+                    </ul>
+
+                    <div class="interactive-example">
+                        <h4>🏢 Business VLAN Example</h4>
+                        <div class="network-diagram">
+                            <div style="text-align: center; padding: 1rem;">
+                                <div style="background: #f3f4f6; border: 2px solid #374151; border-radius: 8px; padding: 1rem; margin: 0.5rem;">
+                                    <strong>Enterprise Network Switch</strong><br>
+                                    <small>Single physical infrastructure</small>
+                                </div>
+                                <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 1rem;">
+                                    <div class="vlan-box finance" onclick="highlightVLAN('finance')">
+                                        <div class="vlan-title">Finance Department</div>
+                                        <div class="vlan-id">VLAN 10</div>
+                                        <div style="font-size: 0.8rem; margin-top: 0.5rem;">
+                                            💰 Accounting<br>
+                                            💳 Billing<br>
+                                            📊 Financial Data
+                                        </div>
+                                    </div>
+                                    <div class="vlan-box marketing" onclick="highlightVLAN('marketing')">
+                                        <div class="vlan-title">Marketing Department</div>
+                                        <div class="vlan-id">VLAN 20</div>
+                                        <div style="font-size: 0.8rem; margin-top: 0.5rem;">
+                                            📱 Social Media<br>
+                                            🎨 Design Tools<br>
+                                            📈 Analytics
+                                        </div>
+                                    </div>
+                                    <div class="vlan-box" style="background: linear-gradient(135deg, #f3e8ff, #ddd6fe); border-color: #7c3aed;" onclick="highlightVLAN('guest')">
+                                        <div class="vlan-title">Guest Network</div>
+                                        <div class="vlan-id">VLAN 30</div>
+                                        <div style="font-size: 0.8rem; margin-top: 0.5rem;">
+                                            🌐 Internet Only<br>
+                                            🚫 No Internal Access<br>
+                                            👥 Visitors
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="vlanInfo" style="margin-top: 1rem; padding: 1rem; background: #f9fafb; border-radius: 8px; display: none;">
+                                    <p id="vlanDescription"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>🔒</span>
+                        VLAN Isolation & Security
+                    </h2>
+                </div>
+                <div class="card-content">
+                    <p>The primary security benefit of VLANs comes from network segmentation. With VLAN segmentation, bad actors are limited only to the resources and privileges associated with a compromised device's corresponding subnet.</p>
+
+                    <h3 style="margin: 1.5rem 0 1rem 0; color: var(--primary-color);">How VLAN Isolation Works</h3>
+                    <div class="alert alert-success">
+                        <strong>✅ Within the same VLAN:</strong> Devices can communicate freely. For example, all Marketing department computers on VLAN 20 can share files, use the same printers, and access department-specific servers.
+                    </div>
+                    <div class="alert alert-danger">
+                        <strong>🚫 Between different VLANs:</strong> Communication is blocked by default. Finance department (VLAN 10) cannot directly access Marketing department (VLAN 20) resources, providing security isolation.
+                    </div>
+
+                    <h3 style="margin: 1.5rem 0 1rem 0; color: var(--primary-color);">Business Use Cases</h3>
+                    <div class="use-cases">
+                        <div class="use-case">
+                            <h4>🏦 Financial Services Compliance</h4>
+                            <p class="scenario">Regulatory requirements for data separation</p>
+                            <p>Banks must separate retail banking from trading departments. VLANs ensure that computers in a retail banking department cannot interact directly with computers in the trading departments.</p>
+                        </div>
+                        <div class="use-case">
+                            <h4>🏥 Healthcare Privacy</h4>
+                            <p class="scenario">HIPAA compliance and patient data protection</p>
+                            <p>Medical records systems are isolated from general office networks, ensuring patient data privacy while allowing necessary internal communication within medical departments.</p>
+                        </div>
+                        <div class="use-case">
+                            <h4>🎓 Educational Institutions</h4>
+                            <p class="scenario">Student, faculty, and administrative separation</p>
+                            <p>Universities create separate VLANs for students, faculty, administration, and guests, ensuring appropriate access levels and network performance for each group.</p>
+                        </div>
+                        <div class="use-case">
+                            <h4>🏢 Corporate Department Isolation</h4>
+                            <p class="scenario">Protecting sensitive business information</p>
+                            <p>HR department handling sensitive employee data is separated from marketing department, preventing unauthorized access to confidential information.</p>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <strong>⚠️ Important Security Note:</strong> While VLANs provide excellent Layer 2 isolation, they should be combined with firewalls and access control lists for comprehensive security. VLANs alone are not sufficient for regulatory compliance in high-security environments.
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>⚙️</span>
+                        Implementing VLANs
+                    </h2>
+                </div>
+                <div class="card-content">
+                    <h3 style="margin: 0 0 1rem 0; color: var(--primary-color);">VLAN Configuration Process</h3>
+                    <ol style="margin-left: 1.5rem; line-height: 1.8;">
+                        <li><strong>Plan Your Network Segmentation:</strong> Identify departments, security requirements, and traffic patterns</li>
+                        <li><strong>Assign VLAN IDs:</strong> Choose unique numerical identifiers (1-4094) for each VLAN</li>
+                        <li><strong>Configure Switch Ports:</strong> Assign ports to specific VLANs or configure trunk ports for multiple VLANs</li>
+                        <li><strong>Set Up Inter-VLAN Routing:</strong> Configure a router or Layer 3 switch to enable controlled communication between VLANs</li>
+                        <li><strong>Test Isolation:</strong> Verify that VLANs are properly isolated and communication works as intended</li>
+                    </ol>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--primary-color);">VLAN Tagging (802.1Q)</h3>
+                    <p>VLAN tagging is defined by IEEE in the 802.1Q standard. A VLAN ID is translated to a VLAN tag, a 12-bit field in the header data of every Ethernet frame sent to that VLAN. Because a tag is 12 bits long, up to 4,096 VLANs can be defined per switching domain.</p>
+
+                    <div class="interactive-example">
+                        <h4>🔧 Proxmox VLAN Implementation Example</h4>
+                        <div style="background: #1f2937; color: #f9fafb; padding: 1rem; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.9rem;">
+                            <div style="color: #10b981;"># Creating VLAN 20 for Marketing Department</div>
+                            <div style="margin: 0.5rem 0;">
+                                <span style="color: #f59e0b;">1.</span> Navigate to Datacenter → [Node] → Network<br>
+                                <span style="color: #f59e0b;">2.</span> Ensure vmbr1 is VLAN-aware (checkbox checked)<br>
+                                <span style="color: #f59e0b;">3.</span> When creating VM/Container:<br>
+                                <span style="margin-left: 2rem;">- Network Device: vmbr1</span><br>
+                                <span style="margin-left: 2rem;">- VLAN Tag: 20</span><br>
+                                <span style="color: #f59e0b;">4.</span> Marketing devices are now isolated from Finance (VLAN 10)
+                            </div>
+                            <div style="color: #10b981; margin-top: 1rem;"># Testing VLAN Isolation</div>
+                            <div style="margin: 0.5rem 0;">
+                                ping [Marketing-VM-IP]  # From Finance VM - Should FAIL<br>
+                                ping [Finance-VM-IP]    # From Marketing VM - Should FAIL<br>
+                                ping [Marketing-Container-IP] # From Marketing VM - Should SUCCESS
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <strong>💡 Pro Tip:</strong> In the Phase III assignment, you'll implement exactly this scenario—creating VLAN 20 for Marketing while maintaining isolation from the existing Finance VLAN 10.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>🧠</span>
+                        Knowledge Check
+                    </h2>
+                </div>
+                <div class="card-content">
+                    <p>Test your understanding of containers, virtual machines, and VLANs with these questions.</p>
+
+                    <div class="quiz-container">
+                        <div class="quiz-question">
+                            1. What is the primary difference between containers and virtual machines?
+                        </div>
+                        <ul class="quiz-options" data-question="1">
+                            <li data-answer="a">Containers virtualize hardware while VMs virtualize software</li>
+                            <li data-answer="b" data-correct="true">Containers virtualize the OS while VMs virtualize the entire hardware stack</li>
+                            <li data-answer="c">Containers are slower to start than VMs</li>
+                            <li data-answer="d">Containers use more resources than VMs</li>
+                        </ul>
+                        <div class="quiz-feedback" data-question="1">
+                            <strong>Correct!</strong> Containers virtualize software layers above the operating system level, while VMs virtualize an entire machine down to the hardware layers.
+                        </div>
+                    </div>
+
+                    <div class="quiz-container">
+                        <div class="quiz-question">
+                            2. When would you choose a virtual machine over a container?
+                        </div>
+                        <ul class="quiz-options" data-question="2">
+                            <li data-answer="a">When you need fast deployment</li>
+                            <li data-answer="b">When building microservices</li>
+                            <li data-answer="c" data-correct="true">When you need to run different operating systems</li>
+                            <li data-answer="d">When you want to minimize resource usage</li>
+                        </ul>
+                        <div class="quiz-feedback" data-question="2">
+                            <strong>Correct!</strong> VMs are ideal when you need to run different operating systems or require complete hardware isolation that containers cannot provide.
+                        </div>
+                    </div>
+
+                    <div class="quiz-container">
+                        <div class="quiz-question">
+                            3. What is the primary security benefit of VLANs in a business environment?
+                        </div>
+                        <ul class="quiz-options" data-question="3">
+                            <li data-answer="a">They encrypt all network traffic</li>
+                            <li data-answer="b" data-correct="true">They isolate network traffic between different departments or functions</li>
+                            <li data-answer="c">They prevent all external network access</li>
+                            <li data-answer="d">They automatically detect malware</li>
+                        </ul>
+                        <div class="quiz-feedback" data-question="3">
+                            <strong>Correct!</strong> VLANs provide network segmentation, isolating traffic between different groups and limiting the scope of potential security breaches.
+                        </div>
+                    </div>
+
+                    <div class="quiz-container">
+                        <div class="quiz-question">
+                            4. In the Phase III assignment scenario, why can't Finance (VLAN 10) communicate directly with Marketing (VLAN 20)?
+                        </div>
+                        <ul class="quiz-options" data-question="4">
+                            <li data-answer="a">They use different IP addresses</li>
+                            <li data-answer="b">They are on different physical networks</li>
+                            <li data-answer="c" data-correct="true">VLANs provide Layer 2 isolation, blocking inter-VLAN communication by default</li>
+                            <li data-answer="d">The Marketing VM is turned off</li>
+                        </ul>
+                        <div class="quiz-feedback" data-question="4">
+                            <strong>Correct!</strong> VLANs operate at Layer 2 and create separate broadcast domains. Communication between VLANs requires Layer 3 routing, which must be explicitly configured.
+                        </div>
+                    </div>
+
+                    <div class="quiz-container">
+                        <div class="quiz-question">
+                            5. Which scenario best describes when to use containers?
+                        </div>
+                        <ul class="quiz-options" data-question="5">
+                            <li data-answer="a">Running a legacy Windows application on a Linux server</li>
+                            <li data-answer="b" data-correct="true">Deploying a web application that needs to scale quickly based on demand</li>
+                            <li data-answer="c">Testing software on multiple different operating systems</li>
+                            <li data-answer="d">Running untrusted software that needs maximum isolation</li>
+                        </ul>
+                        <div class="quiz-feedback" data-question="5">
+                            <strong>Correct!</strong> Containers excel at rapid deployment and scaling, making them perfect for cloud-native applications with variable demand.
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="btn btn-primary" onclick="resetQuiz()">Reset Quiz</button>
+                        <div id="quizScore" style="margin-top: 1rem; font-weight: 600;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span>🚀</span>
+                        Ready for Phase III Assignment?
+                    </h2>
+                </div>
+                <div class="card-content">
+                    <div class="alert alert-success">
+                        <strong>🎓 You're now prepared to:</strong>
+                        <ul style="margin: 0.5rem 0 0 1.5rem;">
+                            <li>Understand the differences between containers and VMs</li>
+                            <li>Make informed decisions about when to use each technology</li>
+                            <li>Implement VLAN segmentation for network security</li>
+                            <li>Test and verify network isolation</li>
+                        </ul>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="#" class="btn btn-primary" style="color: white; text-decoration: none;">
+                            🚀 Proceed to Phase III Assignment
+                        </a>
+                    </div>
+
+                    <div class="alert alert-info" style="margin-top: 1rem;">
+                        <strong>💡 Remember:</strong> In the Phase III assignment, you'll work with Casey Littlefeather, your AI tutor, who will guide you through implementing these concepts in a real Proxmox environment.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Learning progress tracking
+        let completedTopics = JSON.parse(localStorage.getItem('learningProgress') || '[]');
+        let quizCompleted = localStorage.getItem('quizCompleted') === 'true';
+
+        // Navigation functionality
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelector(`[data-tab="${sectionId}"]`).classList.add('active');
+            
+            // Mark topic as viewed
+            if (!completedTopics.includes(sectionId) && sectionId !== 'quiz') {
+                completedTopics.push(sectionId);
+                markTopicCompleted(sectionId);
+                saveProgress();
+                updateProgress();
+            }
+        }
+
+        // Tab navigation
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                showSection(tab.dataset.tab);
+            });
+            
+            // Keyboard navigation
+            tab.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    showSection(tab.dataset.tab);
+                }
+            });
+        });
+
+        // VLAN visualization
+        function highlightVLAN(vlanType) {
+            const infoDiv = document.getElementById('vlanInfo');
+            const descriptionDiv = document.getElementById('vlanDescription');
+            
+            const descriptions = {
+                finance: "Finance Department (VLAN 10) - Handles sensitive financial data, accounting systems, and billing. Isolated from other departments for security and regulatory compliance.",
+                marketing: "Marketing Department (VLAN 20) - Manages social media, design tools, and analytics. Requires high bandwidth for multimedia content but isolated from financial systems.",
+                guest: "Guest Network (VLAN 30) - Provides internet access for visitors while preventing access to internal company resources and sensitive data."
+            };
+            
+            descriptionDiv.textContent = descriptions[vlanType];
+            infoDiv.style.display = 'block';
+            
+            // Add visual feedback
+            document.querySelectorAll('.vlan-box').forEach(box => {
+                box.style.opacity = '0.5';
+            });
+            event.target.closest('.vlan-box').style.opacity = '1';
+            
+            setTimeout(() => {
+                document.querySelectorAll('.vlan-box').forEach(box => {
+                    box.style.opacity = '1';
+                });
+            }, 3000);
+        }
+
+        // Quiz functionality
+        let quizAnswers = {};
+        let quizScore = 0;
+
+        document.querySelectorAll('.quiz-options').forEach(optionsList => {
+            optionsList.addEventListener('click', (e) => {
+                if (e.target.tagName === 'LI') {
+                    const questionNum = optionsList.dataset.question;
+                    const selectedAnswer = e.target.dataset.answer;
+                    const isCorrect = e.target.dataset.correct === 'true';
+                    
+                    // Clear previous selections
+                    optionsList.querySelectorAll('li').forEach(li => {
+                        li.classList.remove('selected', 'correct', 'incorrect');
+                    });
+                    
+                    // Mark selected answer
+                    e.target.classList.add('selected');
+                    
+                    // Show correct/incorrect feedback
+                    if (isCorrect) {
+                        e.target.classList.add('correct');
+                        quizAnswers[questionNum] = true;
+                    } else {
+                        e.target.classList.add('incorrect');
+                        // Also highlight the correct answer
+                        optionsList.querySelector('[data-correct="true"]').classList.add('correct');
+                        quizAnswers[questionNum] = false;
+                    }
+                    
+                    // Show feedback
+                    const feedback = document.querySelector(`[data-question="${questionNum}"].quiz-feedback`);
+                    feedback.classList.add('show');
+                    feedback.className = `quiz-feedback show alert ${isCorrect ? 'alert-success' : 'alert-danger'}`;
+                    
+                    // Update quiz completion
+                    updateQuizScore();
+                }
+            });
+        });
+
+        function updateQuizScore() {
+            const totalQuestions = 5;
+            const answeredQuestions = Object.keys(quizAnswers).length;
+            const correctAnswers = Object.values(quizAnswers).filter(answer => answer).length;
+            
+            if (answeredQuestions === totalQuestions) {
+                quizScore = (correctAnswers / totalQuestions) * 100;
+                const scoreDiv = document.getElementById('quizScore');
+                scoreDiv.innerHTML = `Quiz Complete! Score: ${correctAnswers}/${totalQuestions} (${quizScore}%)`;
+                
+                if (!quizCompleted) {
+                    quizCompleted = true;
+                    localStorage.setItem('quizCompleted', 'true');
+                    markTopicCompleted('quiz');
+                    updateProgress();
+                }
+            }
+        }
+
+        function resetQuiz() {
+            quizAnswers = {};
+            quizScore = 0;
+            quizCompleted = false;
+            localStorage.removeItem('quizCompleted');
+            
+            document.querySelectorAll('.quiz-options li').forEach(li => {
+                li.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            document.querySelectorAll('.quiz-feedback').forEach(feedback => {
+                feedback.classList.remove('show');
+            });
+            
+            document.getElementById('quizScore').innerHTML = '';
+            
+            // Update progress
+            completedTopics = completedTopics.filter(topic => topic !== 'quiz');
+            document.querySelector('[data-topic="quiz"]').classList.remove('completed');
+            saveProgress();
+            updateProgress();
+        }
+
+        // Progress tracking
+        function markTopicCompleted(topic) {
+            const topicElement = document.querySelector(`[data-topic="${topic}"]`);
+            if (topicElement) {
+                topicElement.classList.add('completed');
+            }
+        }
+
+        function updateProgress() {
+            const totalTopics = 6; // containers, vms, comparison, vlans, implementation, quiz
+            const completedCount = completedTopics.length + (quizCompleted ? 1 : 0);
+            const progressPercentage = (completedCount / totalTopics) * 100;
+            
+            document.getElementById('progressFill').style.width = progressPercentage + '%';
+            document.getElementById('progressPercent').textContent = Math.round(progressPercentage) + '%';
+            
+            if (progressPercentage === 100) {
+                document.getElementById('progressPercent').textContent = '100% Complete! 🎉';
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem('learningProgress', JSON.stringify(completedTopics));
+        }
+
+        // Learning checklist interaction
+        document.querySelectorAll('.learning-checklist li').forEach(item => {
+            item.addEventListener('click', () => {
+                const topic = item.dataset.topic;
+                if (topic && topic !== 'quiz') {
+                    showSection(topic);
+                } else if (topic === 'quiz') {
+                    showSection('quiz');
+                }
+            });
+            
+            // Keyboard support
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    item.click();
+                }
+            });
+            
+            // Make items focusable
+            item.setAttribute('tabindex', '0');
+        });
+
+        // Initialize progress on page load
+        function initializeProgress() {
+            completedTopics.forEach(topic => {
+                markTopicCompleted(topic);
+            });
+            
+            if (quizCompleted) {
+                markTopicCompleted('quiz');
+            }
+            
+            updateProgress();
+        }
+
+        // Accessibility enhancements
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeProgress();
+            
+            // Add ARIA labels for better accessibility
+            document.querySelectorAll('.nav-tab').forEach((tab, index) => {
+                tab.setAttribute('aria-label', `Navigate to ${tab.textContent.trim()}`);
+                tab.setAttribute('role', 'tab');
+            });
+            
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.setAttribute('role', 'tabpanel');
+            });
+            
+            // Add focus management
+            document.querySelectorAll('.quiz-options li').forEach(option => {
+                option.setAttribute('tabindex', '0');
+                option.setAttribute('role', 'button');
+                option.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        option.click();
+                    }
+                });
+            });
+            
+            // VLAN boxes keyboard support
+            document.querySelectorAll('.vlan-box').forEach(box => {
+                box.setAttribute('tabindex', '0');
+                box.setAttribute('role', 'button');
+                box.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        box.click();
+                    }
+                });
+            });
+        });
+
+        // Smooth scrolling for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Auto-save progress before page unload
+        window.addEventListener('beforeunload', () => {
+            saveProgress();
+        });
+
+        // Handle keyboard navigation for tab switching
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                const currentTab = document.querySelector('.nav-tab.active');
+                const tabs = Array.from(document.querySelectorAll('.nav-tab'));
+                const currentIndex = tabs.indexOf(currentTab);
+                
+                if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                    e.preventDefault();
+                    tabs[currentIndex - 1].click();
+                    tabs[currentIndex - 1].focus();
+                } else if (e.key === 'ArrowRight' && currentIndex < tabs.length - 1) {
+                    e.preventDefault();
+                    tabs[currentIndex + 1].click();
+                    tabs[currentIndex + 1].focus();
+                }
+            }
+        });
+
+        // Add visual feedback for interactive elements
+        document.querySelectorAll('.vlan-box, .quiz-options li, .learning-checklist li').forEach(element => {
+            element.addEventListener('mousedown', () => {
+                element.style.transform = 'scale(0.98)';
+            });
+            
+            element.addEventListener('mouseup', () => {
+                element.style.transform = '';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = '';
+            });
+        });
+
+        // Error handling for localStorage
+        function safeLocalStorage(key, value = null) {
+            try {
+                if (value !== null) {
+                    localStorage.setItem(key, value);
+                } else {
+                    return localStorage.getItem(key);
+                }
+            } catch (e) {
+                console.warn('localStorage not available:', e);
+                return null;
+            }
+        }
+
+        // Replace localStorage calls with safe version
+        function saveProgressSafe() {
+            safeLocalStorage('learningProgress', JSON.stringify(completedTopics));
+            if (quizCompleted) {
+                safeLocalStorage('quizCompleted', 'true');
+            }
+        }
+
+        // Initialize with safe localStorage
+        function initializeProgressSafe() {
+            try {
+                const savedProgress = safeLocalStorage('learningProgress');
+                if (savedProgress) {
+                    completedTopics = JSON.parse(savedProgress);
+                }
+                quizCompleted = safeLocalStorage('quizCompleted') === 'true';
+            } catch (e) {
+                console.warn('Error loading progress:', e);
+                completedTopics = [];
+                quizCompleted = false;
+            }
+            
+            initializeProgress();
+        }
+
+        // Update initialization call
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeProgressSafe();
+            // ... rest of DOMContentLoaded handler remains the same
+        });
+    </script>
+</body>
+</html>
