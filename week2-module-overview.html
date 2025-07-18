@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtualization & Network Segmentation Learning Module</title>
+    <meta name="description" content="Comprehensive learning module covering virtual machines, VLAN concepts, and hands-on Proxmox VE implementation">
+    
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #e5e7eb;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 8px;
+            --border-radius-lg: 12px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Skip Link for Screen Readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            z-index: 1000;
+            font-weight: 600;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        /* Header */
+        .module-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-lg);
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .module-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .module-header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .module-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .meta-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+        }
+
+        /* Learning Objectives */
+        .objectives-section {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .objectives-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .objective-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .objective-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .objective-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .objective-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objective-card li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .objective-card li::before {
+            content: "✓";
+            color: var(--success-color);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Learning Path */
+        .learning-path {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .learning-path h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .path-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .step-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .step-card:hover {
+            border-color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .step-card:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            left: 2rem;
+            bottom: -1.5rem;
+            width: 2px;
+            height: 1.5rem;
+            background: var(--border-color);
+        }
+
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .step-details {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .step-tag {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .step-tag.duration {
+            background: var(--success-color);
+        }
+
+        .step-tag.difficulty {
+            background: var(--warning-color);
+        }
+
+        .step-actions {
+            margin-top: 1rem;
+        }
+
+        .step-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .step-button:hover, .step-button:focus {
+            background: var(--secondary-color);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .step-button.secondary {
+            background: var(--bg-primary);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .step-button.secondary:hover, .step-button.secondary:focus {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Progress Tracker */
+        .progress-section {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .progress-stats {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .progress-bar-container {
+            background: var(--bg-tertiary);
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            height: 100%;
+            width: 0%;
+            transition: width 0.8s ease;
+            border-radius: 6px;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .progress-step-circle {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            border: 3px solid var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .progress-step.completed .progress-step-circle {
+            background: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+
+        .progress-step.current .progress-step-circle {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .progress-step-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Interactive Features */
+        .interactive-summary {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .summary-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .tab-button.active,
+        .tab-button:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .module-header {
+                padding: 2rem 1rem;
+            }
+
+            .module-header h1 {
+                font-size: 2rem;
+            }
+
+            .module-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .objectives-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step-card {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .step-card:not(:last-child)::after {
+                display: none;
+            }
+
+            .progress-steps {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .progress-step {
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .summary-tabs {
+                flex-direction: column;
+            }
+        }
+
+        /* Accessibility Features */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* High Contrast Support */
+        @media (prefers-contrast: high) {
+            :root {
+                --primary-color: #000080;
+                --text-primary: #000000;
+                --text-secondary: #000000;
+                --border-color: #000000;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        *:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                padding: 1rem;
+            }
+            
+            .step-button, .tab-button, .interactive-summary {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <div class="container">
+        <header class="module-header" role="banner">
+            <h1>Virtualization & Network Segmentation</h1>
+            <div class="subtitle">Learning Module: From Concepts to Implementation</div>
+        </header>
+
+        <main id="main-content" role="main">
+            <!-- Interactive Module Overview -->
+            <section class="interactive-summary">
+                <h2>📋 Module Overview</h2>
+                <div class="summary-tabs">
+                    <button class="tab-button active" onclick="showTab('overview')">Module Overview</button>
+                    <button class="tab-button" onclick="showTab('prerequisites')">Prerequisites</button>
+                    <button class="tab-button" onclick="showTab('outcomes')">Learning Outcomes</button>
+                </div>
+
+                <div class="tab-content active" id="overview-tab">
+                    <h3>🌟 What You'll Learn</h3>
+                    <p>This module provides a comprehensive foundation in enterprise virtualization and network segmentation. You'll progress from understanding basic VM concepts to implementing sophisticated VLAN architectures in Proxmox VE.</p>
+                    
+                    <h4>Key Components:</h4>
+                    <ul style="margin-left: 1.5rem; margin-top: 1rem; color: var(--text-secondary);">
+                        <li><strong>Theoretical Foundation:</strong> Interactive lessons covering VM and VLAN fundamentals</li>
+                        <li><strong>Practical Application:</strong> Hands-on lab with AI-guided implementation</li>
+                        <li><strong>Real-World Context:</strong> Enterprise scenarios and business use cases</li>
+                        <li><strong>Progressive Learning:</strong> Structured sequence building from concepts to implementation</li>
+                    </ul>
+                </div>
+
+                <div class="tab-content" id="prerequisites-tab">
+                    <h3>📚 Prerequisites</h3>
+                    <h4>Required Knowledge:</h4>
+                    <ul style="margin-left: 1.5rem; margin-top: 1rem; color: var(--text-secondary);">
+                        <li>Basic computer networking concepts (IP addresses, subnets)</li>
+                        <li>Familiarity with operating system installation</li>
+                        <li>Understanding of client-server architecture</li>
+                    </ul>
+                    
+                    <h4>Technical Requirements:</h4>
+                    <ul style="margin-left: 1.5rem; margin-top: 1rem; color: var(--text-secondary);">
+                        <li>Modern web browser with JavaScript enabled</li>
+                        <li>Access to Proxmox VE lab environment (provided)</li>
+                        <li>Stable internet connection for AI tutor interaction</li>
+                    </ul>
+                </div>
+
+                <div class="tab-content" id="outcomes-tab">
+                    <h3>🏆 Learning Outcomes</h3>
+                    <p>Upon successful completion, you will be able to:</p>
+                    <ol style="margin-left: 1.5rem; margin-top: 1rem; color: var(--text-secondary);">
+                        <li><strong>Design</strong> virtualized infrastructure meeting business requirements</li>
+                        <li><strong>Implement</strong> VLAN-based network segmentation for security</li>
+                        <li><strong>Configure</strong> Proxmox VE virtual machines with appropriate resource allocation</li>
+                        <li><strong>Troubleshoot</strong> common virtualization and networking issues</li>
+                        <li><strong>Document</strong> network architecture and configuration decisions</li>
+                        <li><strong>Apply</strong> enterprise security best practices in virtual environments</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Learning Objectives -->
+            <section class="objectives-section">
+                <h2>🎯 Module Learning Objectives</h2>
+                <p>By completing this comprehensive learning module, you will develop both theoretical understanding and practical skills in enterprise virtualization and network segmentation.</p>
+                
+                <div class="objectives-grid">
+                    <div class="objective-card">
+                        <h3>Virtualization Mastery</h3>
+                        <ul>
+                            <li>Understand VM fundamentals and hypervisor types</li>
+                            <li>Learn Proxmox VE architecture and capabilities</li>
+                            <li>Master VM creation and configuration options</li>
+                            <li>Implement resource allocation best practices</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="objective-card">
+                        <h3>Network Segmentation</h3>
+                        <ul>
+                            <li>Grasp VLAN concepts and IEEE 802.1Q standards</li>
+                            <li>Understand broadcast vs. collision domains</li>
+                            <li>Master trunk ports and VLAN tagging</li>
+                            <li>Implement enterprise security practices</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="objective-card">
+                        <h3>Practical Implementation</h3>
+                        <ul>
+                            <li>Deploy VMs with VLAN network isolation</li>
+                            <li>Configure enterprise-grade security</li>
+                            <li>Troubleshoot common virtualization issues</li>
+                            <li>Document network architecture decisions</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Learning Path -->
+            <section class="learning-path">
+                <h2>🛤️ Structured Learning Path</h2>
+                <p>Follow this carefully designed sequence to build your knowledge progressively from foundational concepts to advanced implementation.</p>
+                
+                <div class="path-steps">
+                    <div class="step-card" id="vm-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Virtual Machine Fundamentals</div>
+                            <div class="step-description">
+                                Begin with comprehensive VM concepts including hypervisor types, resource allocation, and Proxmox VE architecture. This interactive platform provides hands-on demonstrations and knowledge assessments.
+                            </div>
+                            <div class="step-details">
+                                <span class="step-tag">Interactive Learning</span>
+                                <span class="step-tag duration">60-90 min</span>
+                                <span class="step-tag difficulty">Beginner</span>
+                            </div>
+                            <div class="step-actions">
+                                <button class="step-button" onclick="startVMModule()">
+                                    🚀 Start VM Learning
+                                </button>
+                                <button class="step-button secondary" onclick="previewContent('vm')">
+                                    👁️ Preview Content
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-card" id="vlan-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">VLAN Network Segmentation</div>
+                            <div class="step-description">
+                                Master Virtual Local Area Networks with progressive learning from basic networking concepts to advanced 802.1Q implementation. Features interactive simulations and real-world scenarios.
+                            </div>
+                            <div class="step-details">
+                                <span class="step-tag">Progressive Learning</span>
+                                <span class="step-tag duration">90-120 min</span>
+                                <span class="step-tag difficulty">Intermediate</span>
+                            </div>
+                            <div class="step-actions">
+                                <button class="step-button" onclick="startVLANModule()" disabled id="vlan-start-btn">
+                                    🔗 Start VLAN Learning
+                                </button>
+                                <button class="step-button secondary" onclick="previewContent('vlan')">
+                                    👁️ Preview Content
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-card" id="lab-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Proxmox VE Implementation Lab</div>
+                            <div class="step-description">
+                                Apply your knowledge in a guided hands-on lab with AI tutor Bianca. Create VMs, implement VLAN segmentation, and complete real-world enterprise scenarios.
+                            </div>
+                            <div class="step-details">
+                                <span class="step-tag">Hands-On Practice</span>
+                                <span class="step-tag duration">60-90 min</span>
+                                <span class="step-tag difficulty">Advanced</span>
+                            </div>
+                            <div class="step-actions">
+                                <button class="step-button" onclick="startLabModule()" disabled id="lab-start-btn">
+                                    🧪 Begin Lab Assignment
+                                </button>
+                                <button class="step-button secondary" onclick="previewContent('lab')">
+                                    👁️ Preview Assignment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--text-secondary); border-top: 1px solid var(--border-color); margin-top: 2rem;">
+            <p>&copy; 2025 Virtualization & Network Segmentation Learning Module</p>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Follow the structured path for optimal learning outcomes</p>
+        </footer>
+    </div>
+
+    <script>
+        // Module progress tracking
+        let moduleProgress = {
+            vm: false,
+            vlan: false,
+            lab: false
+        };
+
+        // Load saved progress from localStorage
+        function loadProgress() {
+            const saved = localStorage.getItem('moduleProgress');
+            if (saved) {
+                moduleProgress = JSON.parse(saved);
+                updateProgressDisplay();
+                updateButtonStates();
+            }
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            localStorage.setItem('moduleProgress', JSON.stringify(moduleProgress));
+        }
+
+        // Update progress bar and steps
+        function updateProgressDisplay() {
+            const completed = Object.values(moduleProgress).filter(Boolean).length;
+            const percentage = Math.round((completed / 3) * 100);
+            
+            document.getElementById('progress-percentage').textContent = percentage + '%';
+            document.getElementById('main-progress-bar').style.width = percentage + '%';
+
+            // Update step states
+            Object.keys(moduleProgress).forEach(step => {
+                const stepElement = document.getElementById(`step-${step}`);
+                if (moduleProgress[step]) {
+                    stepElement.classList.remove('current');
+                    stepElement.classList.add('completed');
+                } else if (canStartStep(step)) {
+                    stepElement.classList.add('current');
+                    stepElement.classList.remove('completed');
+                } else {
+                    stepElement.classList.remove('current', 'completed');
+                }
+            });
+        }
+
+        // Check if a step can be started
+        function canStartStep(step) {
+            switch(step) {
+                case 'vm': return true; // First step always available
+                case 'vlan': return moduleProgress.vm;
+                case 'lab': return moduleProgress.vm && moduleProgress.vlan;
+                default: return false;
+            }
+        }
+
+        // Update button states based on progress
+        function updateButtonStates() {
+            const vlanBtn = document.getElementById('vlan-start-btn');
+            const labBtn = document.getElementById('lab-start-btn');
+
+            // Enable VLAN button if VM is complete
+            if (moduleProgress.vm) {
+                vlanBtn.disabled = false;
+                vlanBtn.style.opacity = '1';
+                vlanBtn.style.cursor = 'pointer';
+            }
+
+            // Enable Lab button if both VM and VLAN are complete
+            if (moduleProgress.vm && moduleProgress.vlan) {
+                labBtn.disabled = false;
+                labBtn.style.opacity = '1';
+                labBtn.style.cursor = 'pointer';
+            }
+        }
+
+        // Module start functions
+        function startVMModule() {
+            if (confirm('This will open the VM Learning Platform in a new tab. Ready to begin?')) {
+                window.open('#', '_blank'); // Replace with actual VM platform URL
+                markStepCompleted('vm');
+                showSuccessMessage('VM Learning module started! Complete all sections to unlock VLAN Learning.');
+            }
+        }
+
+        function startVLANModule() {
+            if (!moduleProgress.vm) {
+                showWarningMessage('Please complete the VM Learning module first.');
+                return;
+            }
+            if (confirm('This will open the VLAN Learning Platform in a new tab. Ready to continue?')) {
+                window.open('#', '_blank'); // Replace with actual VLAN platform URL
+                markStepCompleted('vlan');
+                showSuccessMessage('VLAN Learning module started! Complete all sections to unlock the Lab Assignment.');
+            }
+        }
+
+        function startLabModule() {
+            if (!moduleProgress.vm || !moduleProgress.vlan) {
+                showWarningMessage('Please complete both VM Learning and VLAN Learning modules first.');
+                return;
+            }
+            if (confirm('This will open the Lab Assignment in a new tab. Ready for hands-on practice?')) {
+                window.open('#', '_blank'); // Replace with actual lab assignment URL
+                markStepCompleted('lab');
+                showSuccessMessage('Lab Assignment started! Work with AI tutor Bianca to complete your implementation.');
+            }
+        }
+
+        // Mark step as completed
+        function markStepCompleted(step) {
+            moduleProgress[step] = true;
+            saveProgress();
+            updateProgressDisplay();
+            updateButtonStates();
+        }
+
+        // Preview content function
+        function previewContent(type) {
+            const previews = {
+                vm: `VM Learning Platform Preview:
+                
+• Interactive VM architecture demonstrations
+• Hypervisor types and comparison
+• Proxmox VE interface walkthrough
+• Resource allocation best practices
+• VM creation step-by-step guides
+• Knowledge check quizzes
+• Performance optimization tips
+
+This platform uses engaging visuals and hands-on simulations to teach virtualization fundamentals.`,
+
+                vlan: `VLAN Learning Platform Preview:
+                
+• Progressive learning from networking basics
+• Broadcast vs collision domain concepts
+• IEEE 802.1Q standard deep dive
+• Interactive trunk/access port simulations
+• VLAN security and attack prevention
+• Enterprise design scenarios
+• Troubleshooting walkthroughs
+
+Features over 20 interactive demonstrations and real-world examples.`,
+
+                lab: `Lab Assignment Preview:
+                
+• AI tutor Bianca provides personalized guidance
+• Enterprise scenario: Finance department network
+• Create VLAN-aware bridges in Proxmox VE
+• Deploy and configure virtual machines
+• Implement network security isolation
+• Document architecture decisions
+• Generate handoff summary for next phase
+
+Combines theoretical knowledge with practical implementation skills.`
+            };
+
+            alert(previews[type]);
+        }
+
+        // Tab management
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab and activate button
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Success/warning message functions
+        function showSuccessMessage(message) {
+            showMessage(message, 'success');
+        }
+
+        function showWarningMessage(message) {
+            showMessage(message, 'warning');
+        }
+
+        function showMessage(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 1000;
+                max-width: 300px;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                animation: slideIn 0.3s ease-out;
+            `;
+
+            if (type === 'success') {
+                messageDiv.style.background = 'var(--success-color)';
+                messageDiv.textContent = '✅ ' + message;
+            } else {
+                messageDiv.style.background = 'var(--warning-color)';
+                messageDiv.textContent = '⚠️ ' + message;
+            }
+
+            document.body.appendChild(messageDiv);
+
+            // Remove message after 5 seconds
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 5000);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Alt + 1, 2, 3 to start modules
+            if (e.altKey) {
+                switch(e.key) {
+                    case '1':
+                        e.preventDefault();
+                        startVMModule();
+                        break;
+                    case '2':
+                        e.preventDefault();
+                        startVLANModule();
+                        break;
+                    case '3':
+                        e.preventDefault();
+                        startLabModule();
+                        break;
+                }
+            }
+        });
+
+        // Intersection Observer for animations
+        function setupAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            // Observe all step cards
+            document.querySelectorAll('.step-card, .objective-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        }
+
+        // Reset progress function (for testing/admin use)
+        function resetProgress() {
+            if (confirm('Reset all progress? This cannot be undone.')) {
+                localStorage.removeItem('moduleProgress');
+                moduleProgress = { vm: false, vlan: false, lab: false };
+                updateProgressDisplay();
+                updateButtonStates();
+                showSuccessMessage('Progress reset successfully.');
+            }
+        }
+
+        // Accessibility improvements
+        function enhanceAccessibility() {
+            // Add ARIA labels for progress steps
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                const stepName = ['VM Learning', 'VLAN Concepts', 'Hands-On Lab'][index];
+                step.setAttribute('aria-label', `Step ${index + 1}: ${stepName}`);
+            });
+
+            // Add keyboard navigation for tabs
+            document.querySelectorAll('.tab-button').forEach((button, index, buttons) => {
+                button.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        const nextIndex = (index + 1) % buttons.length;
+                        buttons[nextIndex].focus();
+                        buttons[nextIndex].click();
+                    } else if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        const prevIndex = (index - 1 + buttons.length) % buttons.length;
+                        buttons[prevIndex].focus();
+                        buttons[prevIndex].click();
+                    }
+                });
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            setupAnimations();
+            enhanceAccessibility();
+
+            // Add CSS animation for slide-in messages
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+
+            console.log('🎓 Virtualization & Network Segmentation Module loaded!');
+            console.log('Keyboard shortcuts:');
+            console.log('- Alt+1: Start VM Learning');
+            console.log('- Alt+2: Start VLAN Learning'); 
+            console.log('- Alt+3: Start Lab Assignment');
+            console.log('- Arrow keys: Navigate tabs when focused');
+        });
+
+        // Performance optimization
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                // Adjust layout for very small screens
+                const isMobile = window.innerWidth < 480;
+                if (isMobile) {
+                    document.querySelectorAll('.step-card').forEach(card => {
+                        card.style.padding = '1rem';
+                    });
+                }
+            }, 250);
+        });
+
+        // Expose functions to global scope for onclick handlers
+        window.startVMModule = startVMModule;
+        window.startVLANModule = startVLANModule;
+        window.startLabModule = startLabModule;
+        window.previewContent = previewContent;
+        window.showTab = showTab;
+        window.resetProgress = resetProgress; // Hidden function for admin use
+    </script>
+</body>
+</html>
