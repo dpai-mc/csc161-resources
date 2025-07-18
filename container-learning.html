@@ -632,30 +632,36 @@
                         <h4>🔍 Container Architecture Visualization</h4>
                         <div class="network-diagram">
                             <div style="text-align: center; padding: 1rem;">
-                                <div style="background: #f3f4f6; border: 2px solid #374151; border-radius: 8px; padding: 1rem; margin: 0.5rem;">
-                                    <strong>Physical Hardware</strong>
-                                </div>
-                                <div style="background: #ddd6fe; border: 2px solid #7c3aed; border-radius: 8px; padding: 1rem; margin: 0.5rem;">
-                                    <strong>Host Operating System</strong>
-                                </div>
-                                <div style="background: #bfdbfe; border: 2px solid #2563eb; border-radius: 8px; padding: 1rem; margin: 0.5rem;">
-                                    <strong>Container Runtime (Docker)</strong>
-                                </div>
-                                <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+                                <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin-bottom: 1rem;">
                                     <div style="background: #bbf7d0; border: 2px solid #059669; border-radius: 8px; padding: 0.8rem; margin: 0.25rem; flex: 1; min-width: 120px;">
-                                        <strong>Container 1</strong><br>
-                                        <small>Web App</small>
+                                        <strong>Web App</strong><br>
+                                        <small>LXC Container</small>
                                     </div>
                                     <div style="background: #fde68a; border: 2px solid #d97706; border-radius: 8px; padding: 0.8rem; margin: 0.25rem; flex: 1; min-width: 120px;">
-                                        <strong>Container 2</strong><br>
-                                        <small>Database</small>
+                                        <strong>Database</strong><br>
+                                        <small>Docker Container</small>
                                     </div>
                                     <div style="background: #fecaca; border: 2px solid #dc2626; border-radius: 8px; padding: 0.8rem; margin: 0.25rem; flex: 1; min-width: 120px;">
-                                        <strong>Container 3</strong><br>
-                                        <small>API Service</small>
+                                        <strong>API Service</strong><br>
+                                        <small>Kubernetes Pod</small>
                                     </div>
                                 </div>
+                                <div style="background: #bfdbfe; border: 2px solid #2563eb; border-radius: 8px; padding: 1rem; margin: 0.5rem;">
+                                    <strong>Container Runtime Layer</strong><br>
+                                    <small>Docker Engine • LXC/LXD • Kubernetes • containerd</small>
+                                </div>
+                                <div style="background: #ddd6fe; border: 2px solid #7c3aed; border-radius: 8px; padding: 1rem; margin: 0.5rem;">
+                                    <strong>Host Operating System</strong><br>
+                                    <small>Linux Kernel (shared by all containers)</small>
+                                </div>
+                                <div style="background: #f3f4f6; border: 2px solid #374151; border-radius: 8px; padding: 1rem; margin: 0.5rem;">
+                                    <strong>Physical Hardware</strong><br>
+                                    <small>CPU • Memory • Storage • Network</small>
+                                </div>
                             </div>
+                        </div>
+                        <div class="alert alert-info" style="margin-top: 1rem;">
+                            <strong>💡 Note:</strong> In Proxmox, you'll primarily work with LXC (Linux Containers) which provide OS-level virtualization with excellent performance and resource efficiency.
                         </div>
                     </div>
                 </div>
@@ -1178,12 +1184,6 @@
                             <li>Implement VLAN segmentation for network security</li>
                             <li>Test and verify network isolation</li>
                         </ul>
-                    </div>
-
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <a href="#" class="btn btn-primary" style="color: white; text-decoration: none;">
-                            🚀 Proceed to Phase III Assignment
-                        </a>
                     </div>
 
                     <div class="alert alert-info" style="margin-top: 1rem;">
