@@ -40,7 +40,7 @@
         }
 
         .container {
-            max-width: 750px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 1rem;
         }
@@ -229,7 +229,7 @@
         /* Use Case Styles */
         .use-cases {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
             margin: 1.5rem 0;
         }
@@ -582,27 +582,29 @@
             </ul>
         </div>
 
-        <!-- Navigation Tabs -->
-        <div class="nav-tabs">
-            <button class="nav-tab active" data-tab="containers" tabindex="0">
-                📦 Containers
-            </button>
-            <button class="nav-tab" data-tab="vms" tabindex="0">
-                🖥️ Virtual Machines
-            </button>
-            <button class="nav-tab" data-tab="comparison" tabindex="0">
-                ⚖️ Comparison
-            </button>
-            <button class="nav-tab" data-tab="vlans" tabindex="0">
-                🌐 VLANs
-            </button>
-            <button class="nav-tab" data-tab="quiz" tabindex="0">
-                🧠 Knowledge Check
-            </button>
-        </div>
+        <!-- Main Content Layout -->
+        <main>
+            <div class="main-content">
+                <!-- Navigation Tabs -->
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-tab="containers" tabindex="0">
+                        📦 Containers
+                    </button>
+                    <button class="nav-tab" data-tab="vms" tabindex="0">
+                        🖥️ Virtual Machines
+                    </button>
+                    <button class="nav-tab" data-tab="comparison" tabindex="0">
+                        ⚖️ Comparison
+                    </button>
+                    <button class="nav-tab" data-tab="vlans" tabindex="0">
+                        🌐 VLANs
+                    </button>
+                    <button class="nav-tab" data-tab="quiz" tabindex="0">
+                        🧠 Knowledge Check
+                    </button>
+                </div>
 
-        <!-- Containers Section -->
-        <div id="containers" class="content-section active">
+                <div id="containers" class="content-section active">
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">
@@ -1191,8 +1193,27 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+
+            <div class="sidebar">
+                <div class="progress-tracker">
+                    <div class="progress-header">
+                        <h3>Learning Progress</h3>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <ul class="learning-checklist" id="learningChecklist">
+                        <li data-topic="containers">Understanding Containers</li>
+                        <li data-topic="vms">Understanding Virtual Machines</li>
+                        <li data-topic="comparison">Containers vs VMs Comparison</li>
+                        <li data-topic="vlans">Understanding VLANs</li>
+                        <li data-topic="implementation">VLAN Implementation</li>
+                        <li data-topic="quiz">Complete Knowledge Check</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
 
     <script>
         // Learning progress tracking
