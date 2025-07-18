@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Summary: Containers, VMs & VLANs</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --info-color: #0891b2;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-tertiary: #f3f4f6;
+            --border-color: #e5e7eb;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --border-radius: 0.5rem;
+            --border-radius-lg: 0.75rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .header-description {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .module-overview {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+        }
+
+        .module-overview h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.75rem;
+        }
+
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .objective-card {
+            background: var(--bg-primary);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .objective-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .objective-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .objective-card ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .objective-card li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .objective-card li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .content-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .section-card {
+            background: var(--bg-primary);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: white;
+            text-align: center;
+        }
+
+        .containers-header {
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+
+        .vms-header {
+            background: linear-gradient(135deg, #d97706, #b45309);
+        }
+
+        .vlans-header {
+            background: linear-gradient(135deg, #0891b2, #0e7490);
+        }
+
+        .section-content {
+            padding: 1.5rem;
+        }
+
+        .key-points {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .key-points li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .key-points li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .comparison-summary {
+            background: var(--bg-tertiary);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .comparison-summary h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .vs-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+
+        .vs-item {
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .vs-divider {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .assignment-overview {
+            background: linear-gradient(135deg, var(--info-color), #0e7490);
+            color: white;
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+
+        .assignment-overview h2 {
+            margin-bottom: 1rem;
+            font-size: 1.75rem;
+        }
+
+        .deliverables {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .deliverable {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .deliverable-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #eff6ff;
+            border-color: var(--info-color);
+            color: #0c4a6e;
+        }
+
+        .alert-success {
+            background: #ecfdf5;
+            border-color: var(--success-color);
+            color: #064e3b;
+        }
+
+        .implementation-flow {
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .implementation-flow h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .flow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .flow-step {
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin: 0 auto 0.5rem auto;
+        }
+
+        .footer {
+            background: var(--bg-secondary);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .objectives-grid,
+            .content-sections {
+                grid-template-columns: 1fr;
+            }
+
+            .vs-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .vs-divider {
+                transform: rotate(90deg);
+            }
+
+            .deliverables {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .flow-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 0.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .deliverables {
+                grid-template-columns: 1fr;
+            }
+
+            .objective-card,
+            .module-overview,
+            .implementation-flow,
+            .assignment-overview {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-contrast: high) {
+            :root {
+                --border-color: #000000;
+                --text-secondary: #000000;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus indicators */
+        *:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            .section-card:hover,
+            .objective-card:hover {
+                transform: none;
+            }
+            
+            .assignment-overview {
+                background: var(--bg-secondary) !important;
+                color: var(--text-primary) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Module Summary</h1>
+            <p class="subtitle">Containers, Virtual Machines & VLANs</p>
+            <p class="header-description">Enterprise Infrastructure Management Fundamentals</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Module Overview -->
+        <div class="module-overview">
+            <h2>📚 Module Overview</h2>
+            <p>This module provides comprehensive understanding of virtualization technologies and network segmentation essential for modern enterprise infrastructure management. Students will master the fundamental concepts of containers, virtual machines, and VLANs before applying these concepts in a hands-on Proxmox environment.</p>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="objectives-grid">
+            <div class="objective-card">
+                <h3><span>🎯</span> Learning Platform Objectives</h3>
+                <ul>
+                    <li>Understand container technology and architecture</li>
+                    <li>Comprehend virtual machine concepts and use cases</li>
+                    <li>Compare containers vs VMs for business decisions</li>
+                    <li>Master VLAN implementation and security benefits</li>
+                    <li>Apply network segmentation in enterprise environments</li>
+                    <li>Demonstrate knowledge through interactive assessments</li>
+                </ul>
+            </div>
+
+            <div class="objective-card">
+                <h3><span>🚀</span> Phase III Assignment Objectives</h3>
+                <ul>
+                    <li>Expand Proxmox infrastructure with Marketing department</li>
+                    <li>Deploy and manage Linux containers (LXC)</li>
+                    <li>Implement VLAN 20 for network segmentation</li>
+                    <li>Verify inter-VLAN isolation and security</li>
+                    <li>Compare container vs VM deployment and performance</li>
+                    <li>Document complete infrastructure state</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Content Sections -->
+        <div class="content-sections">
+            <div class="section-card">
+                <div class="section-header containers-header">
+                    📦 Containers
+                </div>
+                <div class="section-content">
+                    <p><strong>Lightweight virtualization at the OS level</strong></p>
+                    <ul class="key-points">
+                        <li>Share host OS kernel for efficiency</li>
+                        <li>Deploy in seconds with minimal resources</li>
+                        <li>Perfect for microservices and cloud-native apps</li>
+                        <li>Technologies: Docker, LXC, Kubernetes</li>
+                        <li>Proxmox uses LXC containers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header vms-header">
+                    🖥️ Virtual Machines
+                </div>
+                <div class="section-content">
+                    <p><strong>Complete hardware virtualization</strong></p>
+                    <ul class="key-points">
+                        <li>Full OS isolation with hypervisor</li>
+                        <li>Support multiple operating systems</li>
+                        <li>Ideal for legacy apps and strong isolation</li>
+                        <li>Higher resource usage but maximum security</li>
+                        <li>Proxmox VE hypervisor management</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header vlans-header">
+                    🌐 VLANs
+                </div>
+                <div class="section-content">
+                    <p><strong>Network segmentation for security</strong></p>
+                    <ul class="key-points">
+                        <li>Logical network isolation at Layer 2</li>
+                        <li>Department-based traffic separation</li>
+                        <li>Enhanced security and performance</li>
+                        <li>IEEE 802.1Q tagging standard</li>
+                        <li>Business compliance requirements</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technology Comparison -->
+        <div class="comparison-summary">
+            <h3>⚖️ Key Technology Comparison</h3>
+            <div class="vs-grid">
+                <div class="vs-item">
+                    <strong>Containers</strong><br>
+                    <small>Lightweight • Fast • Shared OS</small>
+                </div>
+                <div class="vs-divider">VS</div>
+                <div class="vs-item">
+                    <strong>Virtual Machines</strong><br>
+                    <small>Isolated • Secure • Full OS</small>
+                </div>
+            </div>
+            <p><strong>Decision Factor:</strong> Choose containers for scalability and efficiency, VMs for isolation and multi-OS support.</p>
+        </div>
+
+        <!-- Implementation Flow -->
+        <div class="implementation-flow">
+            <h3>🔧 Phase III Implementation Flow</h3>
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <strong>Casey AI Tutor</strong><br>
+                    <small>Initialize with handoff summary</small>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <strong>VLAN 20 Setup</strong><br>
+                    <small>Configure Marketing network</small>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <strong>Container Deploy</strong><br>
+                    <small>Ubuntu LXC on VLAN 20</small>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <strong>VM Creation</strong><br>
+                    <small>Marketing Xubuntu VM</small>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <strong>Test Isolation</strong><br>
+                    <small>Verify VLAN security</small>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">6</div>
+                    <strong>Document State</strong><br>
+                    <small>Generate handoff summary</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assignment Overview -->
+        <div class="assignment-overview">
+            <h2>📋 Phase III Assignment Deliverables</h2>
+            <p>Students complete hands-on implementation with AI tutor guidance, producing evidence of successful infrastructure expansion.</p>
+            
+            <div class="deliverables">
+                <div class="deliverable">
+                    <span class="deliverable-icon">📸</span>
+                    <strong>Screenshot 1</strong><br>
+                    <small>Proxmox with Marketing VM & Container</small>
+                </div>
+                <div class="deliverable">
+                    <span class="deliverable-icon">📸</span>
+                    <strong>Screenshot 2</strong><br>
+                    <small>Network isolation testing results</small>
+                </div>
+                <div class="deliverable">
+                    <span class="deliverable-icon">📄</span>
+                    <strong>Handoff Summary</strong><br>
+                    <small>Complete infrastructure documentation</small>
+                </div>
+                <div class="deliverable">
+                    <span class="deliverable-icon">💭</span>
+                    <strong>Reflections</strong><br>
+                    <small>2 technical analysis questions</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="alert alert-success">
+            <strong>🎓 Learning Outcomes:</strong> Students will confidently make technology decisions between containers and VMs, implement secure network segmentation with VLANs, and demonstrate enterprise infrastructure management skills in a real Proxmox environment.
+        </div>
+
+        <div class="alert alert-info">
+            <strong>🤖 AI-Assisted Learning:</strong> Casey Littlefeather provides personalized guidance throughout the assignment, ensuring students understand both the technical implementation and business reasoning behind each configuration choice.
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p><strong>Module Components:</strong> Interactive Learning Platform • Phase III Assignment • AI Tutor Integration</p>
+            <p><small>Preparing students for enterprise virtualization and network management careers</small></p>
+        </div>
+    </footer>
+
+    <script>
+        // Add simple interactive enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects for cards
+            const cards = document.querySelectorAll('.objective-card, .section-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.cursor = 'pointer';
+                });
+            });
+
+            // Add click to expand functionality for objective cards
+            const objectiveCards = document.querySelectorAll('.objective-card');
+            
+            objectiveCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const ul = this.querySelector('ul');
+                    if (ul.style.display === 'none') {
+                        ul.style.display = 'block';
+                        ul.style.animation = 'fadeIn 0.3s ease';
+                    } else {
+                        ul.style.display = 'none';
+                    }
+                });
+
+                // Make cards keyboard accessible
+                card.setAttribute('tabindex', '0');
+                card.setAttribute('role', 'button');
+                card.setAttribute('aria-expanded', 'true');
+                
+                card.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
+
+            // Add CSS animation for fade in
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(-10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Add smooth scrolling for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add visual feedback for flow steps
+            const flowSteps = document.querySelectorAll('.flow-step');
+            let currentStep = 0;
+
+            function highlightStep() {
+                flowSteps.forEach((step, index) => {
+                    if (index === currentStep) {
+                        step.style.backgroundColor = '#eff6ff';
+                        step.style.borderLeft = '4px solid var(--primary-color)';
+                    } else {
+                        step.style.backgroundColor = 'var(--bg-primary)';
+                        step.style.borderLeft = 'none';
+                    }
+                });
+                
+                currentStep = (currentStep + 1) % flowSteps.length;
+            }
+
+            // Auto-highlight flow steps every 3 seconds
+            if (flowSteps.length > 0) {
+                highlightStep(); // Initial highlight
+                setInterval(highlightStep, 3000);
+            }
+
+            // Add accessibility improvements
+            document.querySelectorAll('.deliverable').forEach(deliverable => {
+                deliverable.setAttribute('tabindex', '0');
+                deliverable.setAttribute('role', 'button');
+            });
+
+            // Add print-friendly behavior
+            window.addEventListener('beforeprint', function() {
+                // Ensure all content is visible for printing
+                document.querySelectorAll('.objective-card ul').forEach(ul => {
+                    ul.style.display = 'block';
+                });
+            });
+
+            console.log('Module Summary loaded successfully');
+        });
+
+        // Add error handling for any issues
+        window.addEventListener('error', function(e) {
+            console.warn('Module Summary: Non-critical error occurred:', e.message);
+        });
+    </script>
+</body>
+</html>
