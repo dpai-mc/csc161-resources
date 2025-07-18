@@ -36,7 +36,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 0 1rem;
         }
@@ -125,7 +125,7 @@
 
         .objectives-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1rem;
             margin-top: 1rem;
         }
@@ -179,7 +179,7 @@
 
         .deliverables-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 1rem;
             margin-top: 1rem;
         }
@@ -324,9 +324,9 @@
             transition: width 0.3s ease;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
 
             .container {
@@ -339,27 +339,32 @@
             }
 
             .rubric-table {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
             }
 
             .rubric-table th,
             .rubric-table td {
-                padding: 0.5rem;
+                padding: 0.4rem;
+            }
+
+            .chatbot-button {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
             }
         }
 
-        @media (min-width: 1024px) {
+        @media (min-width: 800px) {
             main {
-                grid-template-columns: 1fr 300px;
-                gap: 2rem;
-            }
-
-            .main-content {
-                grid-column: 1;
+                display: block;
             }
 
             .sidebar {
-                grid-column: 2;
+                margin-top: 2rem;
+                position: static;
+            }
+
+            .progress-tracker {
+                position: static;
             }
         }
 
